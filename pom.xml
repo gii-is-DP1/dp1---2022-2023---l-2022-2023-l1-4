@@ -60,6 +60,15 @@
                 <role>developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>gonsanmar2</id>
+            <name>Gonzalo</name>
+            <email>gonsanmar2@alum.us.es</email>
+            <url>https://github.com/gonsamar2</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
     </developers>
 
 
