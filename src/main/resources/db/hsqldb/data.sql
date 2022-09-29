@@ -17,6 +17,10 @@ INSERT INTO authorities(id,username,authority) VALUES (5,'margargar81','owner');
 INSERT INTO users(username,password,enabled) VALUES ('ferbarbar1','1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (6,'ferbarbar1','owner');
 
+--Owner de Alvsanflo
+INSERT INTO users(username,password,enabled) VALUES ('alvsanflo','3333',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (7,'alvsanflo','owner');
+
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
@@ -63,6 +67,8 @@ INSERT INTO owners VALUES (11, 'Carlos', 'Nuchera', '1234 Guadalajara', 'Sevilla
 INSERT INTO owners VALUES (12, 'MCarmen', 'Garcia', '1234 Reina', 'Sevilla', '669081624', 'margargar81');
 -- Me asigno como propietario ferbarbar1
 INSERT INTO owners VALUES (13, 'Fernando', 'Barroso', '17 Fuente de Cantos', 'Badajoz', '603665811', 'ferbarbar1');
+-- Me asigno como propietario Alvsanflo
+INSERT INTO owners VALUES (14, 'Alvaro', 'Sanchez', '3333 Av Reina Mercedes', 'Sevilla', '687529931', 'Alvsanflo');
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
@@ -82,6 +88,8 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-0
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Hochiming', '2022-09-29', 4, 11);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Pluto', '2022-09-29', 3, 12);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Dobby', '2022-09-29', 2, 13);
+--Mascota de Alvsanflo
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Tyson', '2018-08-23', 2, 14);
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
