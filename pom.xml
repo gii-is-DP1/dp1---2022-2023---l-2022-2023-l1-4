@@ -32,6 +32,28 @@
 
     </properties>
 
+    <developers>
+        <developer>
+            <id>carnucbol</id>
+            <name>Carlos</name>
+            <email>carlosnuchera98@gmail.com</email>
+            <url>https://github.com/CarlosNuchera</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>ferbarbar1</id>
+            <name>Fernando</name>
+            <email>fbarroso2001@gmail.com</email>
+            <url>https://github.com/ferbarbar1</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
