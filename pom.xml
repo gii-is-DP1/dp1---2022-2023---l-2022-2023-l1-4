@@ -56,6 +56,12 @@
             <name>Alvaro</name>
             <email>alvaro.sanchez.flores@gmail.com</email>
             <url>https://github.com/Alvsanflo</url>
+        </developer>
+        <developer>
+            <id>margargar81</id>
+            <name>MCarmen</name>
+            <email>maricarmen2g98@gmail.com</email>
+            <url>https://github.com/margargar81</url>
             <roles>
                 <role>developer</role>
             </roles>
