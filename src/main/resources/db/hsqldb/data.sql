@@ -67,8 +67,8 @@ INSERT INTO owners VALUES (11, 'Carlos', 'Nuchera', '1234 Guadalajara', 'Sevilla
 INSERT INTO owners VALUES (12, 'MCarmen', 'Garcia', '1234 Reina', 'Sevilla', '669081624', 'margargar81');
 -- Me asigno como propietario ferbarbar1
 INSERT INTO owners VALUES (13, 'Fernando', 'Barroso', '17 Fuente de Cantos', 'Badajoz', '603665811', 'ferbarbar1');
--- Me asigno como propietario Alvsanflo
-INSERT INTO owners VALUES (14, 'Alvaro', 'Sanchez', '3333 Av Reina Mercedes', 'Sevilla', '687529931', 'Alvsanflo');
+-- Me asigno como propietario alvsanflo
+INSERT INTO owners VALUES (14, 'Alvaro', 'Sanchez', '3333 Av Reina Mercedes', 'Sevilla', '687529931', 'alvsanflo');
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
