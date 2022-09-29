@@ -51,6 +51,15 @@
                 <role>developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>Alvsanflo</id>
+            <name>Alvaro</name>
+            <email>alvaro.sanchez.flores@gmail.com</email>
+            <url>https://github.com/Alvsanflo</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
     </developers>
 
 
