@@ -1,18 +1,20 @@
 package org.springframework.samples.petclinic.logro;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import org.springframework.samples.petclinic.model.NamedEntity;
 
-import org.springframework.samples.petclinic.model.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class Logro extends BaseEntity{
-
-	@NotBlank
-    @Column(unique = true)
-	private String nombre;
+@Getter
+@Setter
+public class Logro extends NamedEntity{
 
     @NotBlank
+	@Min(0)
 	private Integer nivel;
+
 }
