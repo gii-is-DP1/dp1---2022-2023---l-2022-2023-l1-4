@@ -28,7 +28,7 @@
                     <a href="${fn:escapeXml(ownerUrl)}"><c:out value="${owner.firstName} ${owner.lastName}"/></a>
                 </td>
                 <td>
-                    <c:out value="${owner.adress}"/>
+                    <c:out value="${owner.address}"/>
                 </td>
                 <td>
                     <c:out value="${owner.city}"/>
