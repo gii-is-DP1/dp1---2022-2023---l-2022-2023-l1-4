@@ -41,7 +41,7 @@ public interface PersonaRepository extends Repository<Persona, Integer> {
 	/**
 	 * Retrieve <code>Owner</code>s from the data store by last name, returning all owners
 	 * whose last name <i>starts</i> with the given name.
-	 * @param apellido Value to search for
+	 * @param lastName Value to search for
 	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
 	 * <code>Collection</code> if none found)
 	 */	

@@ -44,6 +44,7 @@ public class PersonaController {
 
 	private final PersonaService personaService;
 
+
 	@Autowired
 	public PersonaController(PersonaService personaService, UserService userService, AuthoritiesService authoritiesService) {
 		this.personaService = personaService;
@@ -85,15 +86,11 @@ public class PersonaController {
 		if (persona.getLastName() == null) {
 			persona.setLastName(""); // empty string signifies broadest possible search
 		}
-		//if (persona.getFirstName() == null) {
-		//	persona.setFirstName(""); // empty string signifies broadest possible search
-		//}
 
-		// encontrar personas por apellido
 		Collection<Persona> personasPorApellido = this.personaService.encuentraPersonaPorApellido(persona.getLastName());
 		if (personasPorApellido.isEmpty()) {
 			// no personas found
-			result.rejectValue("apellido", "notFound", "not found");
+			result.rejectValue("lastName", "notFound", "not found");
 			return "personas/encontrarPersonas";
 		}
 		else if (personasPorApellido.size() == 1) {
@@ -106,10 +103,9 @@ public class PersonaController {
 			model.put("selections", personasPorApellido);
 			return "personas/personasList";
 		}
-
-		// encontrar personas por name
 	}
-/*
+	// encontrar personas por name
+	/*
 	@GetMapping(value = "/personas/{personaId}/editar")
 	public String initEditarPersonaForm(@PathVariable("personaId") int personaId, Model model) {
 		Persona persona = this.personaService.encontrarPersonaPorId(personaId);

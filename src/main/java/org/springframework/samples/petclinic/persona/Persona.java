@@ -47,9 +47,8 @@ import lombok.Setter;
 @Table(name = "persona")
 public class Persona extends Person{
 
- 	@OneToOne(cascade = CascadeType.ALL)
-	//@NotEmpty(message = "El nombre de usuario no puede estar vacío")
-    //@JoinColumn(name = "username", referencedColumnName = "username")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 
 	@Pattern(regexp = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$", message = "El formato debe ser del tipo: texto@texto.texto")
@@ -60,5 +59,7 @@ public class Persona extends Person{
 	@NotEmpty(message = "El teléfono no puede estar vacío")
 	@Digits(fraction = 0, integer = 10)
 	private String telefono;
+
+	
 
 }
