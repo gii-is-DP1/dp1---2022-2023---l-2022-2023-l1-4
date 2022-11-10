@@ -10,23 +10,23 @@
 
 <petclinic:layout pageName="personas">
 
-    <h2>Encontrar Personas</h2>
+    <h2>Encontrar Jugadores</h2>
 
     
     <form:form modelAttribute="persona" action="/personas" method="get" class="form-horizontal"
                id="search-persona-form">
         <div class="form-group">
-            <div class="control-group" id="apellido">
+            <div class="control-group" id="lastName">
                 <label class="col-sm-2 control-label">Apellido </label>
                 <div class="col-sm-10">
-                    <form:input class="form-control" path="apellido" size="30" maxlength="80"/>
+                    <form:input class="form-control" path="lastName" size="30" maxlength="80"/>
                     <span class="help-inline"><form:errors path="*"/></span>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Encontrar Persona</button>
+                <button type="submit" class="btn btn-default">Encontrar Jugador</button>
             </div>
         </div>
 
