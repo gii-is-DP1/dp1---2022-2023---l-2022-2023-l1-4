@@ -5,10 +5,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="personas">
+<petclinic:layout pageName="players">
     <h2>Lista de Jugadores</h2>
 
-    <table id="personasTable" class="table table-striped">
+    <table id="playersTable" class="table table-striped">
         <thead>
         <tr>
             <th style="width: 150px;">Nombre y Apellido</th>
@@ -17,28 +17,28 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${selections}" var="persona">
+        <c:forEach items="${selections}" var="player">
             <tr>
                 <td>
-                    <spring:url value="/personas/{personaId}" var="personaUrl">
-                        <spring:param name="personaId" value="${persona.id}"/>
+                    <spring:url value="/players/{playerId}" var="playerUrl">
+                        <spring:param name="playerId" value="${player.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(personaUrl)}"><c:out value="${persona.firstName} ${persona.lastName}"/></a>
+                    <a href="${fn:escapeXml(playerUrl)}"><c:out value="${player.firstName} ${player.lastName}"/></a>
                 </td>
                 <td>
-                    <c:out value="${persona.username}"/>
+                    <c:out value="${player.username}"/>
                 </td>
                 <td>
-                    <c:out value="${persona.telephone}"/>
+                    <c:out value="${player.telephone}"/>
                 </td>
                                 
       
 <!--
                 <td> 
-                    <c:out value="${persona.user.username}"/> 
+                    <c:out value="${player.user.username}"/> 
                 </td>
                 <td> 
-                   <c:out value="${persona.user.password}"/> 
+                   <c:out value="${player.user.password}"/> 
                 </td> 
 -->
                 
