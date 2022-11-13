@@ -40,6 +40,12 @@
 					<span>Encontrar Jugadores</span>
 				</petclinic:menuItem>
 
+				<petclinic:menuItem active="${name eq 'games'}" url="/games/find"
+					title="encontrar games">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					<span>Encontrar Partidas</span>
+				</petclinic:menuItem>
+
 				<sec:authorize url="/myProfile">
 				<petclinic:menuItem active="${name eq 'players'}" url="/myProfile"
 					title="my profile">

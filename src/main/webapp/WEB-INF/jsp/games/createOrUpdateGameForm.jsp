@@ -6,18 +6,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="partidas">
+<petclinic:layout pageName="games">
     <h2>
-        <c:if test="${partidas['new']}">Nueva </c:if> Partida
+        <c:if test="${game['new']}">Nueva </c:if> Partida
     </h2>
-    <form:form modelAttribute="partida" class="form-horizontal" id="add-partida-form">
+    <form:form modelAttribute="game" class="form-horizontal" id="add-game-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
-                    <c:when test="${partida['new']}">
+                    <c:when test="${game['new']}">
                         <button class="btn btn-default" type="submit">Añadir partida</button>
                     </c:when>
                     <c:otherwise>
