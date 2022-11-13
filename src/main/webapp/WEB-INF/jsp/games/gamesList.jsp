@@ -5,33 +5,33 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="personas">
-    <h2>Lista de Jugadores</h2>
+<petclinic:layout pageName="games">
+    <h2>Lista de Partidas</h2>
 
-    <table id="personasTable" class="table table-striped">
+    <table id="gamesTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Nombre y Apellido</th>
-            <th style="width: 200px;">Username</th>
-            <th style="width: 120px">Telefono</th>
+            <th style="width: 150px;">Nombre</th>
+            <th style="width: 200px;">Numero de Jugadores</th>
+            <th style="width: 200px;">Estado de Partida</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${selections}" var="persona">
+        <c:forEach items="${selections}" var="game">
             <tr>
                 <td>
-                    <spring:url value="/personas/{personaId}" var="personaUrl">
-                        <spring:param name="personaId" value="${persona.id}"/>
+                    <spring:url value="/games/{gameId}" var="gameUrl">
+                        <spring:param name="gameId" value="${game.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(personaUrl)}"><c:out value="${persona.firstName} ${persona.lastName}"/></a>
+                    <a href="${fn:escapeXml(gameUrl)}"><c:out value="${game.name}"/></a>
                 </td>
                 <td>
-                    <c:out value="${persona.username}"/>
-                </td>
+                    <c:out value="${game.numPlayers}"/>
+                </td>       
+
                 <td>
-                    <c:out value="${persona.telephone}"/>
-                </td>
-                                
+                    <c:out value="${game.accessible}"/>
+                </td> 
       
 <!--
                 <td> 

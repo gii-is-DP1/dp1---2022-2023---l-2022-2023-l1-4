@@ -8,13 +8,13 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 
-<petclinic:layout pageName="personas">
+<petclinic:layout pageName="players">
 
     <h2>Encontrar Jugadores</h2>
 
     
-    <form:form modelAttribute="persona" action="/personas" method="get" class="form-horizontal"
-               id="search-persona-form">
+    <form:form modelAttribute="player" action="/players" method="get" class="form-horizontal"
+               id="search-player-form">
         <div class="form-group">
             <div class="control-group" id="lastName">
                 <label class="col-sm-2 control-label">Apellido </label>
@@ -34,7 +34,7 @@
 
     <br/> 
     <sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/personas/new" htmlEscape="true"/>'>Añadir Persona</a>
+		<a class="btn btn-default" href='<spring:url value="/players/new" htmlEscape="true"/>'>Añadir Jugador</a>
 	</sec:authorize>
 	
 </petclinic:layout>
