@@ -14,6 +14,10 @@
             <th>Nombre</th>
             <td><b><c:out value="${game.name}"/></b></td>
         </tr>
+        <tr>
+            <th>Estado de la Partida</th>
+            <td><c:out value="${game.accessible}"/></td>
+        </tr>
         
     </table>
 
