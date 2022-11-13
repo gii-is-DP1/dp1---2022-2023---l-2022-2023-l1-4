@@ -42,6 +42,11 @@ public class PlayerService {
 		return playerRepository.findByUsername(user);
 	}
 
+	@Transactional(readOnly = true)
+	public Collection<Player> findPlayer() throws DataAccessException {
+		return playerRepository.findAll();
+	}
+
 	@Transactional
 	public void savePlayer(Player player) throws DataAccessException {
 		//crear

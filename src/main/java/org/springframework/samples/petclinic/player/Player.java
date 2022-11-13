@@ -55,10 +55,10 @@ public class Player extends Person{
 	@Column(name = "email")
 	private String email;
 
-	@Column(name = "telefono")
+	@Column(name = "telephone")
 	@NotEmpty(message = "El teléfono no puede estar vacío")
 	@Digits(fraction = 0, integer = 10)
-	private String telefono;
+	private String telephone;
 
 	
 

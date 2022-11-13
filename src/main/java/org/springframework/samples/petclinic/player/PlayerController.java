@@ -68,12 +68,12 @@ public class PlayerController {
 
 	@GetMapping(value = "/players")
 	public String processFindForm(Player player, BindingResult result, Map<String, Object> model) {
-		if (player.getLastName() == null) {
-			player.setLastName("");
-		}
+	if (player.getLastName() == null) {
+		player.setLastName("");
+	}
 
-		Collection<Player> playersByLastName = this.playerService.findPlayerByLastName(player.getLastName());
-		if (playersByLastName.isEmpty()) {
+	Collection<Player> playersByLastName = this.playerService.findPlayerByLastName(player.getLastName());
+	if (playersByLastName.isEmpty()) {
 			// no players found
 			result.rejectValue("lastName", "notFound", "not found");
 			return "players/findPlayers";
@@ -82,13 +82,15 @@ public class PlayerController {
 			// 1 player found
 			player = playersByLastName.iterator().next();
 			return "redirect:/players/" + player.getId();
-		}
-		else {
+			
+		}else{
 			// multiple players found
 			model.put("selections", playersByLastName);
 			return "players/playersList";
 		}
 	}
+	
+
 
 	@GetMapping(value = "/players/{playerId}/edit")
 	public String initUpdatePlayerForm(@PathVariable("playerId") int playerId, Model model) {

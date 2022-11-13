@@ -20,7 +20,7 @@
         </tr>
         
         <th>Telefono</th>
-            <td><c:out value="${player.telefono}"/></td>
+            <td><c:out value="${player.telephone}"/></td>
         </tr>
     </table>
 

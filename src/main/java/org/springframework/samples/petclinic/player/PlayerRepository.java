@@ -11,7 +11,7 @@ import org.springframework.samples.petclinic.user.User;
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
-	@Query("SELECT DISTINCT player FROM Player player WHERE player.lastName =:lastName")
+	@Query("SELECT DISTINCT player FROM Player player WHERE player.lastName LIKE :lastName%")
 	public Collection<Player> findByLastName(@Param("lastName") String lastName);
 
 	@Query("SELECT player FROM Player player WHERE player.user =:user")
@@ -19,4 +19,6 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
 	@Query("SELECT player FROM Player player WHERE player.id =:id")
 	public Player findById(@Param("id") int id);
+
+	Collection<Player> findAll();
 }

@@ -14,7 +14,7 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="First Name" name="firstName"/>
             <petclinic:inputField label="Last Name" name="lastName"/>
-            <petclinic:inputField label="Telefono" name="telefono"/>
+            <petclinic:inputField label="Telephone" name="telephone"/>
             <petclinic:inputField label="Email" name="email"/>
             <petclinic:inputField label="Username" name="user.username"/>
             <petclinic:inputField label="Password" name="user.password"/>
