@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="personas">
+<petclinic:layout pageName="players">
 
     <h2>Información de los Juagdores</h2>
 
@@ -12,22 +12,22 @@
     <table class="table table-striped">
         <tr>
             <th>Nombre y Apellido</th>
-            <td><b><c:out value="${persona.firstName} ${persona.lastName}"/></b></td>
+            <td><b><c:out value="${player.firstName} ${player.lastName}"/></b></td>
         </tr>
         <tr>
             <th>Username</th>
-            <td><c:out value="${persona.user.username}"/></td>
+            <td><c:out value="${player.user.username}"/></td>
         </tr>
         
         <th>Telefono</th>
-            <td><c:out value="${persona.telefono}"/></td>
+            <td><c:out value="${player.telephone}"/></td>
         </tr>
     </table>
 
-    <spring:url value="{personaId}/editar" var="editUrl">
-        <spring:param name="personaId" value="${persona.id}"/>
+    <spring:url value="{playerId}/edit" var="editUrl">
+        <spring:param name="playerId" value="${player.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Persona</a>
+    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Jugador</a>
 
          
 

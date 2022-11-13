@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.samples.petclinic.persona;
+package org.springframework.samples.petclinic.player;
 
 
 import javax.persistence.CascadeType;
@@ -44,8 +44,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "persona")
-public class Persona extends Person{
+@Table(name = "players")
+public class Player extends Person{
 
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
@@ -55,10 +55,10 @@ public class Persona extends Person{
 	@Column(name = "email")
 	private String email;
 
-	@Column(name = "telefono")
+	@Column(name = "telephone")
 	@NotEmpty(message = "El teléfono no puede estar vacío")
 	@Digits(fraction = 0, integer = 10)
-	private String telefono;
+	private String telephone;
 
 	
 

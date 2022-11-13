@@ -34,13 +34,18 @@
 					<span>Find Owners</span>
 				</petclinic:menuItem>
 
-				<sec:authorize url="/personas">
-				<petclinic:menuItem active="${name eq 'personas'}" url="/personas/encontrar"
-					title="encontrar personas">
+				<petclinic:menuItem active="${name eq 'players'}" url="/players/find"
+					title="find players">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Encontrar Jugadores</span>
 				</petclinic:menuItem>
-				</sec:authorize>
+
+				<sec:authorize url="/myProfile">
+				<petclinic:menuItem active="${name eq 'players'}" url="/myProfile"
+					title="my profile">
+					<span>Mi Perfil</span>
+				</petclinic:menuItem>
+				</sec:authorize>			
 
 				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
 					title="veterinarians">
@@ -63,7 +68,7 @@
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
 					<li><a href="<c:url value="/users/new" />">Register</a></li>
-					<li><a href="<c:url value="/persona/new" />">Registro</a></li>
+					<li><a href="<c:url value="/players/new" />">Registro</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
