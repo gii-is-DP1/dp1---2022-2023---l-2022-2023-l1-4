@@ -5,26 +5,26 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="partidas">
-    <h2>Lista de Jugadores</h2>
+<petclinic:layout pageName="games">
+    <h2>Lista de Partidas</h2>
 
-    <table id="partidasTable" class="table table-striped">
+    <table id="gamesTable" class="table table-striped">
         <thead>
         <tr>
             <th style="width: 150px;">Nombre</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${selections}" var="partida">
+        <c:forEach items="${selections}" var="game">
             <tr>
                 <td>
-                    <spring:url value="/partidas/{partidaId}" var="partidaUrl">
-                        <spring:param name="partidaId" value="${partida.id}"/>
+                    <spring:url value="/games/{gameId}" var="gameUrl">
+                        <spring:param name="gameId" value="${game.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(partidaUrl)}"><c:out value="${partida.name}"/></a>
+                    <a href="${fn:escapeXml(gameUrl)}"><c:out value="${game.name}"/></a>
                 </td>
                 <td>
-                    <c:out value="${partida.name}"/>
+                    <c:out value="${game.name}"/>
                 </td>        
       
 <!--
