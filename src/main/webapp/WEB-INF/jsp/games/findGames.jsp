@@ -17,7 +17,7 @@
                id="search-game-form">
         <div class="form-group">
             <div class="control-group" id="name">
-                <label class="col-sm-2 control-label">Nombre </label>
+                <label class="col-sm-2 control-label">Filtre por nombre</label>
                 <div class="col-sm-10">
                     <form:input class="form-control" path="name" size="30" maxlength="80"/>
                     <span class="help-inline"><form:errors path="*"/></span>

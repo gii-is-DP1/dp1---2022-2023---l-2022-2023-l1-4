@@ -12,6 +12,8 @@
         <thead>
         <tr>
             <th style="width: 150px;">Nombre</th>
+            <th style="width: 200px;">Numero de Jugadores</th>
+            <th style="width: 200px;">Estado de Partida</th>
         </tr>
         </thead>
         <tbody>
@@ -24,8 +26,12 @@
                     <a href="${fn:escapeXml(gameUrl)}"><c:out value="${game.name}"/></a>
                 </td>
                 <td>
-                    <c:out value="${game.name}"/>
-                </td>        
+                    <c:out value="${game.numPlayers}"/>
+                </td>       
+
+                <td>
+                    <c:out value="${game.accessible}"/>
+                </td> 
       
 <!--
                 <td> 
