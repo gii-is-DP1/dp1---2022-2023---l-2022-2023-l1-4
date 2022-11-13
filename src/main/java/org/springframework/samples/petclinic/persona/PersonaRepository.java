@@ -46,7 +46,7 @@ public interface PersonaRepository extends Repository<Persona, Integer> {
 	 * <code>Collection</code> if none found)
 	 */	
 
-	@Query("SELECT DISTINCT persona FROM Persona persona WHERE persona.lastName =:lastName")
+	@Query("SELECT DISTINCT persona FROM Persona persona WHERE persona.lastName LIKE :lastName%")
 	public Collection<Persona> encuentraPorApellido(@Param("lastName") String lastName);
 
 	@Query("SELECT DISTINCT persona FROM Persona persona WHERE persona.firstName =:firstName")
