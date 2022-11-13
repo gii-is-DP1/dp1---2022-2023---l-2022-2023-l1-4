@@ -1,6 +1,7 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
+
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
@@ -9,17 +10,37 @@ INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO users(username,password,enabled) VALUES ('carnucbol','1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'carnucbol','owner');
 
--- Player de carnucbol
-INSERT INTO users(username,password,enabled) VALUES ('carnucbol1','1234',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (5,'carnucbol1','player');
+-- Owner de margargar81
+INSERT INTO users(username,password,enabled) VALUES ('margargar81','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (5,'margargar81','owner');
 
--- Player de pablopino
-INSERT INTO users(username,password,enabled) VALUES ('pablop','1234',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (6,'pablop','player');
+-- Owner de ferbarbar1
+INSERT INTO users(username,password,enabled) VALUES ('ferbarbar1','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (6,'ferbarbar1','owner');
+
+--Owner de Alvsanflo
+INSERT INTO users(username,password,enabled) VALUES ('alvsanflo','3333',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (7,'alvsanflo','owner');
+
+-- Owner de pabpinmat1
+INSERT INTO users(username,password,enabled) VALUES ('pabpinmat','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (8,'pabpinmat','owner');
+
+-- Owner de gonsanmar2
+INSERT INTO users(username,password,enabled) VALUES ('gonsanmar2','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (9,'gonsanmar2','owner');
 
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
+INSERT INTO authorities(id,username,authority) VALUES (10,'vet1','veterinarian');
+
+-- Player de carnucbol
+INSERT INTO users(username,password,enabled) VALUES ('carnucbol1','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (11,'carnucbol1','player');
+
+-- Player de pablopino
+INSERT INTO users(username,password,enabled) VALUES ('pablop','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (12,'pablop','player');
 
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
 INSERT INTO vets(id, first_name,last_name) VALUES (2, 'Helen', 'Leary');
@@ -56,8 +77,19 @@ INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085
 INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
 INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
 INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
+
 -- Me asigno como propietario carnucbol
 INSERT INTO owners VALUES (11, 'Carlos', 'Nuchera', '1234 Guadalajara', 'Sevilla', '669081623', 'carnucbol');
+-- Me asigno como propietario margargar81
+INSERT INTO owners VALUES (12, 'MCarmen', 'Garcia', '1234 Reina', 'Sevilla', '669081624', 'margargar81');
+-- Me asigno como propietario ferbarbar1
+INSERT INTO owners VALUES (13, 'Fernando', 'Barroso', '17 Fuente de Cantos', 'Badajoz', '603665811', 'ferbarbar1');
+-- Me asigno como propietario alvsanflo
+INSERT INTO owners VALUES (14, 'Alvaro', 'Sanchez', '3333 Av Reina Mercedes', 'Sevilla', '687529931', 'alvsanflo');
+-- Me asigno como propietario pabpinmat
+INSERT INTO owners VALUES (15, 'Pablo', 'Pino', '3333 Av Reina Mercedes', 'Sevilla', '603869720', 'pabpinmat');
+-- Me asigno como propietario gonsanmar2
+INSERT INTO owners VALUES (16, 'Gonzalo', 'Santiago', '3333 Av Reina Mercedes', 'Sevilla', '657741253', 'gonsanmar2');
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
@@ -74,6 +106,13 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
 -- Me asigno una mascota como carnucbol
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Hochiming', '2022-09-29', 4, 11);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Pluto', '2022-09-29', 3, 12);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Dobby', '2022-09-29', 2, 13);
+--Mascota de Alvsanflo
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Tyson', '2018-08-23', 2, 14);
+--Mascota de pabpinmat (es recien nacido)
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'comomedelagana', '2006-09-04', 3, 15);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (19, 'chemita', '2006-08-18', 2, 16);
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');

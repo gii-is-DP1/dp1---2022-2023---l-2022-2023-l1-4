@@ -27,7 +27,7 @@
         <webjars-jquery.version>2.2.4</webjars-jquery.version>
         <wro4j.version>1.8.0</wro4j.version>
 
-        <jacoco.version>0.8.5</jacoco.version>
+        <jacoco.version>0.8.8</jacoco.version>
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
@@ -47,6 +47,42 @@
             <name>Fernando</name>
             <email>fbarroso2001@gmail.com</email>
             <url>https://github.com/ferbarbar1</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>Alvsanflo</id>
+            <name>Alvaro</name>
+            <email>alvaro.sanchez.flores@gmail.com</email>
+            <url>https://github.com/Alvsanflo</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>margargar81</id>
+            <name>MCarmen</name>
+            <email>maricarmen2g98@gmail.com</email>
+            <url>https://github.com/margargar81</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>PabloPinMat</id>
+            <name>Pablo</name>
+            <email>pablopinomateo27@gmail.com</email>
+            <url>https://github.com/PabloPinMat</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>gonsanmar2</id>
+            <name>Gonzalo</name>
+            <email>gonsanmar2@alum.us.es</email>
+            <url>https://github.com/gonsamar2</url>
             <roles>
                 <role>developer</role>
             </roles>
