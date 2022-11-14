@@ -18,4 +18,6 @@ public class Minijuego extends NamedEntity{
     @ManyToMany
     @JoinTable(name="cartas_minijuego")
     private Collection<Carta> cartas;
+
+    
 }
