@@ -47,6 +47,11 @@ public class PlayerService {
 		return playerRepository.findAll();
 	}
 
+	@Transactional()
+	public void deletePlayer(Integer id) throws DataAccessException {
+		this.playerRepository.deleteById(id);
+	}
+
 	@Transactional
 	public void savePlayer(Player player) throws DataAccessException {
 		//crear

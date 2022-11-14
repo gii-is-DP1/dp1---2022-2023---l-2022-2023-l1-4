@@ -20,11 +20,11 @@
         <tbody>
         <c:forEach items="${selections}" var="player">
             <tr>
-                <spring:url value="/players/{playerId}" var="playerUrl">
+                <td>
+                    <spring:url value="/players/{playerId}" var="playerUrl">
                         <spring:param name="playerId" value="${player.id}"/>
                     </spring:url>
-                <td>
-                    <a href="${fn:escapeXml(playerUrl)}"></a><c:out value="${player.firstName} ${player.lastName}"/>
+                    <a href="${fn:escapeXml(playerUrl)}"><c:out value="${player.firstName} ${player.lastName}"/></a>
                 </td>
                 <td>
                     <c:out value="${player.user.username}"/>

@@ -129,4 +129,10 @@ public class PlayerController {
 
 	}
 
+	@GetMapping("/players/delete/{playerId}")
+    public String deletePartida(@PathVariable("playerId") int playerId) {
+        playerService.deletePlayer(playerId);
+        return "redirect:/players";
+    }
+
 }
