@@ -25,9 +25,6 @@ INSERT INTO authorities(id,username,authority) VALUES (7,'alvsanflo','owner');
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 
--- Dar de alta a ferbarbar1 como owner
-INSERT INTO users(username,password,enabled) VALUES ('ferbarbar1','1234',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'ferbarbar1','owner');
 
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
 INSERT INTO vets(id, first_name,last_name) VALUES (2, 'Helen', 'Leary');
@@ -90,12 +87,11 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-0
 -- Me asigno una mascota como carnucbol
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Hochiming', '2022-09-29', 4, 11);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Pluto', '2022-09-29', 3, 12);
+-- Asignación de una mascota a ferbabar1
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Dobby', '2022-09-29', 2, 13);
 --Mascota de Alvsanflo
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Tyson', '2018-08-23', 2, 14);
 
--- Asignación de una mascota a ferbabar1
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'Ragnar', '2020-06-08', 1, 12);
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
