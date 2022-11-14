@@ -33,8 +33,8 @@
     </form:form>
 
     <br/> 
-    <sec:authorize access="hasAuthority('admin')">
+   
 		<a class="btn btn-default" href='<spring:url value="/games/new" htmlEscape="true"/>'>Añadir Partida</a>
-	</sec:authorize>
+	
 	
 </petclinic:layout>
