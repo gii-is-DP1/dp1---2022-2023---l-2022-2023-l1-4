@@ -1,20 +1,21 @@
 package org.springframework.samples.petclinic.minijuego;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.samples.petclinic.cartaMinijuego.cartaMinijuego;
-import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.carta.Carta;
+import org.springframework.samples.petclinic.model.NamedEntity;
 
 
 @Entity
-@Table(name="minijuego")
-public class Minijuego extends BaseEntity{
-    private TipoMinijuego tipoMinijuego = TipoMinijuego.La_torre_infernal;
+@Table(name="minijuegos")
+public class Minijuego extends NamedEntity{
 
-    @ManyToOne
-    @JoinColumn(name="cartaMinijuego")
-    private cartaMinijuego cartaminijuego;
+    @ManyToMany
+    @JoinTable(name="cartas_minijuego")
+    private Collection<Carta> cartas;
 }
