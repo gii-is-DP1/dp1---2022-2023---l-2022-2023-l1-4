@@ -1,6 +1,12 @@
 package org.springframework.samples.petclinic.minijuego;
 
-public enum TipoMinijuego {
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-    La_torre_infernal,El_foso,La_patata_caliente,Duelo
+import org.springframework.samples.petclinic.model.NamedEntity;
+
+@Entity
+@Table(name="tipos_minijuego")
+public class TipoMinijuego extends NamedEntity{
+
 }

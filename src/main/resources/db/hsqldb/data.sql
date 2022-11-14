@@ -703,3 +703,8 @@ INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (55,47);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (55,35);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (55,53);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (55,17);
+
+INSERT INTO minijuegos VALUES (1, 'La torre infernal');
+INSERT INTO minijuegos VALUES (2, 'El foso');
+INSERT INTO minijuegos VALUES (3, 'La patata caliente');
+INSERT INTO minijuegos VALUES (4, 'El duelo');
