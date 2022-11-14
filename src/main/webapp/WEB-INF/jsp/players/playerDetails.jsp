@@ -29,6 +29,12 @@
     </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Jugador</a>
 
+    <sec:authorize access="hasAuthority('admin')">
+		<a class="btn btn-default" href='<spring:url value="/players/delete/${player.id}" htmlEscape="true"/>'>Eliminar Jugador</a>
+	</sec:authorize>
+
+    
+
          
 
 </petclinic:layout>
