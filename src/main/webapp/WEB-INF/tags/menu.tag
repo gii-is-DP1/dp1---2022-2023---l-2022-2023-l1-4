@@ -7,12 +7,11 @@
 <%@ attribute name="name" required="true" rtexprvalue="true"
 	description="Name of the active menu: home, personas, vets or error"%>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color: yellow;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="https://w7.pngwing.com/pngs/972/246/png-transparent-uno-asmodee-dobble-asmodee-editions-card-game-asmodee-spot-it-others-purple-game-text-thumbnail.png"
-                alt="" width="30" height="24" class="d-inline-block align-text-top">
-            DOBBLE
+        <a class="navbar-brand" href="/">
+            <img src="https://fisiquimicamente.com/recursos-fisica-quimica/actividades-juegos/2eso-3eso/dobble-instrumentos-laboratorio/featured.png"
+                alt="" width="80" height="75" class="d-inline-block align-text-top">
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -31,11 +30,11 @@
             </ul>
             <sec:authorize access="!isAuthenticated()">
                 <li class="d-flex">
-                    <button class="btn btn-success me-2" type="button"><a href="<c:url value="
+                    <button class="btn btn-warning me-2" type="button"><a href="<c:url value="
                             /login" />">Login</a></button>
                 </li>
                 <li class="d-flex">
-                    <button class="btn btn-success me-2" type="button"><a href="<c:url value="
+                    <button class="btn btn-warning me-2" type="button"><a href="<c:url value="
                             /players/new" />">Registro</a></button>
                 </li>
             </sec:authorize>

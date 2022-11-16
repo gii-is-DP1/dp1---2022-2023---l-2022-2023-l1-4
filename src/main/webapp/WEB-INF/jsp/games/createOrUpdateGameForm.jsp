@@ -7,9 +7,6 @@
                         <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
                             <petclinic:layout pageName="games">
-                                <h2>
-                                    <c:if test="${game['new']}"> </c:if>
-                                </h2>
                                 <form:form modelAttribute="game" class="form-horizontal" id="add-game-form">
                                     <section class="vh-100 gradient-custom">
                                         <div class="container py-5 h-100">

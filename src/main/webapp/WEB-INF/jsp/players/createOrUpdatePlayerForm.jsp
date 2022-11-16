@@ -7,9 +7,6 @@
                         <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
                             <petclinic:layout pageName="players">
-                                <h2>
-                                    <c:if test="${player['new']}"></c:if>
-                                </h2>
                                 <form:form modelAttribute="player" class="form-horizontal" id="add-player-form">
                                     <section class="vh-100 gradient-custom">
                                         <div class="container py-5 h-100">
@@ -73,12 +70,12 @@
                                                                 <c:choose>
                                                                     <c:when test="${player['new']}">
                                                                         <button class="btn btn-success"
-                                                                            type="submit">Añadir jugador</button>
+                                                                            type="submit">Add Player</button>
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <button class="btn btn-success"
-                                                                            type="submit">Actualizar
-                                                                            jugador</button>
+                                                                            type="submit">Update
+                                                                            Player</button>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </div>
