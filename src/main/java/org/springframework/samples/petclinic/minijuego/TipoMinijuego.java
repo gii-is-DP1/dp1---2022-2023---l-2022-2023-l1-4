@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import org.springframework.samples.petclinic.model.NamedEntity;
 
 @Entity
-@Table(name="tipos_minijuego")
+@Table(name="tipos_minijuegos")
 public class TipoMinijuego extends NamedEntity{
 
 }

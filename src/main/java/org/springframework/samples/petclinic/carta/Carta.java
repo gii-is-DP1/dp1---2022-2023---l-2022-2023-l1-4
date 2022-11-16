@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -26,7 +27,5 @@ public class Carta extends BaseEntity {
     @ManyToMany
     @JoinTable(name = "cartas_fotos")
     private Collection<Foto> foto;
-
-
 
 }

@@ -9,5 +9,4 @@ import org.springframework.samples.petclinic.model.NamedEntity;
 @Table(name = "fotos")
 public class Foto extends NamedEntity{
 
-    
 }
