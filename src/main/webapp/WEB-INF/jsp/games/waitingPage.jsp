@@ -6,8 +6,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="games">
-    <h2>Espera un poquito pisha, paciencia. Numero jugadores:</h2>
+    <h2>Espera a que se llene la partida. Numero jugadores:</h2>
 
    <h2><c:out value = "${now}"/></h2>
-
+    
 </petclinic:layout>

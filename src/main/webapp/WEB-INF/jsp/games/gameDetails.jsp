@@ -15,6 +15,10 @@
             <td><b><c:out value="${game.name}"/></b></td>
         </tr>
         <tr>
+            <th>Id</th>
+            <td><c:out value="${game.id}"/></td>
+        </tr>
+        <tr>
             <th>Estado de la Partida</th>
             <td><c:out value="${game.accessible}"/></td>
         </tr>
