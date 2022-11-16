@@ -21,8 +21,8 @@
                                             <c:out value="${game.accessible}" />
                                         </td>
                                     </tr>
-
                                 </table>
                             </div>
                         </body>
                     </petclinic:layout>
+

@@ -25,7 +25,6 @@ public class Game  extends BaseEntity{
     @NotBlank
 	private String name;
 
-	@Column(name = "numPlayers")
 	@NotNull
 	private Integer numPlayers;
 

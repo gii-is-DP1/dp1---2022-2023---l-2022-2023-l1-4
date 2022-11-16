@@ -126,3 +126,5 @@ INSERT INTO Logro(id, name, nivel) VALUES
 --Me asigno los datos del jugador:
 INSERT INTO players VALUES (1, 'Carlos', 'Nuchera', 'carlosnuchera98@gmail.com', '669081623', 'carnucbol1');
 INSERT INTO players VALUES (2, 'Pablo', 'Pino', 'pablop@gmail.com', '696969696', 'pablop');
+
+INSERT INTO games(id,accessible,name,num_players) VALUES(1,TRUE,'caca',2);

@@ -5,6 +5,7 @@
                 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
                     <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
+
                         <petclinic:layout pageName="games">
 
                             <body style="background-color: #bea3cd;">
@@ -18,3 +19,4 @@
                                 </div>
                             </body>
                         </petclinic:layout>
+
