@@ -31,8 +31,8 @@
                                                                 <div class="col-md-6 mb-4 pb-2">
                                                                     <div class="col-sm-offset-2 col-sm-10">
                                                                         <button type="submit"
-                                                                            class="btn btn-success">Encontrar
-                                                                            Jugador</button>
+                                                                            class="btn btn-success">Find
+                                                                            Player</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6 mb-4 pb-2">

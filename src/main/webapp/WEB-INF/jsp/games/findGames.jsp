@@ -10,31 +10,42 @@
 
 <petclinic:layout pageName="games">
 
-    <h2>Encontrar Partidas</h2>
-
     
-    <form:form modelAttribute="game" action="/games" method="get" class="form-horizontal"
-               id="search-game-form">
-        <div class="form-group">
-            <div class="control-group" id="name">
-                <label class="col-sm-2 control-label">Filtre por nombre</label>
-                <div class="col-sm-10">
-                    <form:input class="form-control" path="name" size="30" maxlength="80"/>
-                    <span class="help-inline"><form:errors path="*"/></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Encontrar Partida</button>
-            </div>
-        </div>
+    <form:form action="/games" method="get" modelAttribute="game">
+                                    <section class="vh-100 gradient-custom">
+                                        <div class="container py-5 h-100">
+                                            <div class="row justify-content-center align-items-center h-25">
+                                                <div class="col-12 col-lg-9 col-xl-7">
+                                                    <div class="card shadow-2-strong card-registration"
+                                                        style="border-radius: 15px;">
+                                                        <div class="card-body p-4 p-md-5">
+                                                            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Find Games</h3>
+                                                            <div class="row">
+                                                                <div class="col-md-12 mb-4">
 
-    </form:form>
+                                                                    <div class="form-outline">
+                                                                        <petclinic:inputField label="Name"
+                                                                            name="name" />
+                                                                    </div>
 
-    <br/> 
-   
-		<a class="btn btn-default" href='<spring:url value="/games/new" htmlEscape="true"/>'>Añadir Partida</a>
-	
-	
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6 mb-4 pb-2">
+                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                        <button type="submit"
+                                                                            class="btn btn-success">Find
+                                                                            Game</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </section>
+
+                                </form:form>
 </petclinic:layout>

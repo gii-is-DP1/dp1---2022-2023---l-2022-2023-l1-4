@@ -7,7 +7,7 @@
 <%@ attribute name="name" required="true" rtexprvalue="true"
 	description="Name of the active menu: home, personas, vets or error"%>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="https://w7.pngwing.com/pngs/972/246/png-transparent-uno-asmodee-dobble-asmodee-editions-card-game-asmodee-spot-it-others-purple-game-text-thumbnail.png"

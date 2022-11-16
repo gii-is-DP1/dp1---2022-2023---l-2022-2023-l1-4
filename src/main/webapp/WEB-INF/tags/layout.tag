@@ -12,8 +12,7 @@
 <body>
 <petclinic:bodyHeader menuName="${pageName}"/>
 
-<div class="container-fluid" style="background-color: #bb48bd;">
-    <div class="container xd-container">
+<div class="container-fluid" style="background-color: #bea3cd;">
 	<c:if test="${not empty message}" >
 	<div class="alert alert-${not empty messageType ? messageType : 'info'}" role="alert">
   		<c:out value="${message}"></c:out>
@@ -23,7 +22,6 @@
 	</div>
 	</c:if>
         <jsp:doBody/>
-    </div>
 </div>
 </body>
 

@@ -6,12 +6,18 @@
 
                 <petclinic:layout pageName="home">
 
-                    <body style="background-color: #bb48bd;">
-                        <div class="container">
-                            <div class="d-flex row jutify-content-center h-auto">
-                                <img class="align-items-center"
-                                    src="https://fisiquimicamente.com/recursos-fisica-quimica/actividades-juegos/2eso-3eso/dobble-instrumentos-laboratorio/featured.png">
+                    <body style="background-color: #bea3cd;">
+                            <div class="row align-items-center h-100 mx-auto text-center">
+                                <div class="col-3">
+                                    <button class="btn btn-secondary btn-lg" style="width: 100%;"><a href='<spring:url value="/games/new" htmlEscape="true"/>'>CREAR PARTIDA</a></button>
+                                </div>
+                                <div class="col-6">
+                                    <img class="" 
+                                        src="https://fisiquimicamente.com/recursos-fisica-quimica/actividades-juegos/2eso-3eso/dobble-instrumentos-laboratorio/featured.png">
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-secondary btn-lg" style="width: 100%;">UNIRSE A PARDIDA</button>
+                                </div>
                             </div>
-                        </div>
                     </body>
                 </petclinic:layout>
