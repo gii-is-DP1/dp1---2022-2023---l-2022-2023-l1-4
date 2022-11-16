@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import java.util.Map;
 
-
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 
@@ -54,7 +54,7 @@ public class GameController {
 		}
 		else {
 			this.gameService.save(game);
-			return "redirect:/games"; //change
+			return "redirect:/games/" + game.getId() + "/waiting";
 		}
 	}
 
@@ -96,6 +96,26 @@ public class GameController {
 		mav.addObject(this.gameService.findGameById(gameId));
 		return mav;
 	}
+
+	@GetMapping("/games/{gameId}/waiting")
+    public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,HttpServletResponse response) {
+
+        response.addHeader("Refresh", "1");
+        Game game = this.gameService.findGameById(gameId);
+
+
+        while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getAccessible()==false))  {
+            model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
+            return "games/waitingPage";
+        }
+        response.reset();
+
+        // List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
+        // Round round = rondasPartida.get(0);
+
+        return "redirect:/waitingPage";
+
+    }
 
 
     

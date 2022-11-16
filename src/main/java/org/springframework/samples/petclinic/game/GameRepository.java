@@ -22,6 +22,4 @@ public interface GameRepository extends CrudRepository<Game,Integer>{
     @Query("SELECT DISTINCT game FROM Game game WHERE game.name LIKE :name%")
 	public Collection<Game> findByName(@Param("name") String name);
    
-    @Query("SELECT game FROM Game game WHERE game.id =:id")
-	public Integer findByMaxPlayers(@Param("id") int id);
 }
