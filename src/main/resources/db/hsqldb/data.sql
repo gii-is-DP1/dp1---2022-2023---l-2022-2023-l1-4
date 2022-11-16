@@ -1,6 +1,7 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
+
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
@@ -31,7 +32,15 @@ INSERT INTO authorities(id,username,authority) VALUES (9,'gonsanmar2','owner');
 
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
+INSERT INTO authorities(id,username,authority) VALUES (10,'vet1','veterinarian');
+
+-- Player de carnucbol
+INSERT INTO users(username,password,enabled) VALUES ('carnucbol1','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (11,'carnucbol1','player');
+
+-- Player de pablopino
+INSERT INTO users(username,password,enabled) VALUES ('pablop','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (12,'pablop','player');
 
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
 INSERT INTO vets(id, first_name,last_name) VALUES (2, 'Helen', 'Leary');
@@ -113,4 +122,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 INSERT INTO Logro(id, name, nivel) VALUES
 (1, 'Bienvenida', 0),
 (2, 'ere un maquina', 100);
-
+   
+--Me asigno los datos del jugador:
+INSERT INTO players VALUES (1, 'Carlos', 'Nuchera', 'carlosnuchera98@gmail.com', '669081623', 'carnucbol1');
+INSERT INTO players VALUES (2, 'Pablo', 'Pino', 'pablop@gmail.com', '696969696', 'pablop');

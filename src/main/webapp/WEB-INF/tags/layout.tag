@@ -12,7 +12,7 @@
 <body>
 <petclinic:bodyHeader menuName="${pageName}"/>
 
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: #bb48bd;">
     <div class="container xd-container">
 	<c:if test="${not empty message}" >
 	<div class="alert alert-${not empty messageType ? messageType : 'info'}" role="alert">
@@ -22,15 +22,9 @@
   		</button> 
 	</div>
 	</c:if>
-
         <jsp:doBody/>
-
-        <petclinic:pivotal/>
     </div>
 </div>
-<petclinic:footer/>
-<jsp:invoke fragment="customScript" />
-
 </body>
 
 </html>
