@@ -34,5 +34,6 @@
 
     <br/> 
 		<a class="btn btn-default" href='<spring:url value="/games/new" htmlEscape="true"/>'>Añadir Partida</a>
+
 	
 </petclinic:layout>
