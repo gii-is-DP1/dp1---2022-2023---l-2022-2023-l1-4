@@ -9,7 +9,7 @@
                     <body style="background-color: #bea3cd;">
                             <div class="row align-items-center h-100 mx-auto text-center">
                                 <div class="col-sm-3">
-                                    <button class="btn btn-secondary btn-lg" style="width: 100%;"><a href='<spring:url value="/games/new" htmlEscape="true"/>'>CREAR PARTIDA</a></button>
+                                    <a href='<spring:url value="/games/new" htmlEscape="true"/>'><button class="btn btn-secondary btn-lg" style="width: 100%;">CREAR PARTIDA</button></a>
                                 </div>
                                 <div class="col-sm-6">
                                     <img class="img-fluid" 

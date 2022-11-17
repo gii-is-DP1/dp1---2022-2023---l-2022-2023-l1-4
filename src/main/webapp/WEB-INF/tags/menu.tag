@@ -32,12 +32,10 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <sec:authorize access="!isAuthenticated()">
                 <li class="d-flex">
-                    <button class="btn btn-warning me-2" type="button"><a href="<c:url value="
-                            /login" />">Login</a></button>
+                    <a href="<c:url value="/login" />"><button class="btn btn-warning me-2" type="button">Login</button></a>
                 </li>
                 <li class="d-flex">
-                    <button class="btn btn-warning me-2" type="button"><a href="<c:url value="
-                            /players/new" />">Registro</a></button>
+                    <a href="<c:url value="/players/new" />"><button class="btn btn-warning me-2" type="button">Registro</button></a>
                 </li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
@@ -54,7 +52,11 @@
                         </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item" href='<c:url value=" /logout" />'>Logout <i class="fa-solid fa-right-from-bracket"></i></a></li>
-                        <li><a class="dropdown-item" href='<c:url value=" /players/myProfyle" />'>My Profyle <i class="fa-solid fa-user"></i></a></li>  
+                        <li><sec:authorize url="/myProfile">
+                            <petclinic:menuItem active="${name eq 'players'}" url="/myProfile" title="my profile">
+                                <span class="dropdown-item">My Profile <i class="fa-solid fa-user"></i></a></li></span>
+                            </petclinic:menuItem>
+                        </sec:authorize></li>  
                     </ul>
                 </li>
             </sec:authorize>
