@@ -13,7 +13,7 @@
     <form:form modelAttribute="game" class="form-horizontal" id="add-game-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Name" name="name"/>
-            <petclinic:inputField label="NumPlayers" name="num_players"/>
+            <petclinic:inputField label="NumPlayers" name="numPlayers"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
