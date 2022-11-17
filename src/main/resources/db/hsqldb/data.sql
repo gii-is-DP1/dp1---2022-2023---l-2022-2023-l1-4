@@ -743,3 +743,11 @@ INSERT INTO players VALUES (2, 'Pablo', 'Pino', 'pablop@gmail.com', '696969696',
 INSERT INTO players VALUES (3, 'Fernando', 'Barroso', 'fbarroso2001@gmail.com', '696869696', 'ferbarbar1');
 
 INSERT INTO games VALUES (1, TRUE, 'Partida 1', 5);
+
+INSERT INTO Logro(id, name, nivel) VALUES
+(1, 'Bienvenida', 0),
+(2, 'ere un maquina', 100);
+
+
+INSERT INTO games(id,accessible,name,num_players) VALUES(1,TRUE,'caca',2);
+

@@ -100,20 +100,20 @@ public class GameController {
 	@GetMapping("/games/{gameId}/waiting")
     public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,HttpServletResponse response) {
 
-        response.addHeader("Refresh", "1");
+        //response.addHeader("Refresh", "1");
         Game game = this.gameService.findGameById(gameId);
 
 
-        while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getAccessible()==false))  {
-            model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
+        //while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getAccessible()==false))  {
+          //  model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
             return "games/waitingPage";
-        }
-        response.reset();
+        //}
+        //response.reset();
 
         // List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
         // Round round = rondasPartida.get(0);
 
-        return "redirect:/waitingPage";
+        //return "redirect:/waitingPage";
 
     }
 
