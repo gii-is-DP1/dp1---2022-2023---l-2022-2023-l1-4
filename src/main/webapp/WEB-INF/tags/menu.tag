@@ -13,8 +13,8 @@
             <img src="https://fisiquimicamente.com/recursos-fisica-quimica/actividades-juegos/2eso-3eso/dobble-instrumentos-laboratorio/featured.png"
                 alt="" width="80" height="75" class="d-inline-block align-text-top">
         </a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
@@ -28,6 +28,8 @@
                     <a class="nav-link" href="/logros">Logros</a>
                 </li>
             </ul>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <sec:authorize access="!isAuthenticated()">
                 <li class="d-flex">
                     <button class="btn btn-warning me-2" type="button"><a href="<c:url value="
@@ -39,39 +41,23 @@
                 </li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span
-                            class="glyphicon glyphicon-user"></span>�
-                        <strong>
-                            <sec:authentication property="name" />
-                        </strong> <span class="glyphicon glyphicon-chevron-down"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <div class="navbar-login">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <p class="text-center">
-                                            <span class="glyphicon glyphicon-user icon-size"></span>
-                                        </p>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <p class="text-left">
-                                            <strong>
-                                                <sec:authentication property="name" />
-                                            </strong>
-                                        </p>
-                                        <p class="text-left">
-                                            <a href="<c:url value=" /logout" />"
-                                            class="btn btn-primary btn-block btn-sm">Logout</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                <li class="dropdown">
+                    <div class="dropdown">
+                        <button
+                          class="btn btn-warning dropdown-toggle"
+                          type="button"
+                          id="dropdownMenuButton"
+                          data-mdb-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                        <sec:authentication property="name" />
+                        </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href='<c:url value=" /logout" />'>Logout <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                        <li><a class="dropdown-item" href='<c:url value=" /players/myProfyle" />'>My Profyle <i class="fa-solid fa-user"></i></a></li>  
                     </ul>
                 </li>
             </sec:authorize>
-            </ul>
         </div>
     </div>
     </div>

@@ -59,5 +59,9 @@ PetClinic :: a Spring Framework demonstration
         a:link, a:visited, a:active {
             text-decoration:none;
         }
+        
+        li {
+          list-style-type: none;
+        }
     </style>
 </head>
