@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,5 +21,8 @@ public interface GameRepository extends CrudRepository<Game,Integer>{
 
     @Query("SELECT DISTINCT game FROM Game game WHERE game.name LIKE :name%")
 	public Collection<Game> findByName(@Param("name") String name);
+
+    //@Query("SELECT DISTINCT game.player_id FROM Game game WHERE game.id=:game_id")
+    //public Set<Integer> findPlayersInGame(@Param("game_id") int game_id);
    
 }

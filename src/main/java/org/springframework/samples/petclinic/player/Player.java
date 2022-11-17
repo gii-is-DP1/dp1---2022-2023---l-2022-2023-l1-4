@@ -59,7 +59,6 @@ public class Player extends Person{
 	@NotEmpty(message = "El teléfono no puede estar vacío")
 	@Digits(fraction = 0, integer = 10)
 	private String telephone;
-
 	
 
 }
