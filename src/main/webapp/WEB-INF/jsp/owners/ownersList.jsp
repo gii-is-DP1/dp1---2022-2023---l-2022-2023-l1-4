@@ -28,6 +28,8 @@
                     <a href="${fn:escapeXml(ownerUrl)}"><c:out value="${owner.firstName} ${owner.lastName}"/></a>
                 </td>
                 <td>
+                    <spring:url value="/resources/images/cartas/carta01.png" htmlEscape="true" var="carta01"/>
+                    <img class="img-responsive" src="${carta01}"/>
                     <c:out value="${owner.address}"/>
                 </td>
                 <td>
@@ -37,7 +39,7 @@
                     <c:out value="${owner.telephone}"/>
                 </td>
                 <td>
-                    <c:forEach var="pet" items="${owner.pets}">
+                    <c:forEach var="carta" items="${owner.pets}">
                         <c:out value="${pet.name} "/>
                     </c:forEach>
                 </td>
