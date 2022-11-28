@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.carta.CartaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/logros")
 public class LogroController {
     private static final String LOGRO_LISTING="logros/LogrosListing";
+    private static final String CARTA_LISTING="logros/cartas";
     private static final String LOGRO_EDIT="logros/EditLogro";
 
     @Autowired
     LogroService logroService;
+    @Autowired
+    CartaService cartaService;
     
      @GetMapping
      public ModelAndView showLogrosListing() {
@@ -93,5 +97,12 @@ public class LogroController {
          return result;
      }
      
+     
+     @GetMapping("/pollas/{id}")
+     public ModelAndView showCartas(@PathVariable("id") int id) {
+         ModelAndView result=new ModelAndView(CARTA_LISTING);
+         result.addObject("fotos",cartaService.findNamePhotosByCard(id));
+         return result;
+     }
      
 }
