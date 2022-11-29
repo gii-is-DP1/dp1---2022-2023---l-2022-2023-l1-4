@@ -7,124 +7,60 @@
 <%@ attribute name="name" required="true" rtexprvalue="true"
 	description="Name of the active menu: home, personas, vets or error"%>
 
-<nav class="navbar navbar-default" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand"
-				href="<spring:url value="/" htmlEscape="true" />"><span></span></a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#main-navbar">
-				<span class="sr-only"><os-p>Toggle navigation</os-p></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-		</div>
-		<div class="navbar-collapse collapse" id="main-navbar">
-			<ul class="nav navbar-nav">
-
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find Owners</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'players'}" url="/players/find"
-					title="find players">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Encontrar Jugadores</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'games'}" url="/games/find"
-					title="encontrar games">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Encontrar Partidas</span>
-				</petclinic:menuItem>
-
-				<sec:authorize url="/myProfile">
-				<petclinic:menuItem active="${name eq 'players'}" url="/myProfile"
-					title="my profile">
-					<span>Mi Perfil</span>
-				</petclinic:menuItem>
-				</sec:authorize>			
-
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Error</span>
-				</petclinic:menuItem>
-
-			</ul>
-
-
-
-
-			<ul class="nav navbar-nav navbar-right">
-				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/users/new" />">Register</a></li>
-					<li><a href="<c:url value="/players/new" />">Registro</a></li>
-				</sec:authorize>
-				<sec:authorize access="isAuthenticated()">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>�
-							<strong><sec:authentication property="name" /></strong> <span
-							class="glyphicon glyphicon-chevron-down"></span>
-					</a>
-						<ul class="dropdown-menu">
-							<li>
-								<div class="navbar-login">
-									<div class="row">
-										<div class="col-lg-4">
-											<p class="text-center">
-												<span class="glyphicon glyphicon-user icon-size"></span>
-											</p>
-										</div>
-										<div class="col-lg-8">
-											<p class="text-left">
-												<strong><sec:authentication property="name" /></strong>
-											</p>
-											<p class="text-left">
-												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Logout</a>
-											</p>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-<!-- 							
-                            <li> 
-								<div class="navbar-login navbar-login-session">
-									<div class="row">
-										<div class="col-lg-12">
-											<p>
-												<a href="#" class="btn btn-primary btn-block">My Profile</a>
-												<a href="#" class="btn btn-danger btn-block">Change
-													Password</a>
-											</p>
-										</div>
-									</div>
-								</div>
-							</li>
--->
-						</ul></li>
-				</sec:authorize>
-			</ul>
-		</div>
-
-
-
-	</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color: yellow;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="https://fisiquimicamente.com/recursos-fisica-quimica/actividades-juegos/2eso-3eso/dobble-instrumentos-laboratorio/featured.png"
+                alt="" width="80" height="75" class="d-inline-block align-text-top">
+        </a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/players/find">Encontrar Jugadores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/games/find">Encontrar Partidas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logros">Logros</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <sec:authorize access="!isAuthenticated()">
+                <li class="d-flex">
+                    <a href="<c:url value="/login" />"><button class="btn btn-warning me-2" type="button">Login</button></a>
+                </li>
+                <li class="d-flex">
+                    <a href="<c:url value="/players/new" />"><button class="btn btn-warning me-2" type="button">Registro</button></a>
+                </li>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <li class="dropdown">
+                    <div class="dropdown">
+                        <button
+                          class="btn btn-warning dropdown-toggle"
+                          type="button"
+                          id="dropdownMenuButton"
+                          data-mdb-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                        <sec:authentication property="name" />
+                        </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href='<c:url value=" /logout" />'>Logout <i class="fa-solid fa-right-from-bracket"></i></a></li>
+                        <li><sec:authorize url="/myProfile">
+                            <petclinic:menuItem active="${name eq 'players'}" url="/myProfile" title="my profile">
+                                <span class="dropdown-item">My Profile <i class="fa-solid fa-user"></i></a></li></span>
+                            </petclinic:menuItem>
+                        </sec:authorize></li>  
+                    </ul>
+                </li>
+            </sec:authorize>
+        </div>
+    </div>
+    </div>
 </nav>
