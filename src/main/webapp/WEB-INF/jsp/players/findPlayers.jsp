@@ -37,9 +37,8 @@
                                                                 </div>
                                                                 <div class="col-md-6 mb-4 pb-2">
                                                                     <sec:authorize access="hasAuthority('admin')">
-                                                                        <button class="btn btn-success"><a
-                                                                                href='<spring:url value="/players/new" htmlEscape="true"/>'>Add
-                                                                                Player</a></button>
+                                                                        <button class="btn btn-success"> <a href='<spring:url value="/players/new" htmlEscape="true"/>'>Add
+                                                                                Player</button></a>
                                                                     </sec:authorize>
                                                                 </div>
                                                             </div>

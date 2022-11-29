@@ -100,7 +100,7 @@ public class GameController {
 	@GetMapping("/games/{gameId}/waiting")
     public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,HttpServletResponse response) {
 
-        //response.addHeader("Refresh", "1");
+        response.addHeader("Refresh", "1");
         Game game = this.gameService.findGameById(gameId);
 
 

@@ -742,7 +742,6 @@ INSERT INTO players VALUES (1, 'Carlos', 'Nuchera', 'carlosnuchera98@gmail.com',
 INSERT INTO players VALUES (2, 'Pablo', 'Pino', 'pablop@gmail.com', '696969696', 'pablop');
 INSERT INTO players VALUES (3, 'Fernando', 'Barroso', 'fbarroso2001@gmail.com', '696869696', 'ferbarbar1');
 
-
 INSERT INTO Logro(id, name, nivel) VALUES
 (1, 'Bienvenida', 0),
 (2, 'ere un maquina', 100);
