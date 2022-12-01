@@ -1,23 +1,23 @@
 package org.springframework.samples.petclinic.game;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.util.AuthenticationService;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -27,10 +27,12 @@ public class GameController {
     private static final String VIEWS_GAME_CREATE_OR_UPDATE_FORM = "games/createOrUpdateGameForm";
 
     private GameService gameService;
+	private AuthenticationService AuthenticationService;
 
     @Autowired
-    public GameController(GameService gameService){
+    public GameController(GameService gameService, AuthenticationService authtAuthenticationService){
         this.gameService = gameService;
+		this.AuthenticationService = authtAuthenticationService;
     }
 
     @InitBinder
@@ -49,10 +51,16 @@ public class GameController {
 
     @PostMapping(value = "/games/new")
 	public String processCreationForm(@Valid Game game, BindingResult result) {
+
 		if (result.hasErrors()) {
 			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 		}
 		else {
+			Player player = AuthenticationService.getPlayer();
+			System.out.println(player); 
+			List<Player> listPlayers = new ArrayList<Player>();
+			listPlayers.add(player);
+			game.setPlayersList(listPlayers);
 			this.gameService.save(game);
 			return "redirect:/games/" + game.getId() + "/waiting";
 		}
@@ -104,16 +112,16 @@ public class GameController {
         Game game = this.gameService.findGameById(gameId);
 
 
-        //while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getAccessible()==false))  {
-          //  model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
+        while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getAccessible()==false))  {
+            model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
             return "games/waitingPage";
-        //}
-        //response.reset();
+        }
+        response.reset();
 
-        // List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
-        // Round round = rondasPartida.get(0);
+       // List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
+       //Round round = rondasPartida.get(0);
 
-        //return "redirect:/waitingPage";
+        return "redirect:/waitingPage";
 
     }
 
