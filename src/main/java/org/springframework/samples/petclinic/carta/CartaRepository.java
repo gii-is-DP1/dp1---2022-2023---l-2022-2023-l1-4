@@ -17,7 +17,10 @@ public interface CartaRepository extends CrudRepository<Carta, Integer>{
     public Carta findCardById(@Param("id") int id);
 
     @Query("SELECT cf FROM Carta c JOIN c.foto cf WHERE c.id=:carta_id")  
-     Collection<Foto> findNamePhotosByCard(@Param("carta_id") int carta_id); 
+    public Collection<Foto> findNamePhotosByCard(@Param("carta_id") int carta_id);
+
+    @Query("SELECT c.url FROM Carta c WHERE c.id=:carta_id")  
+    public String findCardUrl(@Param("carta_id") int carta_id); 
 
     //@Query("SELECT c FROM Carta c where c.player_id=:player_id")
     //List<Carta> findByPlayerId(@Param("player_id")int player_id);

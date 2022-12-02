@@ -102,7 +102,8 @@ public class LogroController {
      public ModelAndView showCartas(@PathVariable("id") int id) {
          ModelAndView result=new ModelAndView(CARTA_LISTING);
          result.addObject("fotos",cartaService.findNamePhotosByCard(id));
+         result.addObject("url", cartaService.findCardUrl(id));
          return result;
-     }
+     } 
      
 }

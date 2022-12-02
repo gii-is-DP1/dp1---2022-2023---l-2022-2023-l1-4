@@ -32,4 +32,9 @@ public class CartaService {
 		return cartaRepository.findNamePhotosByCard(id);
 	}
 
+    @Transactional(readOnly = true)
+	public String findCardUrl(int id) throws DataAccessException {
+		return cartaRepository.findCardUrl(id);
+	} 
+ 
 }
