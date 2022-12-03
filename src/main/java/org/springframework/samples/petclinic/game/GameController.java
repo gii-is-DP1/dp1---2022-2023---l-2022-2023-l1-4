@@ -23,42 +23,39 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GameController {
 
-    
-    private static final String VIEWS_GAME_CREATE_OR_UPDATE_FORM = "games/createOrUpdateGameForm";
+	private static final String VIEWS_GAME_CREATE_OR_UPDATE_FORM = "games/createOrUpdateGameForm";
 
-    private GameService gameService;
-	private AuthenticationService AuthenticationService;
+	private GameService gameService;
+	private AuthenticationService authenticationService;
 
-    @Autowired
-    public GameController(GameService gameService, AuthenticationService authtAuthenticationService){
-        this.gameService = gameService;
-		this.AuthenticationService = authtAuthenticationService;
-    }
+	@Autowired
+	public GameController(GameService gameService, AuthenticationService authtAuthenticationService) {
+		this.gameService = gameService;
+		this.authenticationService = authtAuthenticationService;
+	}
 
-    @InitBinder
+	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-    
-   
-    @GetMapping(value = "/games/new")
+
+	@GetMapping(value = "/games/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Game game = new Game();
 		model.put("game", game);
 		return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 	}
 
-
-    @PostMapping(value = "/games/new")
+	@PostMapping(value = "/games/new")
 	public String processCreationForm(@Valid Game game, BindingResult result) {
 
 		if (result.hasErrors()) {
 			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			//Boolean accessible = false;
-			Player player = AuthenticationService.getPlayer();
-			System.out.println(player); 
+
+		} else {
+			Player player = authenticationService.getPlayer();
+
+
 			List<Player> listPlayers = new ArrayList<Player>();
 			listPlayers.add(player);
 			game.setPlayersList(listPlayers);
@@ -68,8 +65,20 @@ public class GameController {
 		}
 	}
 
+	@GetMapping(value = "/games/join/{gameId}")
+	public String joinGame(@PathVariable("gameId") int gameId) {
+		System.out.println(gameId);
+		List<Player> listaProv = new ArrayList<Player>();
+		gameService.findPlayersGame(gameId).forEach(x -> listaProv.add(x));
+		Player player = authenticationService.getPlayer();
+		listaProv.add(player);
+		Game game = gameService.findGameById(gameId);
+		game.setPlayersList(listaProv);
+		gameService.save(game);
+		return "redirect:/games/" + gameId + "/waiting";
+	}
 
-    @GetMapping(value = "/games/find")
+	@GetMapping(value = "/games/find")
 	public String initFindForm(Map<String, Object> model) {
 		model.put("game", new Game());
 		return "games/findGames";
@@ -86,21 +95,18 @@ public class GameController {
 			// no games found
 			result.rejectValue("name", "notFound", "not found");
 			return "games/findGames";
-		}
-		else if (gamesPorNombre.size() == 1) {
+		} else if (gamesPorNombre.size() == 1) {
 			// 1 game found
 			game = gamesPorNombre.iterator().next();
 			return "redirect:/games/" + game.getId();
-		}
-		else {
+		} else {
 			// multiple games found
 			model.put("selections", gamesPorNombre);
 			return "games/gamesList";
 		}
 	}
 
-
-    @GetMapping("/games/{gameId}")
+	@GetMapping("/games/{gameId}")
 	public ModelAndView mostrarGame(@PathVariable("gameId") int gameId) {
 		ModelAndView mav = new ModelAndView("games/gameDetails");
 		mav.addObject(this.gameService.findGameById(gameId));
@@ -108,10 +114,12 @@ public class GameController {
 	}
 
 	@GetMapping("/games/{gameId}/waiting")
-    public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,HttpServletResponse response) {
+	public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,
+			HttpServletResponse response) {
 
-        response.addHeader("Refresh", "1");
-        Game game = this.gameService.findGameById(gameId);
+		response.addHeader("Refresh", "1");
+		Game game = this.gameService.findGameById(gameId);
+
 
 
         while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getStartGame()==false))  {
@@ -123,10 +131,12 @@ public class GameController {
        // List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
        //Round round = rondasPartida.get(0);
 
-        return "redirect:/waitingPage";
 
-    }
+		// List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
+		// Round round = rondasPartida.get(0);
 
+		return "redirect:/waitingPage";
 
-    
+	}
+
 }

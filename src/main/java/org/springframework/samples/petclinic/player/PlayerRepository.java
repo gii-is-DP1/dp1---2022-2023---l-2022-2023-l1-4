@@ -26,3 +26,4 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
 	Collection<Player> findAll();
 }
+ 

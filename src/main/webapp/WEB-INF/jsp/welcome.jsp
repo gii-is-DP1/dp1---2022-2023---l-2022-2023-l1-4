@@ -16,7 +16,7 @@
                                         src="https://fisiquimicamente.com/recursos-fisica-quimica/actividades-juegos/2eso-3eso/dobble-instrumentos-laboratorio/featured.png">
                                 </div>
                                 <div class="col-sm-3">
-                                    <button class="btn btn-secondary btn-lg" style="width: 100%;">UNIRSE A PARDIDA</button>
+                                    <a href='<spring:url value="/games" htmlEscape="true"/>'><button class="btn btn-secondary btn-lg" style="width: 100%;">UNIRSE A PARDIDA</button></a>
                                 </div>
                             </div>
                     </body>
