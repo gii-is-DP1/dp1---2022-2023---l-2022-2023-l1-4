@@ -16,7 +16,7 @@
 								<div class="row align-items-center h-100 mx-auto text-center" style="margin-top: 25pt; padding-right: 35%; padding-left: 35%;">
 									<c:forEach items="${fotos}" var="foto">
 										<div class="col-sm-6">
-											<button class="btn btn-lg btn-warning" style="margin-top: 25pt; width: 100%;">
+											<button class="btn btn-lg text-white" style="margin-top: 25pt; width: 100%; background-color:${foto.colourCode};">
 												<c:out value="${foto}" />
 											</button>
 										</div>
