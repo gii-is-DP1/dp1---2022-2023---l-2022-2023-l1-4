@@ -62,7 +62,7 @@ class GameControllerTests {
 		partidaPrueba.setId(TEST_GAME_ID);
 		partidaPrueba.setName("partidaPrueba");
 		partidaPrueba.setNumPlayers(2);
-		partidaPrueba.setAccessible(TRUE);
+		partidaPrueba.setStartGame(TRUE);
 		given(this.gameService.findGameById(TEST_GAME_ID)).willReturn(partidaPrueba);
 
 	}
