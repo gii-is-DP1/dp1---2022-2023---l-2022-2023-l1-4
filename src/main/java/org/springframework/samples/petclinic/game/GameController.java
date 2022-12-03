@@ -56,11 +56,13 @@ public class GameController {
 			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 		}
 		else {
+			//Boolean accessible = false;
 			Player player = AuthenticationService.getPlayer();
 			System.out.println(player); 
 			List<Player> listPlayers = new ArrayList<Player>();
 			listPlayers.add(player);
 			game.setPlayersList(listPlayers);
+			game.setStartGame(true);
 			this.gameService.save(game);
 			return "redirect:/games/" + game.getId() + "/waiting";
 		}
@@ -112,7 +114,7 @@ public class GameController {
         Game game = this.gameService.findGameById(gameId);
 
 
-        while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getAccessible()==false))  {
+        while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getStartGame()==false))  {
             model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
             return "games/waitingPage";
         }

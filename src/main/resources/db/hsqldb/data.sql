@@ -747,5 +747,5 @@ INSERT INTO Logro(id, name, nivel) VALUES
 (2, 'ere un maquina', 100);
 
 
-INSERT INTO games(id,accessible,name,num_players) VALUES(1,TRUE,'caca',2);
+INSERT INTO games(id,start_game,name,num_players) VALUES(1,TRUE,'caca',2);
 

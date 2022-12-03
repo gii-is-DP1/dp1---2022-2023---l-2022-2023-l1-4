@@ -19,7 +19,7 @@
                                     <tr>
                                         <th>Estado de la Partida</th>
                                         <td>
-                                            <c:out value="${game.accessible}" />
+                                            <c:out value="${game.startGame}" />
                                         </td>
                                     </tr>
                                 </table>
