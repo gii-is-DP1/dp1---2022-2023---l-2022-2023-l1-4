@@ -16,7 +16,7 @@ INSERT INTO authorities(id,username,authority) VALUES (5,'margargar81','owner');
 
 -- Owner de ferbarbar1
 INSERT INTO users(username,password,enabled) VALUES ('ferbarbar1','1234',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (6,'ferbarbar1','owner');
+INSERT INTO authorities(id,username,authority) VALUES (6,'ferbarbar1','player');
 
 --Owner de Alvsanflo
 INSERT INTO users(username,password,enabled) VALUES ('alvsanflo','3333',TRUE);
@@ -748,4 +748,6 @@ INSERT INTO Logro(id, name, nivel) VALUES
 
 
 INSERT INTO games(id,accessible,name,num_players) VALUES(1,TRUE,'caca',2);
+INSERT INTO games(id,accessible,name,num_players) VALUES(2,FALSE,'prueba',5);
 
+INSERT INTO games_players_list(game_id, players_list_id) VALUES(1,3)
