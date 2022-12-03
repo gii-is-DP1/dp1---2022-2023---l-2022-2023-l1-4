@@ -5,7 +5,7 @@
                 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
                     <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-                        <petclinic:layout pageName="games">
+
 
                             <body style="background-color: #bea3cd;">
                                 <div class="container h-100 align-items-center">
@@ -20,9 +20,9 @@
                                         <tr>
                                             <th>Estado de la Partida</th>
                                             <td>
-                                                <c:if test="${game.accessible}">
+                                                <c:if test="${game.startGame}">
                                                 <c:out value="Es posible unirse" /></c:if>
-                                                <c:if test="${!game.accessible}">
+                                                <c:if test="${!game.startGame}">
                                                 <c:out value="No es posible unirse" /></c:if>
                                             </td>
                                         </tr>

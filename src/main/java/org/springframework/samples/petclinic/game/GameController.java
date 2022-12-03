@@ -51,11 +51,15 @@ public class GameController {
 
 		if (result.hasErrors()) {
 			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
+
 		} else {
 			Player player = authenticationService.getPlayer();
+
+
 			List<Player> listPlayers = new ArrayList<Player>();
 			listPlayers.add(player);
 			game.setPlayersList(listPlayers);
+			game.setStartGame(true);
 			this.gameService.save(game);
 			return "redirect:/games/" + game.getId() + "/waiting";
 		}
@@ -116,11 +120,17 @@ public class GameController {
 		response.addHeader("Refresh", "1");
 		Game game = this.gameService.findGameById(gameId);
 
-		while ((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getAccessible() == false)) {
-			model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
-			return "games/waitingPage";
-		}
-		response.reset();
+
+
+        while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getStartGame()==false))  {
+            model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
+            return "games/waitingPage";
+        }
+        response.reset();
+
+       // List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
+       //Round round = rondasPartida.get(0);
+
 
 		// List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
 		// Round round = rondasPartida.get(0);

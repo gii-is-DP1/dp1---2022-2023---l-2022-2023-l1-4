@@ -40,7 +40,7 @@ class GameServiceTests {
         Game game = new Game();
         game.setName("cacatua");
         game.setNumPlayers(2);
-        game.setAccessible(TRUE);
+        game.setStartGame(TRUE);
 
         this.gameService.save(game);
         assertThat(game.getId().longValue()).isNotEqualTo(0);

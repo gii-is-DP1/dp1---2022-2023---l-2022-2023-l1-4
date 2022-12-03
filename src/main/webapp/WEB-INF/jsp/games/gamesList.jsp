@@ -33,7 +33,7 @@
                                                     </td>
 
                                                     <td>
-                                                        <c:out value="${game.accessible}" />
+                                                        <c:out value="${game.startGame}" />
                                                     </td>
 
                                                     <!--
