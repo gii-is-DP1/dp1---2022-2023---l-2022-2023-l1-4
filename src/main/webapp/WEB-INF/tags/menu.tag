@@ -27,6 +27,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/logros">Logros</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/instructions">Instrucciones</a>
+                </li>
             </ul>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
