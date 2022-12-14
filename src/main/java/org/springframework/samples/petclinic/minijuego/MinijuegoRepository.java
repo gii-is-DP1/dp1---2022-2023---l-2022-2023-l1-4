@@ -15,10 +15,10 @@ public interface MinijuegoRepository extends CrudRepository<Minijuego,Integer> {
     Collection<Minijuego> findAll();
 
     @Query("SELECT mg FROM Minijuego mg where mg.id=:id")
-    Minijuego findById(@Param("id") int id);
+    public Minijuego findById(@Param("id") int id);
 
     @Query("SELECT mg FROM Minijuego mg WHERE mg.name=:name")
-    Minijuego findMinijuegoByName(@Param("name") String name);
+    public Minijuego findMinijuegoByName(@Param("name") String name);
 
     @Query("SELECT g.playersList FROM Game g WHERE g.id = :game_id")
 	public Set<Player> findPlayersByGameId(@Param("game_id") int id);
