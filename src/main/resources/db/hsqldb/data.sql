@@ -742,6 +742,7 @@ INSERT INTO tipos_minijuegos(id,name) VALUES (4, 'El duelo');**/
 INSERT INTO players VALUES (1, 'Carlos', 'Nuchera', 'carlosnuchera98@gmail.com', '669081623', 'carnucbol1');
 INSERT INTO players VALUES (2, 'Pablo', 'Pino', 'pablop@gmail.com', '696969696', 'pablop');
 INSERT INTO players VALUES (3, 'Fernando', 'Barroso', 'fbarroso2001@gmail.com', '696869696', 'ferbarbar1');
+INSERT INTO players VALUES (4, 'Gonzalo', 'Santiago', 'gonzalo@gmail.com', '696868696', 'gonsanmar2');
 
 INSERT INTO Logro(id, name, nivel) VALUES
 (1, 'Bienvenida', 0),
@@ -752,6 +753,6 @@ INSERT INTO games(id,start_game,name,num_players) VALUES(1,TRUE,'caca',2);
 INSERT INTO games(id,start_game,name,num_players) VALUES(2,FALSE,'prueba',5);
 
 
-INSERT INTO games_players_list(game_id, players_list_id) VALUES(1,3);
+INSERT INTO games_players_list(game_id, players_list_id) VALUES(1,1);
 
 INSERT INTO minijuegos(id, name, game_id) VALUES (1,'TORRE_INFERNAL',1);

@@ -49,8 +49,13 @@
 									</div>
 								</div>
 								<h1>${end}</h1>
-								<c:forEach items="${jugadores}" var="jugador">
-									<h1>${jugador.user.username}</h1>
-								</c:forEach>
+								<div class="card col-4">
+									<div class="card-body">
+										<h5 class="card-title text-center">Marcador</h5>
+										<c:forEach items="${jugadores}" var="x">
+											<h1 class="card-text text-center">${x.key}&nbsp${x.value}</h1>
+										</c:forEach>
+									</div>
+								</div>
 							</body>
 						</petclinic:layout>

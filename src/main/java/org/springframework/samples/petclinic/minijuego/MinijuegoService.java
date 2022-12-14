@@ -35,7 +35,6 @@ public class MinijuegoService {
 	MazoService mazoService;
 	AuthenticationService authenticationService;
 
-
 	@Autowired
 	public MinijuegoService(MinijuegoRepository minijuegoRepository, CartaService cartaService,
 			PlayerService playerService, UserService userService, FotoService fotoService, MazoService mazoservice,
@@ -120,16 +119,35 @@ public class MinijuegoService {
 		return null;
 	}
 
-	public Map<Integer, List<Integer>> compruebaAcierto(String respuesta, List<String> fotosCentro, Map<Integer, List<Integer>> playerCard){
+	public Map<Integer, List<Integer>> compruebaAcierto(String respuesta, List<String> fotosCentro,
+			Map<Integer, List<Integer>> playerCard) {
 		Player jugadorActual = playerSesion();
-		if(fotosCentro.contains(respuesta))
+		if (fotosCentro.contains(respuesta)) {
 			return actualizaCartas(playerCard, jugadorActual);
-		else
+		} else
 			return playerCard;
 	}
 
+	public Map<String, Integer> sumarPunto(String respuesta, List<String> fotosCentro,
+			Map<String, Integer> puntuacion) {
+		Player jugadorActual = playerSesion();
+		if(respuesta.equals("") && fotosCentro.isEmpty()){
+			puntuacion.put(jugadorActual.getFirstName()+" "+jugadorActual.getLastName(), 0);
+			return puntuacion;
+		}
+		if(!puntuacion.containsKey(jugadorActual.getFirstName()+" "+jugadorActual.getLastName()))
+				puntuacion.put(jugadorActual.getFirstName()+" "+jugadorActual.getLastName(), 0);
+		Integer puntoJugador = puntuacion.get(jugadorActual.getFirstName()+" "+jugadorActual.getLastName());
+		if (fotosCentro.contains(respuesta)) {
+			puntoJugador++;
+			puntuacion.put(jugadorActual.getFirstName()+" "+jugadorActual.getLastName(), puntoJugador);
+			return puntuacion;
+		}
+		return puntuacion;
+	}
+
 	public Map<Integer, List<Integer>> actualizaCartas(Map<Integer, List<Integer>> playerCard, Player jugadorActual) {
-		Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size()-1);
+		Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size() - 1);
 		List<Integer> lista = playerCard.get(jugadorActual.getId());
 		lista.add(idCartaMedio);
 		playerCard.put(jugadorActual.getId(), lista);

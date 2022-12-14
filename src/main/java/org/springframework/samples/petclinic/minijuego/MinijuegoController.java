@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.minijuego;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,15 +37,17 @@ public class MinijuegoController {
     private final PlayerService playerService;
 
     private Map<Integer, List<Integer>> playerCards;
+    private Map<String, Integer> puntuacion;
 
     @Autowired
     public MinijuegoController(MinijuegoService minijuegoService, GameService gameService, CartaService cartaService,
-            Map<Integer, List<Integer>> playerCards, PlayerService playerService) {
+            Map<Integer, List<Integer>> playerCards, PlayerService playerService, Map<String, Integer> puntuacion) {
         this.minijuegoService = minijuegoService;
         this.gameService = gameService;
         this.cartaService = cartaService;
         this.playerCards = playerCards;
         this.playerService = playerService;
+        this.puntuacion = puntuacion;
     }
 
     @GetMapping(value = "/minijuegos")
@@ -61,6 +64,8 @@ public class MinijuegoController {
 
         playerCards = minijuegoService.reparteCartas(minijuegoService.findById(id));
 
+        puntuacion = minijuegoService.sumarPunto("", new ArrayList<String>(), puntuacion);
+
         model.put("url", cartaService
                 .findCardUrl(
                         playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
@@ -70,12 +75,8 @@ public class MinijuegoController {
 
         model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
 
-        List<Player> listaJugadores = new ArrayList<>();
-
-        playerCards.forEach((x,y)-> playerService.findPlayerById(x));
-
-        model.put("jugadores", listaJugadores);
-
+        model.put("jugadores", puntuacion);
+        
         model.addAttribute("respuesta", new String());
 
         return CARTA;
@@ -89,6 +90,7 @@ public class MinijuegoController {
         listaCartas.forEach(x -> listaFotos.add(x.getName()));
         playerCards = minijuegoService.compruebaAcierto(respuesta,
                 listaFotos, playerCards);
+        puntuacion = minijuegoService.sumarPunto(respuesta, listaFotos, puntuacion);
         return "redirect:/minijuegos/alvarito/jugar";
     }
 
@@ -106,11 +108,7 @@ public class MinijuegoController {
 
         model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
 
-        List<Player> listaJugadores = new ArrayList<>();
-
-        playerCards.forEach((x,y)-> listaJugadores.add(playerService.findPlayerById(x)));
-
-        model.put("jugadores", listaJugadores);
+        model.put("jugadores", puntuacion);
 
         if (!(playerCards.get(0).size() == 0))
             model.put("end", "");
