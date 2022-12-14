@@ -5,8 +5,7 @@
                 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
                     <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-
-
+                        <petclinic:layout pageName="game_detail">
                             <body style="background-color: #bea3cd;">
                                 <div class="container h-100 align-items-center">
                                     <table id="playersTable" class="table table-hover table-bordered table-responsive"
@@ -27,7 +26,7 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <c:if test="${game.accessible}">
+                                    <c:if test="${game.startGame}">
                                         <spring:url value="/games/join/{gameId}" var="joinUrl">
                                         <spring:param name="gameId" value="${game.id}" />
                                     </spring:url>

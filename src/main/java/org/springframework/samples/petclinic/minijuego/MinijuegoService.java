@@ -18,7 +18,6 @@ import org.springframework.samples.petclinic.foto.FotoService;
 import org.springframework.samples.petclinic.mazo.MazoService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
-import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.AuthenticationService;
 import org.springframework.security.core.Authentication;
@@ -35,6 +34,7 @@ public class MinijuegoService {
 	FotoService fotoService;
 	MazoService mazoService;
 	AuthenticationService authenticationService;
+
 
 	@Autowired
 	public MinijuegoService(MinijuegoRepository minijuegoRepository, CartaService cartaService,
@@ -57,6 +57,11 @@ public class MinijuegoService {
 	@Transactional(readOnly = true)
 	public Minijuego getMinijuegoByName(String name) {
 		return minijuegoRepository.findMinijuegoByName(name);
+	}
+
+	@Transactional(readOnly = true)
+	public Minijuego findById(int id) {
+		return minijuegoRepository.findById(id);
 	}
 
 	public Collection<Minijuego> getMinijuegosPartida(int id) {
@@ -89,8 +94,8 @@ public class MinijuegoService {
 	// una por jugador
 	// y la eliminamos de la lista inicial, que luego será la lista de cartas
 	// centrales.
-	public void reparteCartas(Minijuego minijuego) {
-		if (minijuego.getName().equals("La Torre Infernal")) {
+	public Map<Integer, List<Integer>> reparteCartas(Minijuego minijuego) {
+		if (minijuego.getName().equals(TipoMinijuego.TORRE_INFERNAL.toString())) {
 			Collection<Carta> gameCards = cartaService.getAll();
 			List<Carta> cardsList = new ArrayList<>();
 			gameCards.forEach(x -> cardsList.add(x));
@@ -108,29 +113,31 @@ public class MinijuegoService {
 				}
 			});
 			List<Integer> card = new ArrayList<>();
-			Carta randomCard = getRandomCard(cardsList);
-			card.add(randomCard.getId());
+			cardsList.forEach(x -> card.add(x.getId()));
 			playerCard.put(0, card);
-			cardsList.remove(randomCard);
+			return playerCard;
 		}
+		return null;
 	}
 
-	public void actualizaCartas(Map<Integer, List<Integer>> playerCard, List<Carta> cardsList, String respuesta) {
+	public Map<Integer, List<Integer>> compruebaAcierto(String respuesta, List<String> fotosCentro, Map<Integer, List<Integer>> playerCard){
 		Player jugadorActual = playerSesion();
-		Carta carta = cartaService.getCardById(playerCard.get(0).get(-1));
-		List<Foto> fotosCartaCentral = (List<Foto>) cartaService.findNamePhotosByCard(playerCard.get(0).get(-1));
-		fotosCartaCentral.forEach(x -> {
-			if (x.getName().equals(respuesta)) {
-				List<Integer> listaProv = playerCard.get(jugadorActual.getId());
-				listaProv.add(carta.getId());
-				playerCard.put(jugadorActual.getId(), listaProv);
-			}
-		});
-		List<Integer> card = new ArrayList<>();
-		Carta randomCard = getRandomCard(cardsList);
-		card.add(randomCard.getId());
-		playerCard.put(0, card);
-		cardsList.remove(randomCard);
+		if(fotosCentro.contains(respuesta))
+			return actualizaCartas(playerCard, jugadorActual);
+		else
+			return playerCard;
+	}
+
+	public Map<Integer, List<Integer>> actualizaCartas(Map<Integer, List<Integer>> playerCard, Player jugadorActual) {
+		Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size()-1);
+		List<Integer> lista = playerCard.get(jugadorActual.getId());
+		lista.add(idCartaMedio);
+		playerCard.put(jugadorActual.getId(), lista);
+		List<Integer> listaCartas = playerCard.get(0);
+		listaCartas.remove(idCartaMedio);
+		playerCard.put(0, listaCartas);
+
+		return playerCard;
 	}
 
 }
