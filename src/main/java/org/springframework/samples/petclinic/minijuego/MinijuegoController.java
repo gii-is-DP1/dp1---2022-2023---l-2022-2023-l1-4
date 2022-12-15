@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
@@ -62,9 +63,11 @@ public class MinijuegoController {
 
         Player jugadorActual = minijuegoService.playerSesion();
 
+        List<Player> listaJugadores= minijuegoService.getPlayersByGameId(id);
+
         playerCards = minijuegoService.reparteCartas(minijuegoService.findById(id));
 
-        puntuacion = minijuegoService.sumarPunto("", new ArrayList<String>(), puntuacion);
+        puntuacion = minijuegoService.sumarPunto("", new ArrayList<String>(), puntuacion, listaJugadores);
 
         model.put("url", cartaService
                 .findCardUrl(
@@ -79,7 +82,7 @@ public class MinijuegoController {
         
         model.addAttribute("respuesta", new String());
 
-        return CARTA;
+        return "redirect:/minijuegos/alvarito/jugar";
     }
 
     @GetMapping(value = "/minijuegos/actualizar")
@@ -90,7 +93,7 @@ public class MinijuegoController {
         listaCartas.forEach(x -> listaFotos.add(x.getName()));
         playerCards = minijuegoService.compruebaAcierto(respuesta,
                 listaFotos, playerCards);
-        puntuacion = minijuegoService.sumarPunto(respuesta, listaFotos, puntuacion);
+        puntuacion = minijuegoService.sumarPunto(respuesta, listaFotos, puntuacion, new ArrayList<Player>());
         return "redirect:/minijuegos/alvarito/jugar";
     }
 
@@ -114,7 +117,6 @@ public class MinijuegoController {
             model.put("end", "");
         else
             model.put("end", "LA PARTIDA HA TERMINADO");
-
         return CARTA;
     }
 

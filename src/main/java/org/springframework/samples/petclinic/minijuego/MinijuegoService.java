@@ -67,7 +67,7 @@ public class MinijuegoService {
 		return minijuegoRepository.findMinijuegosPartida(id);
 	}
 
-	public Set<Player> getPlayersByGameId(int game_id) {
+	public List<Player> getPlayersByGameId(int game_id) {
 		return minijuegoRepository.findPlayersByGameId(game_id);
 	}
 
@@ -129,10 +129,12 @@ public class MinijuegoService {
 	}
 
 	public Map<String, Integer> sumarPunto(String respuesta, List<String> fotosCentro,
-			Map<String, Integer> puntuacion) {
+			Map<String, Integer> puntuacion, List<Player> listJugadores) {
 		Player jugadorActual = playerSesion();
 		if(respuesta.equals("") && fotosCentro.isEmpty()){
-			puntuacion.put(jugadorActual.getFirstName()+" "+jugadorActual.getLastName(), 0);
+			listJugadores.forEach((x)->{
+				puntuacion.put(x.getFirstName()+" "+x.getLastName(), 0);
+			});
 			return puntuacion;
 		}
 		if(!puntuacion.containsKey(jugadorActual.getFirstName()+" "+jugadorActual.getLastName()))
