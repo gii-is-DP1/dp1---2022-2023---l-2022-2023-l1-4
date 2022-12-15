@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.minijuego;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,7 +21,7 @@ public interface MinijuegoRepository extends CrudRepository<Minijuego,Integer> {
     public Minijuego findMinijuegoByName(@Param("name") String name);
 
     @Query("SELECT g.playersList FROM Game g WHERE g.id = :game_id")
-	public Set<Player> findPlayersByGameId(@Param("game_id") int id);
+	public List<Player> findPlayersByGameId(@Param("game_id") int id);
 
 	@Query("SELECT mg FROM Minijuego mg where mg.id = :id")
 	public Collection<Minijuego> findMinijuegosPartida(@Param("id") int id);
