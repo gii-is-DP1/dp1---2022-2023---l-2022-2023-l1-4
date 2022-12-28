@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import javax.validation.constraints.Size;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.carta.Carta;
@@ -131,18 +133,18 @@ public class MinijuegoService {
 	public Map<String, Integer> sumarPunto(String respuesta, List<String> fotosCentro,
 			Map<String, Integer> puntuacion, List<Player> listJugadores) {
 		Player jugadorActual = playerSesion();
-		if(respuesta.equals("") && fotosCentro.isEmpty()){
-			listJugadores.forEach((x)->{
-				puntuacion.put(x.getFirstName()+" "+x.getLastName(), 0);
+		if (respuesta.equals("") && fotosCentro.isEmpty()) {
+			listJugadores.forEach((x) -> {
+				puntuacion.put(x.getFirstName() + " " + x.getLastName(), 0);
 			});
 			return puntuacion;
 		}
-		if(!puntuacion.containsKey(jugadorActual.getFirstName()+" "+jugadorActual.getLastName()))
-				puntuacion.put(jugadorActual.getFirstName()+" "+jugadorActual.getLastName(), 0);
-		Integer puntoJugador = puntuacion.get(jugadorActual.getFirstName()+" "+jugadorActual.getLastName());
+		if (!puntuacion.containsKey(jugadorActual.getFirstName() + " " + jugadorActual.getLastName()))
+			puntuacion.put(jugadorActual.getFirstName() + " " + jugadorActual.getLastName(), 0);
+		Integer puntoJugador = puntuacion.get(jugadorActual.getFirstName() + " " + jugadorActual.getLastName());
 		if (fotosCentro.contains(respuesta)) {
 			puntoJugador++;
-			puntuacion.put(jugadorActual.getFirstName()+" "+jugadorActual.getLastName(), puntoJugador);
+			puntuacion.put(jugadorActual.getFirstName() + " " + jugadorActual.getLastName(), puntoJugador);
 			return puntuacion;
 		}
 		return puntuacion;
@@ -160,4 +162,67 @@ public class MinijuegoService {
 		return playerCard;
 	}
 
+	public Map<Integer, List<Integer>> reparteCartasElFoso(Minijuego minijuego) {
+		if (minijuego.getName().equals(TipoMinijuego.EL_FOSO.toString())) {
+			Collection<Carta> gameCards = cartaService.getAll();
+			List<Carta> cardsList = new ArrayList<>();
+			gameCards.forEach(x -> cardsList.add(x));
+			Collections.shuffle(cardsList);
+			List<Player> players = new ArrayList<>();
+			minijuego.getGame().getPlayersList().forEach(x -> players.add(x));
+			Integer numPlayers = players.size();
+
+			Map<Integer, List<Integer>> playerCard = new HashMap<>();
+
+			for (int j = 0; j < numPlayers; j++) {
+
+				if (!playerCard.containsKey(players.get(j).getId())) {
+					List<Integer> card = new ArrayList<>();
+					Carta randomCard = getRandomCard(cardsList);
+					card.add(randomCard.getId());
+					playerCard.put(players.get(j).getId(), card);
+					cardsList.remove(randomCard);
+				}
+				if (playerCard.containsKey(players.get(j).getId()) && playerCard.get(j).size() > 0) {
+					for (int i = 0; i < (cardsList.size() / numPlayers) - 2; i++) {
+						List<Integer> card2 = new ArrayList<>();
+						card2 = playerCard.get(j);
+						Carta randomCard = getRandomCard(cardsList);
+						card2.add(randomCard.getId());
+						playerCard.put(players.get(j).getId(), card2);
+						cardsList.remove(randomCard);
+					}
+				}
+
+			}
+			List<Integer> card = new ArrayList<>();
+			cardsList.forEach(x -> card.add(x.getId()));
+			playerCard.put(0, card);
+			return playerCard;
+		}
+		return null;
+	}
+
+	public Map<Integer, List<Integer>> actualizaCartasElFoso(Map<Integer, List<Integer>> playerCard,
+			Player jugadorActual) {
+		Integer idCartaJugador = playerCard.get(jugadorActual.getId())
+				.get(playerCard.get(jugadorActual.getId()).size() - 1);
+		List<Integer> lista = playerCard.get(0);
+		lista.add(idCartaJugador);
+		playerCard.put(0, lista);
+		List<Integer> listaCartas = playerCard.get(jugadorActual.getId());
+		listaCartas.remove(idCartaJugador);
+		playerCard.put(jugadorActual.getId(), listaCartas);
+
+		return playerCard;
+	}
+
+	public Map<Integer, List<Integer>> compruebaAciertoElFoso(String respuesta, List<String> fotosCentro,
+			Map<Integer, List<Integer>> playerCard) {
+		Player jugadorActual = playerSesion();
+		if (fotosCentro.contains(respuesta)) {
+			return actualizaCartasElFoso(playerCard, jugadorActual);
+		} else
+			return playerCard;
+	}
 }

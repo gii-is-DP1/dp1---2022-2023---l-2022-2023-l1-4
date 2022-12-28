@@ -751,8 +751,10 @@ INSERT INTO Logro(id, name, nivel) VALUES
 
 INSERT INTO games(id,start_game,name,num_players) VALUES(1,TRUE,'caca',2);
 INSERT INTO games(id,start_game,name,num_players) VALUES(2,FALSE,'prueba',5);
+INSERT INTO games(id,start_game,name,num_players) VALUES(3,TRUE,'caca2',2);
 
 
 INSERT INTO games_players_list(game_id, players_list_id) VALUES(1,3);
 
 INSERT INTO minijuegos(id, name, game_id) VALUES (1,'TORRE_INFERNAL',1);
+INSERT INTO minijuegos(id, name, game_id) VALUES (2,'EL_FOSO',3);

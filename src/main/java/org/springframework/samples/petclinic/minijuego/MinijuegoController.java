@@ -58,7 +58,7 @@ public class MinijuegoController {
         return VIEWS_MOSTRAR_MINIJUEGOS;
     }
 
-    @GetMapping(value = "/minijuegos/alvarito/{minijuegoId}/repartir")
+    /* @GetMapping(value = "/minijuegos/alvarito/{minijuegoId}/repartir")
     public String repartirCartas(@PathVariable("minijuegoId") int id, ModelMap model) {
 
         Player jugadorActual = minijuegoService.playerSesion();
@@ -83,9 +83,10 @@ public class MinijuegoController {
         model.addAttribute("respuesta", new String());
 
         return "redirect:/minijuegos/alvarito/jugar";
-    }
+    } */
 
-    @GetMapping(value = "/minijuegos/actualizar")
+
+/*     @GetMapping(value = "/minijuegos/actualizar")
     public String compruebaAcierto(@RequestParam(value = "respuesta") String respuesta) {
         Collection<Foto> listaCartas = cartaService
                 .findNamePhotosByCard(playerCards.get(0).get(playerCards.get(0).size() - 1));
@@ -118,6 +119,67 @@ public class MinijuegoController {
         else
             model.put("end", "LA PARTIDA HA TERMINADO");
         return CARTA;
+    } */
+
+    @GetMapping(value = "/minijuegos/alvarito/{minijuegoId}/repartir")
+    public String repartirCartas(@PathVariable("minijuegoId") int id, ModelMap model) {
+
+        Player jugadorActual = minijuegoService.playerSesion();
+
+        List<Player> listaJugadores= minijuegoService.getPlayersByGameId(id);
+
+        playerCards = minijuegoService.reparteCartasElFoso(minijuegoService.findById(id));
+
+        puntuacion = minijuegoService.sumarPunto("", new ArrayList<String>(), puntuacion, listaJugadores);
+
+        model.put("url", cartaService
+                .findCardUrl(
+                        playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+
+        model.put("fotos", cartaService.findNamePhotosByCard(
+                playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+
+        model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
+
+        model.put("jugadores", puntuacion);
+        
+        model.addAttribute("respuesta", new String());
+
+        return "redirect:/minijuegos/alvarito/jugar";
     }
 
+    @GetMapping(value = "/minijuegos/actualizar")
+    public String compruebaAciertoElFoso(@RequestParam(value = "respuesta") String respuesta) {
+        Collection<Foto> listaCartas = cartaService
+                .findNamePhotosByCard(playerCards.get(0).get(playerCards.get(0).size() - 1));
+        List<String> listaFotos = new ArrayList<>();
+        listaCartas.forEach(x -> listaFotos.add(x.getName()));
+        playerCards = minijuegoService.compruebaAciertoElFoso(respuesta,
+                listaFotos, playerCards);
+        puntuacion = minijuegoService.sumarPunto(respuesta, listaFotos, puntuacion, new ArrayList<Player>());
+        return "redirect:/minijuegos/alvarito/jugar";
+    }
+
+    @GetMapping(value = "/minijuegos/alvarito/jugar")
+    public String jugarMinijuego(ModelMap model) {
+
+        Player jugadorActual = minijuegoService.playerSesion();
+
+        model.put("url", cartaService
+                .findCardUrl(
+                        playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+
+        model.put("fotos", cartaService.findNamePhotosByCard(
+                playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+
+        model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
+
+        model.put("jugadores", puntuacion);
+
+        if (!(playerCards.get(0).size() == 0))
+            model.put("end", "");
+        else
+            model.put("end", "LA PARTIDA HA TERMINADO");
+        return CARTA;
+    }
 }
