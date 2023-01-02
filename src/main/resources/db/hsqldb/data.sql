@@ -128,10 +128,10 @@ INSERT INTO fotos(id,name,colour_code) VALUES (2,'Objetivo','#a7413c');
 INSERT INTO fotos(id,name,colour_code) VALUES (3,'Rayo','#f9d745');
 INSERT INTO fotos(id,name,colour_code) VALUES (4,'Payaso','#ca433d');
 INSERT INTO fotos(id,name,colour_code) VALUES (5,'Gafas de Sol','#615f62');
-INSERT INTO fotos(id,name,colour_code) VALUES (6,'Araña','#343233');
+INSERT INTO fotos(id,name,colour_code) VALUES (6,'Arana','#343233');
 INSERT INTO fotos(id,name,colour_code) VALUES (7,'Ancla','#e39f34');
 INSERT INTO fotos(id,name,colour_code) VALUES (8,'Arbol','#9dc640');
-INSERT INTO fotos(id,name,colour_code) VALUES (9,'Telaraña','#af88a1');
+INSERT INTO fotos(id,name,colour_code) VALUES (9,'Telarana','#af88a1');
 INSERT INTO fotos(id,name,colour_code) VALUES (10,'Gato','#ab6c8b');
 INSERT INTO fotos(id,name,colour_code) VALUES (11,'Bomba','#2e2c2d');
 INSERT INTO fotos(id,name,colour_code) VALUES (12,'Candado','#686b6a');
@@ -142,7 +142,7 @@ INSERT INTO fotos(id,name,colour_code) VALUES (16,'Hombre','#e39a2e');
 INSERT INTO fotos(id,name,colour_code) VALUES (17,'Coche','#c7853f');
 INSERT INTO fotos(id,name,colour_code) VALUES (18,'Luna','#f8d932');
 INSERT INTO fotos(id,name,colour_code) VALUES (19,'Ojo','#b079a0');
-INSERT INTO fotos(id,name,colour_code) VALUES (20,'Reloj','#f4f6f2');
+INSERT INTO fotos(id,name,colour_code) VALUES (20,'Reloj','#cd8632');
 INSERT INTO fotos(id,name,colour_code) VALUES (21,'Tijeras','#be85a5');
 INSERT INTO fotos(id,name,colour_code) VALUES (22,'Dinosaurio','#9fc53d');
 INSERT INTO fotos(id,name,colour_code) VALUES (23,'Mancha','#a2c73b');
@@ -168,8 +168,8 @@ INSERT INTO fotos(id,name,colour_code) VALUES (42,'Sol','#f9da2e');
 INSERT INTO fotos(id,name,colour_code) VALUES (43,'Mariquita','#9e2926');
 INSERT INTO fotos(id,name,colour_code) VALUES (44,'Copo de nieve','#93cbe3');
 INSERT INTO fotos(id,name,colour_code) VALUES (45,'Nota musical','#d0933a');
-INSERT INTO fotos(id,name,colour_code) VALUES (46,'Hielo','#eff2f1');
-INSERT INTO fotos(id,name,colour_code) VALUES (47,'Iglu','#ecf6fc');
+INSERT INTO fotos(id,name,colour_code) VALUES (46,'Hielo','#8fcfee');
+INSERT INTO fotos(id,name,colour_code) VALUES (47,'Iglu','#8bd0ef');
 INSERT INTO fotos(id,name,colour_code) VALUES (48,'Zanahoria','#e69136');
 INSERT INTO fotos(id,name,colour_code) VALUES (49,'Bombilla','#ecaf4b');
 INSERT INTO fotos(id,name,colour_code) VALUES (50,'Pajaro','#ae769b');
@@ -179,7 +179,7 @@ INSERT INTO fotos(id,name,colour_code) VALUES (53,'Biberon','#ecaf4b');
 INSERT INTO fotos(id,name,colour_code) VALUES (54,'YinYang','#323031');
 INSERT INTO fotos(id,name,colour_code) VALUES (55,'Martillo','#f0c38b');
 INSERT INTO fotos(id,name,colour_code) VALUES (56,'Dragon','#a26d8f');
-INSERT INTO fotos(id,name,colour_code) VALUES (57,'Muñeco de nieve','#e3f7fe');
+INSERT INTO fotos(id,name,colour_code) VALUES (57,'Muneco de nieve','#85cbe1');
 
 
 INSERT INTO cartas(id,url) VALUES (1, '/resources/images/cartas/carta01.png');
@@ -468,7 +468,7 @@ INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,12);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,20);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,54);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,37);
-INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,47);
+INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,46);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,30);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (26,21);
 
@@ -537,7 +537,7 @@ INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (33,26);
 
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (34,13);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (34,21);
-INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (34,27);
+INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (34,40);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (34,17);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (34,5);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (34,32);
@@ -644,7 +644,7 @@ INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (45,19);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (45,54);
 
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (46,7);
-INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (46,10);
+INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (46,46);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (46,25);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (46,32);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (46,11);
@@ -755,6 +755,8 @@ INSERT INTO games(id,start_game,name,num_players) VALUES(3,TRUE,'caca2',2);
 
 
 INSERT INTO games_players_list(game_id, players_list_id) VALUES(1,3);
+INSERT INTO games_players_list(game_id, players_list_id) VALUES(3,3);
+INSERT INTO games_players_list(game_id, players_list_id) VALUES(3,4);
 
 INSERT INTO minijuegos(id, name, game_id) VALUES (1,'TORRE_INFERNAL',1);
 INSERT INTO minijuegos(id, name, game_id) VALUES (2,'EL_FOSO',3);

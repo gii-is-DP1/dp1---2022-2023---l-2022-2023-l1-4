@@ -174,30 +174,26 @@ public class MinijuegoService {
 
 			Map<Integer, List<Integer>> playerCard = new HashMap<>();
 
-			for (int j = 0; j < numPlayers; j++) {
+			List<Integer> cartaCentro = new ArrayList<>();
+			cartaCentro.add(getRandomCard(cardsList).getId());
+			playerCard.put(0, cartaCentro);
+			cardsList.remove(cartaService.getCardById(cartaCentro.get(0)));
 
-				if (!playerCard.containsKey(players.get(j).getId())) {
-					List<Integer> card = new ArrayList<>();
-					Carta randomCard = getRandomCard(cardsList);
-					card.add(randomCard.getId());
-					playerCard.put(players.get(j).getId(), card);
-					cardsList.remove(randomCard);
-				}
-				if (playerCard.containsKey(players.get(j).getId()) && playerCard.get(j).size() > 0) {
-					for (int i = 0; i < (cardsList.size() / numPlayers) - 2; i++) {
-						List<Integer> card2 = new ArrayList<>();
-						card2 = playerCard.get(j);
-						Carta randomCard = getRandomCard(cardsList);
-						card2.add(randomCard.getId());
-						playerCard.put(players.get(j).getId(), card2);
-						cardsList.remove(randomCard);
-					}
-				}
+			Integer cartasARepartir = Math.round(cardsList.size() / numPlayers);
 
+			for (int i = 0; i < numPlayers; i++) {
+				List<Integer> listaCartas = new ArrayList<>();
+				if (!playerCard.containsKey(players.get(i).getId())) {
+					playerCard.put(players.get(i).getId(), new ArrayList<Integer>());
+				}
+				for (int j = 0; j < cartasARepartir; j++) {
+					Carta cartaRandom = getRandomCard(cardsList);
+					listaCartas.add(cartaRandom.getId());
+					cardsList.remove(cartaRandom);
+					playerCard.put(players.get(i).getId(), listaCartas);
+					System.out.println(playerCard);
+				}
 			}
-			List<Integer> card = new ArrayList<>();
-			cardsList.forEach(x -> card.add(x.getId()));
-			playerCard.put(0, card);
 			return playerCard;
 		}
 		return null;
