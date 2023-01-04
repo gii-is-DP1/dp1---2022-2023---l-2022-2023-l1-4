@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.minijuego;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MinijuegoController {
 
     private static final String VIEWS_ELEGIR_MINIJUEGO = null;
-    private static final String VIEWS_MOSTRAR_MINIJUEGOS = "minijuegos/MinijuegosList";
+    private static final String VIEWS_MOSTRAR_MINIJUEGOS = "logros/seleccionMinijuego";
     private static final String CARTA = "logros/cartas";
 
     private final MinijuegoService minijuegoService;
@@ -39,16 +40,20 @@ public class MinijuegoController {
 
     private Map<Integer, List<Integer>> playerCards;
     private Map<String, Integer> puntuacion;
+    private List<Integer> listaGanadores;
+    private String nombreMinijuego = "";
+    private Integer gameId = 0, minijuegoId = 0;
 
     @Autowired
     public MinijuegoController(MinijuegoService minijuegoService, GameService gameService, CartaService cartaService,
-            Map<Integer, List<Integer>> playerCards, PlayerService playerService, Map<String, Integer> puntuacion) {
+            Map<Integer, List<Integer>> playerCards, PlayerService playerService, Map<String, Integer> puntuacion, List<Integer> listaGanadores) {
         this.minijuegoService = minijuegoService;
         this.gameService = gameService;
         this.cartaService = cartaService;
         this.playerCards = playerCards;
         this.playerService = playerService;
         this.puntuacion = puntuacion;
+        this.listaGanadores = listaGanadores;
     }
 
     @GetMapping(value = "/minijuegos")
@@ -58,47 +63,37 @@ public class MinijuegoController {
         return VIEWS_MOSTRAR_MINIJUEGOS;
     }
 
-    /* @GetMapping(value = "/minijuegos/alvarito/{minijuegoId}/repartir")
+    @GetMapping(value = "/minijuegos/alvarito/{minijuegoId}/repartir")
     public String repartirCartas(@PathVariable("minijuegoId") int id, ModelMap model) {
 
-        Player jugadorActual = minijuegoService.playerSesion();
-
-        List<Player> listaJugadores= minijuegoService.getPlayersByGameId(id);
+        List<Player> listaJugadores = minijuegoService.getPlayersByGameId(id);
 
         playerCards = minijuegoService.reparteCartas(minijuegoService.findById(id));
 
         puntuacion = minijuegoService.sumarPunto("", new ArrayList<String>(), puntuacion, listaJugadores);
 
-        model.put("url", cartaService
-                .findCardUrl(
-                        playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+        nombreMinijuego = minijuegoService.findById(id).getName().toString();
 
-        model.put("fotos", cartaService.findNamePhotosByCard(
-                playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+        gameId = minijuegoService.findById(id).getGame().getId();
 
-        model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
+        minijuegoId = id;
 
-        model.put("jugadores", puntuacion);
-        
-        model.addAttribute("respuesta", new String());
+        return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoId + "/jugar";
+    }
 
-        return "redirect:/minijuegos/alvarito/jugar";
-    } */
-
-
-/*     @GetMapping(value = "/minijuegos/actualizar")
-    public String compruebaAcierto(@RequestParam(value = "respuesta") String respuesta) {
+    @GetMapping(value = "/minijuegos/actualizar")
+    public String compruebaAcierto(@RequestParam(value = "respuesta") String respuesta, ModelMap model) {
         Collection<Foto> listaCartas = cartaService
                 .findNamePhotosByCard(playerCards.get(0).get(playerCards.get(0).size() - 1));
         List<String> listaFotos = new ArrayList<>();
         listaCartas.forEach(x -> listaFotos.add(x.getName()));
         playerCards = minijuegoService.compruebaAcierto(respuesta,
-                listaFotos, playerCards);
+                listaFotos, playerCards, nombreMinijuego);
         puntuacion = minijuegoService.sumarPunto(respuesta, listaFotos, puntuacion, new ArrayList<Player>());
-        return "redirect:/minijuegos/alvarito/jugar";
+        return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoId + "/jugar";
     }
 
-    @GetMapping(value = "/minijuegos/alvarito/jugar")
+    @GetMapping(value = "games/{game_id}/minijuegos/{minijuego_id}/jugar")
     public String jugarMinijuego(ModelMap model) {
 
         Player jugadorActual = minijuegoService.playerSesion();
@@ -114,72 +109,17 @@ public class MinijuegoController {
 
         model.put("jugadores", puntuacion);
 
-        if (!(playerCards.get(0).size() == 0))
-            model.put("end", "");
-        else
-            model.put("end", "LA PARTIDA HA TERMINADO");
+        listaGanadores = minijuegoService.finalizarPartida(nombreMinijuego, playerCards);
+
+        if(listaGanadores.size() != 0)
+            return "";
+            
         return CARTA;
-    } */
-
-    @GetMapping(value = "/minijuegos/alvarito/{minijuegoId}/repartir")
-    public String repartirCartas(@PathVariable("minijuegoId") int id, ModelMap model) {
-
-        Player jugadorActual = minijuegoService.playerSesion();
-
-        List<Player> listaJugadores= minijuegoService.getPlayersByGameId(id);
-
-        playerCards = minijuegoService.reparteCartasElFoso(minijuegoService.findById(id));
-
-        puntuacion = minijuegoService.sumarPunto("", new ArrayList<String>(), puntuacion, listaJugadores);
-
-        model.put("url", cartaService
-                .findCardUrl(
-                        playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
-
-        model.put("fotos", cartaService.findNamePhotosByCard(
-                playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
-
-        model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
-
-        model.put("jugadores", puntuacion);
-        
-        model.addAttribute("respuesta", new String());
-
-        return "redirect:/minijuegos/alvarito/jugar";
     }
 
-    @GetMapping(value = "/minijuegos/actualizar")
-    public String compruebaAciertoElFoso(@RequestParam(value = "respuesta") String respuesta) {
-        Collection<Foto> listaCartas = cartaService
-                .findNamePhotosByCard(playerCards.get(0).get(playerCards.get(0).size() - 1));
-        List<String> listaFotos = new ArrayList<>();
-        listaCartas.forEach(x -> listaFotos.add(x.getName()));
-        playerCards = minijuegoService.compruebaAciertoElFoso(respuesta,
-                listaFotos, playerCards);
-        puntuacion = minijuegoService.sumarPunto(respuesta, listaFotos, puntuacion, new ArrayList<Player>());
-        return "redirect:/minijuegos/alvarito/jugar";
-    }
-
-    @GetMapping(value = "/minijuegos/alvarito/jugar")
-    public String jugarMinijuego(ModelMap model) {
-
-        Player jugadorActual = minijuegoService.playerSesion();
-
-        model.put("url", cartaService
-                .findCardUrl(
-                        playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
-
-        model.put("fotos", cartaService.findNamePhotosByCard(
-                playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
-
-        model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
-
-        model.put("jugadores", puntuacion);
-
-        if (!(playerCards.get(0).size() == 0))
-            model.put("end", "");
-        else
-            model.put("end", "LA PARTIDA HA TERMINADO");
-        return CARTA;
+    @GetMapping(value = "/minijuegos/seleccion")
+    public String seleccionarMinijuego(ModelMap model) {
+        model.put("minijuegos", minijuegoService.getAllMinijuegos());
+        return VIEWS_MOSTRAR_MINIJUEGOS;
     }
 }

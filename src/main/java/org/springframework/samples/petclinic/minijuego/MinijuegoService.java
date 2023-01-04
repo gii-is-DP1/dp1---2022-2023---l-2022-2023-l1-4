@@ -96,14 +96,15 @@ public class MinijuegoService {
 	// y la eliminamos de la lista inicial, que luego será la lista de cartas
 	// centrales.
 	public Map<Integer, List<Integer>> reparteCartas(Minijuego minijuego) {
+		Collection<Carta> gameCards = cartaService.getAll();
+		List<Carta> cardsList = new ArrayList<>();
+		gameCards.forEach(x -> cardsList.add(x));
+		Collections.shuffle(cardsList);
+		List<Player> players = new ArrayList<>();
+		minijuego.getGame().getPlayersList().forEach(x -> players.add(x));
+		Map<Integer, List<Integer>> playerCard = new HashMap<>();
+		Integer numPlayers = players.size();
 		if (minijuego.getName().equals(TipoMinijuego.TORRE_INFERNAL.toString())) {
-			Collection<Carta> gameCards = cartaService.getAll();
-			List<Carta> cardsList = new ArrayList<>();
-			gameCards.forEach(x -> cardsList.add(x));
-			Collections.shuffle(cardsList);
-			List<Player> players = new ArrayList<>();
-			minijuego.getGame().getPlayersList().forEach(x -> players.add(x));
-			Map<Integer, List<Integer>> playerCard = new HashMap<>();
 			players.forEach(x -> {
 				List<Integer> card = new ArrayList<>();
 				if (!playerCard.containsKey(x.getId())) {
@@ -118,62 +119,7 @@ public class MinijuegoService {
 			playerCard.put(0, card);
 			return playerCard;
 		}
-		return null;
-	}
-
-	public Map<Integer, List<Integer>> compruebaAcierto(String respuesta, List<String> fotosCentro,
-			Map<Integer, List<Integer>> playerCard) {
-		Player jugadorActual = playerSesion();
-		if (fotosCentro.contains(respuesta)) {
-			return actualizaCartas(playerCard, jugadorActual);
-		} else
-			return playerCard;
-	}
-
-	public Map<String, Integer> sumarPunto(String respuesta, List<String> fotosCentro,
-			Map<String, Integer> puntuacion, List<Player> listJugadores) {
-		Player jugadorActual = playerSesion();
-		if (respuesta.equals("") && fotosCentro.isEmpty()) {
-			listJugadores.forEach((x) -> {
-				puntuacion.put(x.getFirstName() + " " + x.getLastName(), 0);
-			});
-			return puntuacion;
-		}
-		if (!puntuacion.containsKey(jugadorActual.getFirstName() + " " + jugadorActual.getLastName()))
-			puntuacion.put(jugadorActual.getFirstName() + " " + jugadorActual.getLastName(), 0);
-		Integer puntoJugador = puntuacion.get(jugadorActual.getFirstName() + " " + jugadorActual.getLastName());
-		if (fotosCentro.contains(respuesta)) {
-			puntoJugador++;
-			puntuacion.put(jugadorActual.getFirstName() + " " + jugadorActual.getLastName(), puntoJugador);
-			return puntuacion;
-		}
-		return puntuacion;
-	}
-
-	public Map<Integer, List<Integer>> actualizaCartas(Map<Integer, List<Integer>> playerCard, Player jugadorActual) {
-		Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size() - 1);
-		List<Integer> lista = playerCard.get(jugadorActual.getId());
-		lista.add(idCartaMedio);
-		playerCard.put(jugadorActual.getId(), lista);
-		List<Integer> listaCartas = playerCard.get(0);
-		listaCartas.remove(idCartaMedio);
-		playerCard.put(0, listaCartas);
-
-		return playerCard;
-	}
-
-	public Map<Integer, List<Integer>> reparteCartasElFoso(Minijuego minijuego) {
 		if (minijuego.getName().equals(TipoMinijuego.EL_FOSO.toString())) {
-			Collection<Carta> gameCards = cartaService.getAll();
-			List<Carta> cardsList = new ArrayList<>();
-			gameCards.forEach(x -> cardsList.add(x));
-			Collections.shuffle(cardsList);
-			List<Player> players = new ArrayList<>();
-			minijuego.getGame().getPlayersList().forEach(x -> players.add(x));
-			Integer numPlayers = players.size();
-
-			Map<Integer, List<Integer>> playerCard = new HashMap<>();
-
 			List<Integer> cartaCentro = new ArrayList<>();
 			cartaCentro.add(getRandomCard(cardsList).getId());
 			playerCard.put(0, cartaCentro);
@@ -199,26 +145,106 @@ public class MinijuegoService {
 		return null;
 	}
 
-	public Map<Integer, List<Integer>> actualizaCartasElFoso(Map<Integer, List<Integer>> playerCard,
-			Player jugadorActual) {
-		Integer idCartaJugador = playerCard.get(jugadorActual.getId())
-				.get(playerCard.get(jugadorActual.getId()).size() - 1);
-		List<Integer> lista = playerCard.get(0);
-		lista.add(idCartaJugador);
-		playerCard.put(0, lista);
-		List<Integer> listaCartas = playerCard.get(jugadorActual.getId());
-		listaCartas.remove(idCartaJugador);
-		playerCard.put(jugadorActual.getId(), listaCartas);
+	public Map<String, Integer> sumarPunto(String respuesta, List<String> fotosCentro,
+			Map<String, Integer> puntuacion, List<Player> listJugadores) {
+		Player jugadorActual = playerSesion();
+		if (respuesta.equals("") && fotosCentro.isEmpty()) {
+			listJugadores.forEach((x) -> {
+				puntuacion.put(x.getFirstName() + " " + x.getLastName(), 0);
+			});
+			return puntuacion;
+		}
+		if (!puntuacion.containsKey(jugadorActual.getFirstName() + " " + jugadorActual.getLastName()))
+			puntuacion.put(jugadorActual.getFirstName() + " " + jugadorActual.getLastName(), 0);
+		Integer puntoJugador = puntuacion.get(jugadorActual.getFirstName() + " " + jugadorActual.getLastName());
+		if (fotosCentro.contains(respuesta)) {
+			puntoJugador++;
+			puntuacion.put(jugadorActual.getFirstName() + " " + jugadorActual.getLastName(), puntoJugador);
+			return puntuacion;
+		}
+		return puntuacion;
+	}
 
+	public Map<Integer, List<Integer>> compruebaAcierto(String respuesta, List<String> fotosCentro,
+			Map<Integer, List<Integer>> playerCard, String nombreMinijuego) {
+		Player jugadorActual = playerSesion();
+		if (fotosCentro.contains(respuesta))
+			return actualizaCartas(playerCard, jugadorActual, nombreMinijuego);
+		else
+			return playerCard;
+	}
+
+	public Map<Integer, List<Integer>> actualizaCartas(Map<Integer, List<Integer>> playerCard, Player jugadorActual,
+			String nombreMinijuego) {
+		if (nombreMinijuego.equals("TORRE_INFERNAL")) {
+			Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size() - 1);
+			List<Integer> lista = playerCard.get(jugadorActual.getId());
+			lista.add(idCartaMedio);
+			playerCard.put(jugadorActual.getId(), lista);
+			List<Integer> listaCartas = playerCard.get(0);
+			listaCartas.remove(idCartaMedio);
+			playerCard.put(0, listaCartas);
+		}
+		if (nombreMinijuego.equals("EL_FOSO")) {
+			Integer idCartaJugador = playerCard.get(jugadorActual.getId())
+					.get(playerCard.get(jugadorActual.getId()).size() - 1);
+			List<Integer> lista = playerCard.get(0);
+			lista.add(idCartaJugador);
+			playerCard.put(0, lista);
+			List<Integer> listaCartas = playerCard.get(jugadorActual.getId());
+			listaCartas.remove(idCartaJugador);
+			playerCard.put(jugadorActual.getId(), listaCartas);
+		}
+		
 		return playerCard;
 	}
 
-	public Map<Integer, List<Integer>> compruebaAciertoElFoso(String respuesta, List<String> fotosCentro,
-			Map<Integer, List<Integer>> playerCard) {
-		Player jugadorActual = playerSesion();
-		if (fotosCentro.contains(respuesta)) {
-			return actualizaCartasElFoso(playerCard, jugadorActual);
-		} else
-			return playerCard;
+	public List<Integer> finalizarPartida(String nombreMinijuego, Map<Integer,List<Integer>> playerCards){
+		List<Integer> res = new ArrayList<>();
+		if (nombreMinijuego.equals("TORRE_INFERNAL"))
+            if ((playerCards.get(0).size() == 0)) {
+                List<Integer> listaSizes = new ArrayList<>();
+                List<Integer> listaPlayerId = new ArrayList<>();
+                playerCards.forEach((x, y) -> {
+                    listaSizes.add(y.size());
+                    listaPlayerId.add(x);
+                });
+                Integer posicionMax = 0;
+                Integer tamanoMaximo = Integer.MIN_VALUE;
+                Integer posicionMin = 0;
+                Integer tamanoMinimo = Integer.MAX_VALUE;
+                for (int i = 0; i < listaSizes.size(); i++) {
+                    if (listaSizes.get(i) > tamanoMaximo) {
+                        tamanoMaximo = listaSizes.get(i);
+                        posicionMax = i;
+                    }
+                    if (listaSizes.get(i) < tamanoMinimo) {
+                        tamanoMinimo = listaSizes.get(i);
+                        posicionMin = i;
+                    }
+                }
+
+                Integer idGanador = listaPlayerId.get(posicionMax);
+                Integer idPerdedor = listaPlayerId.get(posicionMin);
+				res.add(idGanador);
+				res.add(idPerdedor);
+				
+            }
+        if (nombreMinijuego.equals("EL_FOSO")) {
+            List<Integer> listaGanadores = new ArrayList<>();
+            playerCards.forEach((x, y) -> {
+                if (y.size() == 0)
+                    listaGanadores.add(x);
+            });
+
+            if(playerCards.get(0).size() == 55){
+                Integer idGanador = listaGanadores.get(0);
+                Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
+				res.add(idGanador);
+				res.add(idPerdedor);
+            }
+        }
+	return res;
 	}
+
 }
