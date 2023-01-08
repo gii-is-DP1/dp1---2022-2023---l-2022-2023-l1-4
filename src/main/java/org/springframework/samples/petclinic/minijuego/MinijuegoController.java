@@ -32,6 +32,7 @@ public class MinijuegoController {
     private static final String VIEWS_ELEGIR_MINIJUEGO = null;
     private static final String VIEWS_MOSTRAR_MINIJUEGOS = "logros/seleccionMinijuego";
     private static final String CARTA = "logros/cartas";
+    private static final String ESPERA = "logros/jugadoresEspera";
 
     private final MinijuegoService minijuegoService;
     private final GameService gameService;
@@ -46,7 +47,8 @@ public class MinijuegoController {
 
     @Autowired
     public MinijuegoController(MinijuegoService minijuegoService, GameService gameService, CartaService cartaService,
-            Map<Integer, List<Integer>> playerCards, PlayerService playerService, Map<String, Integer> puntuacion, List<Integer> listaGanadores) {
+            Map<Integer, List<Integer>> playerCards, PlayerService playerService, Map<String, Integer> puntuacion,
+            List<Integer> listaGanadores) {
         this.minijuegoService = minijuegoService;
         this.gameService = gameService;
         this.cartaService = cartaService;
@@ -93,27 +95,42 @@ public class MinijuegoController {
         return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoId + "/jugar";
     }
 
-    @GetMapping(value = "games/{game_id}/minijuegos/{minijuego_id}/jugar")
-    public String jugarMinijuego(ModelMap model) {
+    @GetMapping(value = "games/{game_id}/minijuegos/{minijuegoId}/jugar")
+    public String jugarMinijuego(@PathVariable("minijuegoId") int id, ModelMap model) {
+
+        Minijuego minijuego = minijuegoService.findById(id);
 
         Player jugadorActual = minijuegoService.playerSesion();
 
-        model.put("url", cartaService
-                .findCardUrl(
-                        playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+        if ((minijuego.getName().equals("EL_FOSO")
+                && playerCards.get(minijuegoService.playerSesion().getId()).size() != 0)
+                || (minijuego.getName().equals("TORRE_INFERNAL") && playerCards.get(0).size() != 0)) {
+            model.put("url", cartaService
+                    .findCardUrl(
+                            playerCards.get(jugadorActual.getId())
+                                    .get(playerCards.get(jugadorActual.getId()).size() - 1)));
 
-        model.put("fotos", cartaService.findNamePhotosByCard(
-                playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
+            model.put("fotos", cartaService.findNamePhotosByCard(
+                    playerCards.get(jugadorActual.getId()).get(playerCards.get(jugadorActual.getId()).size() - 1)));
 
-        model.put("cartaCentralUrl", cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
+            model.put("cartaCentralUrl",
+                    cartaService.findCardUrl(playerCards.get(0).get(playerCards.get(0).size() - 1)));
+        }
 
         model.put("jugadores", puntuacion);
 
         listaGanadores = minijuegoService.finalizarPartida(nombreMinijuego, playerCards);
 
-        if(listaGanadores.size() != 0)
-            return "";
-            
+        if (listaGanadores.size() != 0) {
+            Player ganador = playerService.findPlayerById(listaGanadores.get(1));
+            Player perdedor = playerService.findPlayerById(listaGanadores.get(0));
+
+            model.put("lista", listaGanadores);
+            model.put("ganador", ganador);
+            model.put("perdedor", perdedor);
+            return ESPERA;
+        }
+
         return CARTA;
     }
 

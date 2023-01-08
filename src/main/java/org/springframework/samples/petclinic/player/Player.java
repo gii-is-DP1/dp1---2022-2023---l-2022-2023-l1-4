@@ -16,7 +16,6 @@
 
 package org.springframework.samples.petclinic.player;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,10 +44,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "players")
-public class Player extends Person{
+public class Player extends Person {
 
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username", referencedColumnName = "username")
+	@JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 
 	@Pattern(regexp = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$", message = "El formato debe ser del tipo: texto@texto.texto")
@@ -59,6 +58,5 @@ public class Player extends Person{
 	@NotEmpty(message = "El teléfono no puede estar vacío")
 	@Digits(fraction = 0, integer = 10)
 	private String telephone;
-	
 
 }

@@ -195,56 +195,56 @@ public class MinijuegoService {
 			listaCartas.remove(idCartaJugador);
 			playerCard.put(jugadorActual.getId(), listaCartas);
 		}
-		
+
 		return playerCard;
 	}
 
-	public List<Integer> finalizarPartida(String nombreMinijuego, Map<Integer,List<Integer>> playerCards){
+	public List<Integer> finalizarPartida(String nombreMinijuego, Map<Integer, List<Integer>> playerCards) {
 		List<Integer> res = new ArrayList<>();
 		if (nombreMinijuego.equals("TORRE_INFERNAL"))
-            if ((playerCards.get(0).size() == 0)) {
-                List<Integer> listaSizes = new ArrayList<>();
-                List<Integer> listaPlayerId = new ArrayList<>();
-                playerCards.forEach((x, y) -> {
-                    listaSizes.add(y.size());
-                    listaPlayerId.add(x);
-                });
-                Integer posicionMax = 0;
-                Integer tamanoMaximo = Integer.MIN_VALUE;
-                Integer posicionMin = 0;
-                Integer tamanoMinimo = Integer.MAX_VALUE;
-                for (int i = 0; i < listaSizes.size(); i++) {
-                    if (listaSizes.get(i) > tamanoMaximo) {
-                        tamanoMaximo = listaSizes.get(i);
-                        posicionMax = i;
-                    }
-                    if (listaSizes.get(i) < tamanoMinimo) {
-                        tamanoMinimo = listaSizes.get(i);
-                        posicionMin = i;
-                    }
-                }
+			if ((playerCards.get(0).size() == 0)) {
+				List<Integer> listaSizes = new ArrayList<>();
+				List<Integer> listaPlayerId = new ArrayList<>();
+				playerCards.forEach((x, y) -> {
+					listaSizes.add(y.size());
+					listaPlayerId.add(x);
+				});
+				Integer posicionMax = 0;
+				Integer tamanoMaximo = Integer.MIN_VALUE;
+				Integer posicionMin = 0;
+				Integer tamanoMinimo = Integer.MAX_VALUE;
+				for (int i = 0; i < listaSizes.size(); i++) {
+					if (listaSizes.get(i) > tamanoMaximo) {
+						tamanoMaximo = listaSizes.get(i);
+						posicionMax = i;
+					}
+					if (listaSizes.get(i) < tamanoMinimo) {
+						tamanoMinimo = listaSizes.get(i);
+						posicionMin = i;
+					}
+				}
 
-                Integer idGanador = listaPlayerId.get(posicionMax);
-                Integer idPerdedor = listaPlayerId.get(posicionMin);
+				Integer idGanador = listaPlayerId.get(posicionMax);
+				Integer idPerdedor = listaPlayerId.get(posicionMin);
 				res.add(idGanador);
 				res.add(idPerdedor);
-				
-            }
-        if (nombreMinijuego.equals("EL_FOSO")) {
-            List<Integer> listaGanadores = new ArrayList<>();
-            playerCards.forEach((x, y) -> {
-                if (y.size() == 0)
-                    listaGanadores.add(x);
-            });
 
-            if(playerCards.get(0).size() == 55){
-                Integer idGanador = listaGanadores.get(0);
-                Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
+			}
+		if (nombreMinijuego.equals("EL_FOSO")) {
+			List<Integer> listaGanadores = new ArrayList<>();
+			playerCards.forEach((x, y) -> {
+				if (y.size() == 0)
+					listaGanadores.add(x);
+			});
+
+			if (playerCards.get(0).size() == 55) {
+				Integer idGanador = listaGanadores.get(0);
+				Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
 				res.add(idGanador);
 				res.add(idPerdedor);
-            }
-        }
-	return res;
+			}
+		}
+		return res;
 	}
 
 }
