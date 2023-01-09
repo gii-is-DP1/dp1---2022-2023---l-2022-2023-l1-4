@@ -9,7 +9,7 @@
                             <petclinic:layout pageName="seleccionMinijuego">
 
                                 <body style="background-color: #bea3cd;">
-                                    <div class="row align-items-center h-100 mx-auto text-center">
+                                    <div class="row justify-content-around text-center" style="margin-top: 5%;">
                                         <c:forEach items="${minijuegos}" var="minijuego">
                                             <div class="col-sm-3">
                                                 <a href="/minijuegos/alvarito/${minijuego.id}/repartir">
@@ -18,7 +18,15 @@
                                                             class="card-img-top" alt="Fissure in Sandstone" />
                                                         <div class="card-body">
                                                             <h5 class="card-title">
-                                                                <c:out value="${minijuego.name}"></c:out>
+                                                                <c:if test="${minijuego.name == 'TORRE_INFERNAL'}">
+                                                                    TORRE INFERNAL
+                                                                </c:if>
+                                                                <c:if test="${minijuego.name == 'EL_FOSO'}">
+                                                                    EL FOSO
+                                                                </c:if>
+                                                                <c:if test="${minijuego.name == 'LA_PATATA_CALIENTE'}">
+                                                                    LA PATATA CALIENTE
+                                                                </c:if>
                                                             </h5>
                                                         </div>
                                                     </div>

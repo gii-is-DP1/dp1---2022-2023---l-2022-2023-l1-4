@@ -14,10 +14,16 @@
                                         <div class="col-6">
                                             <h2>GANADOR</h2>
                                             <p>${ganador.firstName}</p>
+                                            <c:if test="${perdedor.id == jugadorActual}">
+                                                <button class="btn btn-success">Siguente Minijuego</button>
+                                            </c:if>
                                         </div>
                                         <div class="col-6">
                                             <h2>PERDEDOR</h2>
                                             <p>${perdedor.firstName}</p>
+                                            <c:if test="${creador == jugadorActual}">
+                                                <button class="btn btn-danger">Finalizar Partida</button>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

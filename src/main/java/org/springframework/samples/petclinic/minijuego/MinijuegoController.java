@@ -122,12 +122,13 @@ public class MinijuegoController {
         listaGanadores = minijuegoService.finalizarPartida(nombreMinijuego, playerCards);
 
         if (listaGanadores.size() != 0) {
-            Player ganador = playerService.findPlayerById(listaGanadores.get(1));
-            Player perdedor = playerService.findPlayerById(listaGanadores.get(0));
-
+            Player ganador = playerService.findPlayerById(listaGanadores.get(0));
+            Player perdedor = playerService.findPlayerById(listaGanadores.get(1));
             model.put("lista", listaGanadores);
             model.put("ganador", ganador);
             model.put("perdedor", perdedor);
+            model.put("creador", minijuego.getGame().getPlayersList().get(0).getId());
+            model.put("jugadorActual", minijuegoService.playerSesion().getId());
             return ESPERA;
         }
 

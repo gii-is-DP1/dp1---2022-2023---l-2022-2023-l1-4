@@ -36,11 +36,12 @@ public class MinijuegoService {
 	FotoService fotoService;
 	MazoService mazoService;
 	AuthenticationService authenticationService;
+	List<Integer> listaGanadores;
 
 	@Autowired
 	public MinijuegoService(MinijuegoRepository minijuegoRepository, CartaService cartaService,
 			PlayerService playerService, UserService userService, FotoService fotoService, MazoService mazoservice,
-			AuthenticationService authenticationService) {
+			AuthenticationService authenticationService, List<Integer> listaGanadores) {
 		this.minijuegoRepository = minijuegoRepository;
 		this.cartaService = cartaService;
 		this.playerService = playerService;
@@ -48,6 +49,7 @@ public class MinijuegoService {
 		this.fotoService = fotoService;
 		this.mazoService = mazoservice;
 		this.authenticationService = authenticationService;
+		this.listaGanadores = listaGanadores;
 	}
 
 	@Transactional(readOnly = true)
@@ -231,7 +233,6 @@ public class MinijuegoService {
 
 			}
 		if (nombreMinijuego.equals("EL_FOSO")) {
-			List<Integer> listaGanadores = new ArrayList<>();
 			playerCards.forEach((x, y) -> {
 				if (y.size() == 0)
 					listaGanadores.add(x);
