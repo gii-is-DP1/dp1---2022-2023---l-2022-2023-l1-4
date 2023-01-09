@@ -241,8 +241,8 @@ public class MinijuegoService {
 			if (playerCards.get(0).size() == 55) {
 				Integer idGanador = listaGanadores.get(0);
 				Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
-				res.add(idGanador);
-				res.add(idPerdedor);
+				res.add(0,idGanador);
+				res.add(1,idPerdedor);
 			}
 		}
 		return res;
