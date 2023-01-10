@@ -55,7 +55,6 @@ public class GameController {
 		} else {
 			Player player = authenticationService.getPlayer();
 
-
 			List<Player> listPlayers = new ArrayList<Player>();
 			listPlayers.add(player);
 			game.setPlayersList(listPlayers);
@@ -117,25 +116,19 @@ public class GameController {
 	public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,
 			HttpServletResponse response) {
 
-		response.addHeader("Refresh", "1");
+		// response.addHeader("Refresh", "1");
 		Game game = this.gameService.findGameById(gameId);
+		model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
 
+		Player creador = gameService.findGameById(gameId).getPlayersList().get(0);
+		System.out.println("creador.getFirstName()");
+		if (creador.getId() == gameService.playerSesion().getId())
+			model.put("boton", true);
+		else
+			model.put("boton", false);
 
-
-        while((game.getPlayersList().size()) <= (game.getNumPlayers()) || (game.getStartGame()==false))  {
-            model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
-            return "games/waitingPage";
-        }
-        response.reset();
-
-       // List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
-       //Round round = rondasPartida.get(0);
-
-
-		// List<Round> rondasPartida = this.roundService.rondasPartida(game.getId());
-		// Round round = rondasPartida.get(0);
-
-		return "redirect:/waitingPage";
+		// response.reset();
+		return "games/waitingPage";
 
 	}
 

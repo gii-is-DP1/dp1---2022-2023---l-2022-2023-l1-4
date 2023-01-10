@@ -11,12 +11,9 @@
                             <body style="background-color: #bea3cd;">
                                 <div class="container" style="margin-top: 20%;">
                                     <div class="text-center">
-                                        <h2>Espera un poquito pisha, paciencia. Numero jugadores:
-                                            <c:out value="${now}" />
+                                        <h2>Espera un poquito pisha, paciencia.
                                         </h2>
-                                        <c:if test="${boton}">
-                                           <a href="/minijuegos/alvarito/2/repartir"><button class="btn btn-success">EMPEZAR PARTIDA</button></a>
-                                        </c:if>
+                                      
                                     </div>
                                 </div>
                             </body>

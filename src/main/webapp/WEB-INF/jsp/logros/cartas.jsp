@@ -26,7 +26,7 @@
 												<div class="col-sm-3">
 													<form action="/minijuegos/actualizar" method="get">
 														<button name="respuesta" value="${foto}"
-															class="btn btn-lg text-white"
+															class="btn btn-outline-dark btn-lg text-white"
 															style="margin-bottom: 10pt; width: 100%; background-color:${foto.colourCode};">
 															<c:out value="${foto}" />
 														</button>
