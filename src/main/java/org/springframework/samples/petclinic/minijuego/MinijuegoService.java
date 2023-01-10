@@ -144,7 +144,19 @@ public class MinijuegoService {
 			}
 			return playerCard;
 		}
-		return null;
+		if (minijuego.getName().equals(TipoMinijuego.LA_PATATA_CALIENTE.toString())) {
+			players.forEach(x -> {
+				List<Integer> card = new ArrayList<>();
+				if (!playerCard.containsKey(x.getId())) {
+					Carta randomCard = getRandomCard(cardsList);
+					card.add(randomCard.getId());
+					playerCard.put(x.getId(), card);
+					cardsList.remove(randomCard);
+				}
+			});
+			return playerCard;
+		}
+		return playerCard;
 	}
 
 	public Map<String, Integer> sumarPunto(String respuesta, List<String> fotosCentro,
@@ -168,16 +180,17 @@ public class MinijuegoService {
 	}
 
 	public Map<Integer, List<Integer>> compruebaAcierto(String respuesta, List<String> fotosCentro,
-			Map<Integer, List<Integer>> playerCard, String nombreMinijuego) {
+			Map<Integer, List<Integer>> playerCard, String nombreMinijuego, Integer carta) {
 		Player jugadorActual = playerSesion();
 		if (fotosCentro.contains(respuesta))
-			return actualizaCartas(playerCard, jugadorActual, nombreMinijuego);
+			return actualizaCartas(playerCard, jugadorActual, nombreMinijuego, carta);
 		else
 			return playerCard;
 	}
 
 	public Map<Integer, List<Integer>> actualizaCartas(Map<Integer, List<Integer>> playerCard, Player jugadorActual,
-			String nombreMinijuego) {
+			String nombreMinijuego, Integer idCarta) {
+
 		if (nombreMinijuego.equals("TORRE_INFERNAL")) {
 			Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size() - 1);
 			List<Integer> lista = playerCard.get(jugadorActual.getId());
@@ -187,6 +200,7 @@ public class MinijuegoService {
 			listaCartas.remove(idCartaMedio);
 			playerCard.put(0, listaCartas);
 		}
+
 		if (nombreMinijuego.equals("EL_FOSO")) {
 			Integer idCartaJugador = playerCard.get(jugadorActual.getId())
 					.get(playerCard.get(jugadorActual.getId()).size() - 1);
@@ -196,6 +210,22 @@ public class MinijuegoService {
 			List<Integer> listaCartas = playerCard.get(jugadorActual.getId());
 			listaCartas.remove(idCartaJugador);
 			playerCard.put(jugadorActual.getId(), listaCartas);
+		}
+
+		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
+			Integer idCartaJugador = playerCard.get(jugadorActual.getId())
+					.get(0);
+			List<Integer> jugadorRecibeCarta = new ArrayList<Integer>();
+			List<Integer> cartasJugadorQueRecibe = new ArrayList<Integer>();
+			playerCard.forEach((x, y) -> {
+				if (y.contains(idCarta))
+					jugadorRecibeCarta.add(x);
+			});
+			cartasJugadorQueRecibe.add(0, idCarta);
+			cartasJugadorQueRecibe.add(1, idCartaJugador);
+			playerCard.put(jugadorActual.getId(), new ArrayList<Integer>());
+			playerCard.put(jugadorRecibeCarta.get(0), cartasJugadorQueRecibe);
+
 		}
 
 		return playerCard;
@@ -241,8 +271,29 @@ public class MinijuegoService {
 			if (playerCards.get(0).size() == 55) {
 				Integer idGanador = listaGanadores.get(0);
 				Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
-				res.add(0,idGanador);
-				res.add(1,idPerdedor);
+				res.add(0, idGanador);
+				res.add(1, idPerdedor);
+			}
+		}
+		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
+			List<Integer> listKey = new ArrayList<>();
+			playerCards.forEach((x, y) -> {
+				listKey.add(x);
+				if (y.isEmpty()) {
+					listaGanadores.add(x);
+					listKey.remove(x);
+				}
+			});
+
+			//Integer perdedor = 0;
+
+			/*for (int i = 0; i < listKey.size(); i++)
+				if (!listaGanadores.contains(listKey.get(i)) && !listaGanadores.isEmpty())
+					perdedor = listKey.get(i);*/
+
+			if (listKey.size() == 1) {
+				res.add(0, listaGanadores.get(0));
+				res.add(1, listKey.get(0));
 			}
 		}
 		return res;
