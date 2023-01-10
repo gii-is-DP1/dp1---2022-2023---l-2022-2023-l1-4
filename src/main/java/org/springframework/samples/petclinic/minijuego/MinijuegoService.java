@@ -26,7 +26,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Service
 public class MinijuegoService {
 	MinijuegoRepository minijuegoRepository;
@@ -37,6 +38,7 @@ public class MinijuegoService {
 	MazoService mazoService;
 	AuthenticationService authenticationService;
 	List<Integer> listaGanadores;
+	private static final Logger log = LoggerFactory.getLogger(MinijuegoController.class);
 
 	@Autowired
 	public MinijuegoService(MinijuegoRepository minijuegoRepository, CartaService cartaService,
@@ -107,6 +109,7 @@ public class MinijuegoService {
 		Map<Integer, List<Integer>> playerCard = new HashMap<>();
 		Integer numPlayers = players.size();
 		if (minijuego.getName().equals(TipoMinijuego.TORRE_INFERNAL.toString())) {
+			log.info("Reparto cartas Torre Infernal");
 			players.forEach(x -> {
 				List<Integer> card = new ArrayList<>();
 				if (!playerCard.containsKey(x.getId())) {
@@ -122,6 +125,7 @@ public class MinijuegoService {
 			return playerCard;
 		}
 		if (minijuego.getName().equals(TipoMinijuego.EL_FOSO.toString())) {
+			log.info("Reparto cartas El Foso");
 			List<Integer> cartaCentro = new ArrayList<>();
 			cartaCentro.add(getRandomCard(cardsList).getId());
 			playerCard.put(0, cartaCentro);
@@ -145,6 +149,7 @@ public class MinijuegoService {
 			return playerCard;
 		}
 		if (minijuego.getName().equals(TipoMinijuego.LA_PATATA_CALIENTE.toString())) {
+			log.info("Reparto cartas Patata Caliente");
 			players.forEach(x -> {
 				List<Integer> card = new ArrayList<>();
 				if (!playerCard.containsKey(x.getId())) {
@@ -192,6 +197,7 @@ public class MinijuegoService {
 			String nombreMinijuego, Integer idCarta) {
 
 		if (nombreMinijuego.equals("TORRE_INFERNAL")) {
+			log.info("Actualizando cartas Torre Infernal");
 			Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size() - 1);
 			List<Integer> lista = playerCard.get(jugadorActual.getId());
 			lista.add(idCartaMedio);
@@ -202,6 +208,7 @@ public class MinijuegoService {
 		}
 
 		if (nombreMinijuego.equals("EL_FOSO")) {
+			log.info("Actualizando cartas El Foso");
 			Integer idCartaJugador = playerCard.get(jugadorActual.getId())
 					.get(playerCard.get(jugadorActual.getId()).size() - 1);
 			List<Integer> lista = playerCard.get(0);
@@ -213,6 +220,7 @@ public class MinijuegoService {
 		}
 
 		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
+			log.info("Actualizando cartas Patata Caliente");
 			Integer idCartaJugador = playerCard.get(jugadorActual.getId())
 					.get(0);
 			List<Integer> jugadorRecibeCarta = new ArrayList<Integer>();
@@ -263,12 +271,14 @@ public class MinijuegoService {
 
 			}
 		if (nombreMinijuego.equals("EL_FOSO")) {
+			log.info("Clasificación");
 			playerCards.forEach((x, y) -> {
 				if (y.size() == 0)
 					listaGanadores.add(x);
 			});
 
 			if (playerCards.get(0).size() == 55) {
+				log.info("Clasificación");
 				Integer idGanador = listaGanadores.get(0);
 				Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
 				res.add(0, idGanador);
@@ -292,6 +302,7 @@ public class MinijuegoService {
 					perdedor = listKey.get(i);*/
 
 			if (listKey.size() == 1) {
+				log.info("Clasificación");
 				res.add(0, listaGanadores.get(0));
 				res.add(1, listKey.get(0));
 			}
