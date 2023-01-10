@@ -1,9 +1,15 @@
 package org.springframework.samples.petclinic.player;
+
 import java.util.Collection;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.security.core.Authentication;
@@ -21,15 +27,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PlayerController {
 
+	private static final Logger log = LoggerFactory.getLogger(PlayerController.class);
+
 	private static final String VIEWS_PLAYER_CREATE_OR_UPDATE_FORM = "players/createOrUpdatePlayerForm";
 
 	private final PlayerService playerService;
 
 	private final UserService userService;
 
-
 	@Autowired
-	public PlayerController(PlayerService playerService, UserService userService, AuthoritiesService authoritiesService) {
+	public PlayerController(PlayerService playerService, UserService userService,
+			AuthoritiesService authoritiesService) {
 		this.playerService = playerService;
 		this.userService = userService;
 	}
@@ -41,6 +49,7 @@ public class PlayerController {
 
 	@GetMapping(value = "/players/new")
 	public String initCreationForm(Map<String, Object> model) {
+		log.info("Inicializando formulario de creación del jugador");
 		Player player = new Player();
 		model.put("player", player);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
@@ -49,51 +58,53 @@ public class PlayerController {
 	@PostMapping(value = "/players/new")
 	public String processCreationForm(@Valid Player player, BindingResult result) {
 		if (result.hasErrors()) {
+			log.info("Error en el formulario");
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			//crear player, usuario y autorizacion
+		} else {
+			// crear player, usuario y autorizacion
+			log.info("Jugador creado correctamente");
 			this.playerService.savePlayer(player);
-			
+
 			return "redirect:/";
 		}
 	}
 
 	@GetMapping(value = "/players/find")
 	public String initFindForm(Map<String, Object> model) {
+		log.info("Inicializando formulario de busqueda de usuarios");
 		model.put("player", new Player());
 		return "players/findPlayers";
 	}
 
-
 	@GetMapping(value = "/players")
-	public String processFindForm(Player player, BindingResult result, Map<String, Object> model) {
-	if (player.getLastName() == null) {
-		player.setLastName("");
-	}
+	public String processFindForm(Player player, @PageableDefault(page = 0, size = 2) Pageable pageable,
+			BindingResult result, Map<String, Object> model) {
+		if (player.getLastName() == null) {
+			player.setLastName("");
+		}
 
-	Collection<Player> playersByLastName = this.playerService.findPlayerByLastName(player.getLastName());
-	if (playersByLastName.isEmpty()) {
+		Page<Player> playersPage = this.playerService.findPlayerByLastName(player.getLastName(), pageable);
+		if (playersPage.isEmpty()) {
 			// no players found
 			result.rejectValue("lastName", "notFound", "not found");
 			return "players/findPlayers";
-		}
-		else if (playersByLastName.size() == 1) {
+		} else if (playersPage.getTotalElements() == 1) {
 			// 1 player found
-			player = playersByLastName.iterator().next();
+			player = playersPage.iterator().next();
 			return "redirect:/players/" + player.getId();
-			
-		}else{
-			// multiple players found
-			model.put("selections", playersByLastName);
+
+		}
+
+		else {
+			model.put("selections", playersPage);
+			player = playersPage.iterator().next();
 			return "players/playersList";
 		}
 	}
-	
-
 
 	@GetMapping(value = "/players/{playerId}/edit")
 	public String initUpdatePlayerForm(@PathVariable("playerId") int playerId, Model model) {
+		log.info("Inicializando formulario de actualización de usuarios");
 		Player player = this.playerService.findPlayerById(playerId);
 		model.addAttribute(player);
 		return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
@@ -103,18 +114,19 @@ public class PlayerController {
 	public String processUpdateOwnerForm(@Valid Player player, BindingResult result,
 			@PathVariable("playerId") int playerId) {
 		if (result.hasErrors()) {
+			log.info("Error en la actualización de usuario");
 			return VIEWS_PLAYER_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+		} else {
+			log.info("Usuario actualizado correctamente");
 			player.setId(playerId);
 			this.playerService.savePlayer(player);
 			return "redirect:/players/{playerId}";
 		}
 	}
-	
-	
+
 	@GetMapping("/players/{playerId}")
 	public ModelAndView showPlayer(@PathVariable("playerId") int playerId) {
+		log.info("Mostrando jugador");
 		ModelAndView mav = new ModelAndView("players/playerDetails");
 		mav.addObject(this.playerService.findPlayerById(playerId));
 		return mav;
@@ -122,6 +134,7 @@ public class PlayerController {
 
 	@GetMapping("/myProfile")
 	public String showIdPlayer(Player player, BindingResult result, Map<String, Object> model) {
+		log.info("Mostrando perfil del jugador");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
 		Player jugador = this.playerService.findPlayerByUsername(this.userService.findUser(username).orElse(null));
@@ -130,9 +143,10 @@ public class PlayerController {
 	}
 
 	@GetMapping("/players/delete/{playerId}")
-    public String deletePartida(@PathVariable("playerId") int playerId) {
-        playerService.deletePlayer(playerId);
-        return "redirect:/players";
-    }
+	public String deletePartida(@PathVariable("playerId") int playerId) {
+		log.info("Eliminando jugador");
+		playerService.deletePlayer(playerId);
+		return "redirect:/players";
+	}
 
 }
