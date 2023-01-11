@@ -66,7 +66,6 @@ public class GameController {
 
 	@GetMapping(value = "/games/join/{gameId}")
 	public String joinGame(@PathVariable("gameId") int gameId) {
-		System.out.println(gameId);
 		List<Player> listaProv = new ArrayList<Player>();
 		gameService.findPlayersGame(gameId).forEach(x -> listaProv.add(x));
 		Player player = authenticationService.getPlayer();

@@ -7,15 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
-import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.carta.Carta;
 import org.springframework.samples.petclinic.carta.CartaService;
-import org.springframework.samples.petclinic.foto.Foto;
 import org.springframework.samples.petclinic.foto.FotoService;
 import org.springframework.samples.petclinic.mazo.MazoService;
 import org.springframework.samples.petclinic.player.Player;
@@ -76,8 +73,16 @@ public class MinijuegoService {
 	}
 
 	@Transactional
-	public void saveMinijuego(Minijuego minijuego) throws DataAccessException {
-		minijuegoRepository.save(minijuego);
+	public Minijuego save(Minijuego minijuego){
+		return minijuegoRepository.save(minijuego);
+	}
+
+	@Transactional
+	public void actualizarGanadores(Minijuego minijuego, Player ganador, Player perdedor){
+		minijuego.setGanador(ganador);
+		minijuego.setPerdedor(perdedor);
+
+		save(minijuego);
 	}
 
 	@Transactional
@@ -263,6 +268,7 @@ public class MinijuegoService {
 
 			}
 		if (nombreMinijuego.equals("EL_FOSO")) {
+			List<Integer> listaGanadores = new ArrayList<>();
 			playerCards.forEach((x, y) -> {
 				if (y.size() == 0)
 					listaGanadores.add(x);

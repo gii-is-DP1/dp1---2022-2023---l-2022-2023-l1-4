@@ -151,6 +151,10 @@ public class MinijuegoController {
             if (listaGanadores.size() != 0) {
                 Player ganador = playerService.findPlayerById(listaGanadores.get(0));
                 Player perdedor = playerService.findPlayerById(listaGanadores.get(1));
+
+                Minijuego minijuegoNuevo = minijuego;
+                minijuegoService.actualizarGanadores(minijuegoNuevo, ganador, perdedor);
+
                 model.put("lista", listaGanadores);
                 model.put("ganador", ganador);
                 model.put("perdedor", perdedor);
@@ -158,8 +162,6 @@ public class MinijuegoController {
                 model.put("jugadorActual", minijuegoService.playerSesion().getId());
                 return ESPERA;
             }
-            //if (playerCards.get(jugadorActual.getId()).size() == 0)
-              //  return WAITING; 
 
             return LA_PATATA_CALIENTE;
         }
@@ -171,6 +173,10 @@ public class MinijuegoController {
         if (listaGanadores.size() != 0) {
             Player ganador = playerService.findPlayerById(listaGanadores.get(0));
             Player perdedor = playerService.findPlayerById(listaGanadores.get(1));
+
+            Minijuego minijuegoNuevo = minijuego;
+            minijuegoService.actualizarGanadores(minijuegoNuevo, ganador, perdedor);
+
             model.put("lista", listaGanadores);
             model.put("ganador", ganador);
             model.put("perdedor", perdedor);
