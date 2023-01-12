@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.carta.Carta;
@@ -21,12 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MinijuegoController {
 
-    private static final String VIEWS_ELEGIR_MINIJUEGO = null;
     private static final String VIEWS_MOSTRAR_MINIJUEGOS = "logros/seleccionMinijuego";
     private static final String LA_PATATA_CALIENTE = "logros/papasarruga";
     private static final String CARTA = "logros/cartas";
-    private static final String ESPERA = "logros/jugadoresEspera";
-    private static final String WAITING = "logros/waiting";
+    private static final String FINAL_MINIJUEGOS = "logros/finalMinijuegos";
 
     private final MinijuegoService minijuegoService;
     private final GameService gameService;
@@ -34,15 +36,17 @@ public class MinijuegoController {
     private final PlayerService playerService;
 
     private Map<Integer, List<Integer>> playerCards;
+    private Map<Integer, Integer> ganadorRonda;
+    private Map<Integer, Integer> perdedorRonda;
     private Map<String, Integer> puntuacion;
     private List<Integer> listaGanadores;
     private String nombreMinijuego = "";
-    private Integer gameId = 0, minijuegoId = 0, cartaSeleccionada = 0;
+    private Integer gameId = 0, minijuegoId = 0, cartaSeleccionada = 0, ronda = 1;
 
     @Autowired
     public MinijuegoController(MinijuegoService minijuegoService, GameService gameService, CartaService cartaService,
             Map<Integer, List<Integer>> playerCards, PlayerService playerService, Map<String, Integer> puntuacion,
-            List<Integer> listaGanadores) {
+            List<Integer> listaGanadores, Map<Integer, Integer> ganadorRonda, Map<Integer, Integer> perdedorRonda) {
         this.minijuegoService = minijuegoService;
         this.gameService = gameService;
         this.cartaService = cartaService;
@@ -50,19 +54,17 @@ public class MinijuegoController {
         this.playerService = playerService;
         this.puntuacion = puntuacion;
         this.listaGanadores = listaGanadores;
+        this.ganadorRonda = ganadorRonda;
+        this.perdedorRonda = perdedorRonda;
     }
 
-    @GetMapping(value = "/minijuegos")
-    public String listAllMinijuegos(ModelMap model) {
-        Collection<Minijuego> allMinijuegos = this.minijuegoService.getAllMinijuegos();
-        model.put("minijuegos", allMinijuegos);
-        return VIEWS_MOSTRAR_MINIJUEGOS;
-    }
+    @GetMapping(value = "/games/{gameId}/minijuegos/{minijuegoId}/repartir")
+    public String repartirCartas(@PathVariable("minijuegoId") int id, @PathVariable("gameId") int gameId,
+            ModelMap model) {
 
-    @GetMapping(value = "/minijuegos/alvarito/{minijuegoId}/repartir")
-    public String repartirCartas(@PathVariable("minijuegoId") int id, ModelMap model) {
+        List<Player> listaJugadores = minijuegoService.getPlayersByGameId(gameId);
 
-        List<Player> listaJugadores = minijuegoService.getPlayersByGameId(id);
+        ronda = 1;
 
         playerCards = minijuegoService.reparteCartas(minijuegoService.findById(id));
 
@@ -100,7 +102,9 @@ public class MinijuegoController {
     }
 
     @GetMapping(value = "games/{game_id}/minijuegos/{minijuegoId}/jugar")
-    public String jugarMinijuego(@PathVariable("minijuegoId") int id, ModelMap model) {
+    public String jugarMinijuego(@PathVariable("minijuegoId") int id, ModelMap model, HttpServletResponse response) {
+
+        // response.addHeader("Refresh", "1");
 
         Minijuego minijuego = minijuegoService.findById(id);
 
@@ -122,7 +126,6 @@ public class MinijuegoController {
         }
 
         if (minijuego.getName().equals("LA_PATATA_CALIENTE")) {
-
             List<Carta> listaCartas = new ArrayList<>();
             playerCards.forEach((x, y) -> {
                 if (x != jugadorActual.getId() && x != 0)
@@ -149,18 +152,54 @@ public class MinijuegoController {
             listaGanadores = minijuegoService.finalizarPartida(nombreMinijuego, playerCards);
 
             if (listaGanadores.size() != 0) {
-                Player ganador = playerService.findPlayerById(listaGanadores.get(0));
-                Player perdedor = playerService.findPlayerById(listaGanadores.get(1));
+                ganadorRonda.put(ronda, listaGanadores.get(0));
+                perdedorRonda.put(ronda, listaGanadores.get(1));
+            }
+            ronda += 1;
+
+            if (ronda != minijuego.getNumRounds()) {
+                playerCards = minijuegoService.reparteCartaRondaPatataCaliente(playerCards);
+                return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoId + "/jugar";
+            }
+
+            if (ganadorRonda.containsKey(minijuego.getNumRounds())
+                    && perdedorRonda.containsKey(minijuego.getNumRounds())) {
+
+                List<Integer> listaG = new ArrayList<>();
+                List<Integer> listaP = new ArrayList<>();
+
+                ganadorRonda.forEach((x, y) -> listaG.add(y));
+                perdedorRonda.forEach((x, y) -> listaP.add(y));
+
+                List<Integer> g = listaG.stream()
+                        .collect(Collectors.groupingBy(s -> s))
+                        .entrySet()
+                        .stream()
+                        .filter(e -> e.getValue().size() > 1)
+                        .map(e -> e.getKey())
+                        .collect(Collectors.toList());
+
+                List<Integer> p = listaP.stream()
+                        .collect(Collectors.groupingBy(s -> s))
+                        .entrySet()
+                        .stream()
+                        .filter(e -> e.getValue().size() > 1)
+                        .map(e -> e.getKey())
+                        .collect(Collectors.toList());
+
+                Player ganador = playerService.findPlayerById(g.get(0));
+                Player perdedor = playerService.findPlayerById(p.get(0));
 
                 Minijuego minijuegoNuevo = minijuego;
                 minijuegoService.actualizarGanadores(minijuegoNuevo, ganador, perdedor);
 
+                model.put("gameId", gameId);
                 model.put("lista", listaGanadores);
                 model.put("ganador", ganador);
                 model.put("perdedor", perdedor);
                 model.put("creador", minijuego.getGame().getPlayersList().get(0).getId());
                 model.put("jugadorActual", minijuegoService.playerSesion().getId());
-                return ESPERA;
+                return FINAL_MINIJUEGOS;
             }
 
             return LA_PATATA_CALIENTE;
@@ -177,20 +216,25 @@ public class MinijuegoController {
             Minijuego minijuegoNuevo = minijuego;
             minijuegoService.actualizarGanadores(minijuegoNuevo, ganador, perdedor);
 
+            model.put("gameId", gameId);
             model.put("lista", listaGanadores);
             model.put("ganador", ganador);
             model.put("perdedor", perdedor);
             model.put("creador", minijuego.getGame().getPlayersList().get(0).getId());
             model.put("jugadorActual", minijuegoService.playerSesion().getId());
-            return ESPERA;
+            return FINAL_MINIJUEGOS;
         }
 
         return CARTA;
     }
 
-    @GetMapping(value = "/minijuegos/seleccion")
-    public String seleccionarMinijuego(ModelMap model) {
-        model.put("minijuegos", minijuegoService.getAllMinijuegos());
+    @GetMapping(value = "/games/{gameId}/minijuegos/seleccion")
+    public String seleccionarMinijuego(@PathVariable("gameId") int id, ModelMap model) {
+        List<String> listaMinijuegosNombre = new ArrayList<>();
+        listaMinijuegosNombre.add(TipoMinijuego.TORRE_INFERNAL.toString());
+        listaMinijuegosNombre.add(TipoMinijuego.EL_FOSO.toString());
+        listaMinijuegosNombre.add(TipoMinijuego.LA_PATATA_CALIENTE.toString());
+        model.put("minijuegos", listaMinijuegosNombre);
         return VIEWS_MOSTRAR_MINIJUEGOS;
     }
 
@@ -198,5 +242,27 @@ public class MinijuegoController {
     public String cartaSeleccionada(@PathVariable("carta_id") int id) {
         cartaSeleccionada = id;
         return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoId + "/jugar";
+    }
+
+    @GetMapping("/games/{gameId}/primera")
+    public String primera(@PathVariable("gameId") int gameId, ModelMap model) {
+        Minijuego minijuegoNuevo = new Minijuego();
+        minijuegoNuevo.setGame(gameService.findGameById(gameId));
+        minijuegoNuevo.setName(TipoMinijuego.TORRE_INFERNAL.toString());
+        minijuegoNuevo = minijuegoService.save(minijuegoNuevo);
+
+        return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoNuevo.getId() + "/repartir";
+    }
+
+    @GetMapping("/games/{gameId}/minijuegos/{minijuego}/nuevaRonda")
+    public String nuevaRonda(@RequestParam(value = "rondas") Integer rondas, @PathVariable("gameId") int gameId,
+            @PathVariable("minijuego") String nombreMinijuego, ModelMap model) {
+        Minijuego minijuegoNuevo = new Minijuego();
+        minijuegoNuevo.setGame(gameService.findGameById(gameId));
+        minijuegoNuevo.setName(nombreMinijuego);
+        if (nombreMinijuego.equals(TipoMinijuego.LA_PATATA_CALIENTE.toString()))
+            minijuegoNuevo.setNumRounds(rondas);
+        minijuegoNuevo = minijuegoService.save(minijuegoNuevo);
+        return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoNuevo.getId() + "/repartir";
     }
 }

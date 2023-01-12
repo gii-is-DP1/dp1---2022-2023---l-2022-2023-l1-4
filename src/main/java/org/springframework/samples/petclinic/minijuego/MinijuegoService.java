@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.carta.Carta;
@@ -73,12 +72,12 @@ public class MinijuegoService {
 	}
 
 	@Transactional
-	public Minijuego save(Minijuego minijuego){
+	public Minijuego save(Minijuego minijuego) {
 		return minijuegoRepository.save(minijuego);
 	}
 
 	@Transactional
-	public void actualizarGanadores(Minijuego minijuego, Player ganador, Player perdedor){
+	public void actualizarGanadores(Minijuego minijuego, Player ganador, Player perdedor) {
 		minijuego.setGanador(ganador);
 		minijuego.setPerdedor(perdedor);
 
@@ -159,6 +158,9 @@ public class MinijuegoService {
 					cardsList.remove(randomCard);
 				}
 			});
+			List<Integer> listaCartas = new ArrayList<>();
+			cardsList.forEach(x -> listaCartas.add(x.getId()));
+			playerCard.put(0, listaCartas);
 			return playerCard;
 		}
 		return playerCard;
@@ -283,6 +285,7 @@ public class MinijuegoService {
 		}
 		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
 			List<Integer> listKey = new ArrayList<>();
+			playerCards.remove(0);
 			playerCards.forEach((x, y) -> {
 				listKey.add(x);
 				if (y.isEmpty()) {
@@ -291,18 +294,36 @@ public class MinijuegoService {
 				}
 			});
 
-			//Integer perdedor = 0;
-
-			/*for (int i = 0; i < listKey.size(); i++)
-				if (!listaGanadores.contains(listKey.get(i)) && !listaGanadores.isEmpty())
-					perdedor = listKey.get(i);*/
-
 			if (listKey.size() == 1) {
 				res.add(0, listaGanadores.get(0));
 				res.add(1, listKey.get(0));
 			}
 		}
 		return res;
+	}
+
+	public Map<Integer, List<Integer>> reparteCartaRondaPatataCaliente(Map<Integer, List<Integer>> playerCard) {
+		List<Integer> mazo = playerCard.get(0);
+		Collections.shuffle(mazo);
+		List<Carta> listCard = new ArrayList<>();
+		mazo.forEach(x -> listCard.add(cartaService.getCardById(x)));
+
+		playerCard.forEach((x, y) -> {
+			if (x != 0) {
+				Carta randomCard = getRandomCard(listCard);
+				List<Integer> listaProv = new ArrayList<>();
+				listaProv.add(randomCard.getId());
+				listCard.remove(randomCard);
+				playerCard.put(x, listaProv);
+			}
+
+		});
+
+		List<Integer> listaMazo = new ArrayList<>();
+		listCard.forEach(x -> listaMazo.add(x.getId()));
+		playerCard.put(0, listaMazo);
+
+		return playerCard;
 	}
 
 }

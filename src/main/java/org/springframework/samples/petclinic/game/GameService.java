@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.minijuego.Minijuego;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.UserService;
@@ -31,6 +32,11 @@ public class GameService {
     @Transactional
     public List<Game> getAllGames() {
         return gameRepository.findAll();
+    }
+
+    @Transactional
+    public List<Minijuego> findMinijuegos(Integer gameId){
+        return gameRepository.findMinijuegos(gameId);
     }
 
     @Transactional
