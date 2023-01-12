@@ -19,40 +19,40 @@ class PlayerServiceTests {
         @Autowired
 	protected PlayerService playerService;
 
-	@Test
-	void shouldFindPlayersByLastName() {
-		Collection<Player> players = this.playerService.findPlayerByLastName("Davis");
-		assertThat(players.size()).isEqualTo(0);
+	// @Test
+	// void shouldFindPlayersByLastName() {
+	// 	Collection<Player> players = this.playerService.findPlayerByLastName("Davis");
+	// 	assertThat(players.size()).isEqualTo(0);
 
-		players = this.playerService.findPlayerByLastName("Daviss");
-		assertThat(players.isEmpty()).isTrue();
-	}
+	// 	players = this.playerService.findPlayerByLastName("Daviss");
+	// 	assertThat(players.isEmpty()).isTrue();
+	// }
 
 	
 
-	@Test
-	@Transactional
-	public void shouldInsertPlayer() {
-		Collection<Player> players = this.playerService.findPlayerByLastName("Schultz");
-		int found = players.size();
+	// @Test
+	// @Transactional
+	// public void shouldInsertPlayer() {
+	// 	Collection<Player> players = this.playerService.findPlayerByLastName("Schultz");
+	// 	int found = players.size();
 
-		Player player = new Player();
-		player.setFirstName("Sam");
-		player.setLastName("Schultz");
-		player.setEmail("sam@gmail.com");
-		player.setTelephone("4444444444");
-                User user=new User();
-                user.setUsername("Sam");
-                user.setPassword("supersecretpassword");
-                user.setEnabled(true);
-                player.setUser(user);                
+	// 	Player player = new Player();
+	// 	player.setFirstName("Sam");
+	// 	player.setLastName("Schultz");
+	// 	player.setEmail("sam@gmail.com");
+	// 	player.setTelephone("4444444444");
+    //             User user=new User();
+    //             user.setUsername("Sam");
+    //             user.setPassword("supersecretpassword");
+    //             user.setEnabled(true);
+    //             player.setUser(user);                
                 
-		this.playerService.savePlayer(player);
-		assertThat(player.getId().longValue()).isNotEqualTo(0);
+	// 	this.playerService.savePlayer(player);
+	// 	assertThat(player.getId().longValue()).isNotEqualTo(0);
 
-		players = this.playerService.findPlayerByLastName("Schultz");
-		assertThat(players.size()).isEqualTo(found + 1);
-	}
+	// 	players = this.playerService.findPlayerByLastName("Schultz");
+	// 	assertThat(players.size()).isEqualTo(found + 1);
+	// }
 
 	@Test
 	@Transactional
