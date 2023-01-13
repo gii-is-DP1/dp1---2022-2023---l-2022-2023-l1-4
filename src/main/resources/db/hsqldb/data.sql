@@ -306,7 +306,7 @@ INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,26);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,36);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,2);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,8);
-INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,47);
+INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,46);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,51);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (8,41);
 
@@ -386,7 +386,7 @@ INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,15);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,24);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,55);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,44);
-INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,47);
+INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,46);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,3);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,35);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (17,10);

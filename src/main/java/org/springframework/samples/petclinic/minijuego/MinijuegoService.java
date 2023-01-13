@@ -240,37 +240,36 @@ public class MinijuegoService {
 
 	public List<Integer> finalizarPartida(String nombreMinijuego, Map<Integer, List<Integer>> playerCards) {
 		List<Integer> res = new ArrayList<>();
-		if (nombreMinijuego.equals("TORRE_INFERNAL"))
+		if (nombreMinijuego.equals("TORRE_INFERNAL")) {
 			if ((playerCards.get(0).size() == 0)) {
-				List<Integer> listaSizes = new ArrayList<>();
-				List<Integer> listaPlayerId = new ArrayList<>();
+				List<Integer> puntos = new ArrayList<>();
+				List<Integer> jug = new ArrayList<>();
 				playerCards.forEach((x, y) -> {
-					listaSizes.add(y.size());
-					listaPlayerId.add(x);
-				});
-				Integer posicionMax = 0;
-				Integer tamanoMaximo = Integer.MIN_VALUE;
-				Integer posicionMin = 0;
-				Integer tamanoMinimo = Integer.MAX_VALUE;
-				for (int i = 0; i < listaSizes.size(); i++) {
-					if (listaSizes.get(i) > tamanoMaximo) {
-						tamanoMaximo = listaSizes.get(i);
-						posicionMax = i;
+					if (x != 0) {
+						puntos.add(y.size());
+						jug.add(x);
 					}
-					if (listaSizes.get(i) < tamanoMinimo) {
-						tamanoMinimo = listaSizes.get(i);
-						posicionMin = i;
+				});
+				Integer maximo = 0;
+				Integer posMax = 0;
+				Integer minimo = 60;
+				Integer posMin = 0;
+				for(int i = 0; i<puntos.size(); i++){
+					if(puntos.get(i)>maximo){
+						maximo = puntos.get(i);
+						posMax = i;
+					}
+					if(puntos.get(i)<minimo){
+						minimo = puntos.get(i);
+						posMin = i;
 					}
 				}
-
-				Integer idGanador = listaPlayerId.get(posicionMax);
-				Integer idPerdedor = listaPlayerId.get(posicionMin);
-				res.add(idGanador);
-				res.add(idPerdedor);
-
+				res.add(0, jug.get(posMax));
+				res.add(1, jug.get(posMin));
 			}
+		}
 		if (nombreMinijuego.equals("EL_FOSO")) {
-			List<Integer> listaGanadores = new ArrayList<>();
+			listaGanadores = new ArrayList<>();
 			playerCards.forEach((x, y) -> {
 				if (y.size() == 0)
 					listaGanadores.add(x);
@@ -285,18 +284,18 @@ public class MinijuegoService {
 		}
 		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
 			List<Integer> listKey = new ArrayList<>();
-			playerCards.remove(0);
+			// playerCards.remove(0);
 			playerCards.forEach((x, y) -> {
 				listKey.add(x);
-				if (y.isEmpty()) {
+				if (y.size() == 0 && x != 0) {
 					listaGanadores.add(x);
 					listKey.remove(x);
 				}
 			});
 
-			if (listKey.size() == 1) {
+			if (listKey.size() == 2) {
 				res.add(0, listaGanadores.get(0));
-				res.add(1, listKey.get(0));
+				res.add(1, listKey.get(1));
 			}
 		}
 		return res;
