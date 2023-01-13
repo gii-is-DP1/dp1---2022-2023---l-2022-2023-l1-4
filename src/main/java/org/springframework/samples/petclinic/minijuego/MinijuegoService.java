@@ -173,7 +173,7 @@ public class MinijuegoService {
 
 	public Map<String, Integer> sumarPunto(String respuesta, List<String> fotosCentro,
 			Map<String, Integer> puntuacion, List<Player> listJugadores) {
-		Player jugadorActual = playerSesion();
+		 Player jugadorActual = playerSesion();
 		if (respuesta.equals("") && fotosCentro.isEmpty()) {
 			listJugadores.forEach((x) -> {
 				puntuacion.put(x.getFirstName() + " " + x.getLastName(), 0);
