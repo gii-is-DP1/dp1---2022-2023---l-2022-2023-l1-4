@@ -42,7 +42,7 @@ public class MinijuegoController {
     private List<Integer> listaGanadores;
     private Map<Integer, Integer> cartaSeleccionada;
     private String nombreMinijuego = "";
-    private Integer gameId = 0, minijuegoId = 0, ronda = 0;
+    private Integer gameId = 0, minijuegoId = 0, ronda = 1;
 
     @Autowired
     public MinijuegoController(MinijuegoService minijuegoService, GameService gameService, CartaService cartaService,
@@ -71,7 +71,7 @@ public class MinijuegoController {
 
         listaGanadores = new ArrayList<>();
 
-        ronda = 0;
+        ronda = 1;
 
         playerCards = minijuegoService.reparteCartas(minijuegoService.findById(id));
 
@@ -170,8 +170,8 @@ public class MinijuegoController {
             if (listaGanadores.size() != 0) {
                 ganadorRonda.put(ronda, listaGanadores.get(0));
                 perdedorRonda.put(ronda, listaGanadores.get(1));
-                ronda += 1;
                 if (ronda != minijuego.getNumRounds()) {
+                    ronda += 1;
                     playerCards = minijuegoService.reparteCartaRondaPatataCaliente(playerCards);
                     return "redirect:/games/" + gameId + "/minijuegos/" + minijuegoId + "/jugar";
                 }
@@ -222,7 +222,11 @@ public class MinijuegoController {
 
         model.put("jugadores", puntuacion);
 
-        listaGanadores = minijuegoService.finalizarPartida(nombreMinijuego, playerCards);
+        if (minijuego.getName().equals("EL_FOSO")) {
+            if (listaGanadores.size() != minijuego.getGame().getPlayersList().size())
+                listaGanadores = minijuegoService.finalizarPartida(nombreMinijuego, playerCards);
+        } else
+            listaGanadores = minijuegoService.finalizarPartida(nombreMinijuego, playerCards);
 
         if (listaGanadores.size() != 0) {
             Player ganador = playerService.findPlayerById(listaGanadores.get(0));
