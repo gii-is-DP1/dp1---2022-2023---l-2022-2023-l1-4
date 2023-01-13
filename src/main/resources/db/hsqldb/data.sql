@@ -636,11 +636,6 @@ INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (55,35);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (55,53);
 INSERT INTO cartas_fotos(carta_id, foto_id) VALUES (55,17);
 
-/**INSERT INTO tipos_minijuegos(id,name) VALUES (1, 'La torre infernal');
-INSERT INTO tipos_minijuegos(id,name) VALUES (2, 'El foso');
-INSERT INTO tipos_minijuegos(id,name) VALUES (3, 'La patata caliente');
-INSERT INTO tipos_minijuegos(id,name) VALUES (4, 'El duelo');**/
-
 --Me asigno los datos del jugador:
 INSERT INTO players VALUES (1, 'Carlos', 'Nuchera', 'carlosnuchera98@gmail.com', '669081623', 'carnucbol1');
 INSERT INTO players VALUES (2, 'Pablo', 'Pino', 'pablop@gmail.com', '696969696', 'pablop');
@@ -648,15 +643,13 @@ INSERT INTO players VALUES (3, 'Fernando', 'Barroso', 'fbarroso2001@gmail.com', 
 INSERT INTO players VALUES (4, 'Gonzalo', 'Santiago', 'gonzalo@gmail.com', '696868696', 'gonsanmar2');
 INSERT INTO players VALUES (5, 'Álvaro José', 'Sánchez Flores', 'alvarito@gmail.com', '696869696', 'alvsanflo');
 
-INSERT INTO Logro(id, name, nivel) VALUES
-(1, 'Bienvenida', 0),
-(2, 'ere un maquina', 100);
 
 
-INSERT INTO games(id,start_game,name,num_players) VALUES(1,TRUE,'caca',2);
-INSERT INTO games(id,start_game,name,num_players) VALUES(2,FALSE,'prueba',5);
-INSERT INTO games(id,start_game,name,num_players) VALUES(3,TRUE,'caca2',2);
-INSERT INTO games(id,start_game,name,num_players) VALUES(4,TRUE,'papacaliente',3);
+
+INSERT INTO games(id,start_game,name,num_players) VALUES(1,TRUE,'prueba',2);
+INSERT INTO games(id,start_game,name,num_players) VALUES(2,FALSE,'prueba2',5);
+INSERT INTO games(id,start_game,name,num_players) VALUES(3,TRUE,'prueba3',2);
+INSERT INTO games(id,start_game,name,num_players) VALUES(4,TRUE,'prueba4',3);
 
 
 INSERT INTO games_players_list(game_id, players_list_id) VALUES(1,3);
