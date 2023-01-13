@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -37,4 +38,7 @@ public class Game extends BaseEntity {
 
 	@ManyToMany
 	private List<Player> playersList;
+
+	@OneToOne
+	private Player ganador;
 }

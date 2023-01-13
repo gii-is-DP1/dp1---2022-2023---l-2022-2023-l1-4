@@ -19,8 +19,8 @@ INSERT INTO users(username,password,enabled) VALUES ('ferbarbar1','1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (6,'ferbarbar1','player');
 
 --Owner de Alvsanflo
-INSERT INTO users(username,password,enabled) VALUES ('alvsanflo','3333',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (7,'alvsanflo','owner');
+INSERT INTO users(username,password,enabled) VALUES ('alvsanflo','1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (7,'alvsanflo','player');
 
 -- Owner de pabpinmat1
 INSERT INTO users(username,password,enabled) VALUES ('pabpinmat','1234',TRUE);
@@ -743,6 +743,7 @@ INSERT INTO players VALUES (1, 'Carlos', 'Nuchera', 'carlosnuchera98@gmail.com',
 INSERT INTO players VALUES (2, 'Pablo', 'Pino', 'pablop@gmail.com', '696969696', 'pablop');
 INSERT INTO players VALUES (3, 'Fernando', 'Barroso', 'fbarroso2001@gmail.com', '696869696', 'ferbarbar1');
 INSERT INTO players VALUES (4, 'Gonzalo', 'Santiago', 'gonzalo@gmail.com', '696868696', 'gonsanmar2');
+INSERT INTO players VALUES (5, 'Álvaro José', 'Sánchez Flores', 'alvarito@gmail.com', '696869696', 'alvsanflo');
 
 INSERT INTO Logro(id, name, nivel) VALUES
 (1, 'Bienvenida', 0),
