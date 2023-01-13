@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.minijuego.Minijuego;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.util.AuthenticationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,14 +27,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GameController {
 
+	private static final Logger log = LoggerFactory.getLogger(GameController.class);
+
 	private static final String VIEWS_GAME_CREATE_OR_UPDATE_FORM = "games/createOrUpdateGameForm";
 
 	private GameService gameService;
+	private PlayerService playerService;
 	private AuthenticationService authenticationService;
 
 	@Autowired
-	public GameController(GameService gameService, AuthenticationService authtAuthenticationService) {
+	public GameController(GameService gameService, PlayerService playerService,
+			AuthenticationService authtAuthenticationService) {
 		this.gameService = gameService;
+		this.playerService = playerService;
 		this.authenticationService = authtAuthenticationService;
 	}
 
@@ -43,6 +52,7 @@ public class GameController {
 	public String initCreationForm(Map<String, Object> model) {
 		Game game = new Game();
 		model.put("game", game);
+		log.info("Inicializando formulario de creacion de partida");
 		return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -50,6 +60,7 @@ public class GameController {
 	public String processCreationForm(@Valid Game game, BindingResult result) {
 
 		if (result.hasErrors()) {
+			log.info("Error en el formulario");
 			return VIEWS_GAME_CREATE_OR_UPDATE_FORM;
 
 		} else {
@@ -60,20 +71,24 @@ public class GameController {
 			game.setPlayersList(listPlayers);
 			game.setStartGame(true);
 			this.gameService.save(game);
+			log.info("Formulario creado correctamente");
 			return "redirect:/games/" + game.getId() + "/waiting";
 		}
 	}
 
 	@GetMapping(value = "/games/join/{gameId}")
 	public String joinGame(@PathVariable("gameId") int gameId) {
-		System.out.println(gameId);
 		List<Player> listaProv = new ArrayList<Player>();
 		gameService.findPlayersGame(gameId).forEach(x -> listaProv.add(x));
 		Player player = authenticationService.getPlayer();
-		listaProv.add(player);
+		if (!listaProv.contains(player))
+			listaProv.add(player);
+		else
+			return "redirect:/games/" + gameId + "/waiting";
 		Game game = gameService.findGameById(gameId);
 		game.setPlayersList(listaProv);
 		gameService.save(game);
+		log.info("Union a la partida");
 		return "redirect:/games/" + gameId + "/waiting";
 	}
 
@@ -93,14 +108,17 @@ public class GameController {
 		if (gamesPorNombre.isEmpty()) {
 			// no games found
 			result.rejectValue("name", "notFound", "not found");
+			log.info("No se han encontrado partidas");
 			return "games/findGames";
 		} else if (gamesPorNombre.size() == 1) {
 			// 1 game found
 			game = gamesPorNombre.iterator().next();
+			log.info("Se ha encontrado una partida");
 			return "redirect:/games/" + game.getId();
 		} else {
 			// multiple games found
 			model.put("selections", gamesPorNombre);
+			log.info("Mostrando listado de partidas");
 			return "games/gamesList";
 		}
 	}
@@ -109,6 +127,7 @@ public class GameController {
 	public ModelAndView mostrarGame(@PathVariable("gameId") int gameId) {
 		ModelAndView mav = new ModelAndView("games/gameDetails");
 		mav.addObject(this.gameService.findGameById(gameId));
+		log.info("Mostrando partida");
 		return mav;
 	}
 
@@ -116,20 +135,50 @@ public class GameController {
 	public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,
 			HttpServletResponse response) {
 
-		// response.addHeader("Refresh", "1");
+		response.addHeader("Refresh", "1");
 		Game game = this.gameService.findGameById(gameId);
 		model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
+		model.put("gameId", gameId);
 
 		Player creador = gameService.findGameById(gameId).getPlayersList().get(0);
-		System.out.println("creador.getFirstName()");
-		if (creador.getId() == gameService.playerSesion().getId())
+		if (creador.getId() == gameService.playerSesion().getId() && game.getPlayersList().size() >= 2)
 			model.put("boton", true);
 		else
 			model.put("boton", false);
 
-		// response.reset();
-		return "games/waitingPage";
+		while (gameService.findMinijuegos(gameId).isEmpty())
+			return "games/waitingPage";
 
+		// response.reset();
+		
+
+		return "redirect:/games/" + gameId + "/minijuegos/" + gameService.findMinijuegos(gameId).get(0).getId()
+				+ "/jugar";
+	}
+
+	@GetMapping("/games/{gameId}/finalizar")
+	public String finalizarPartida(@PathVariable("gameId") int id) {
+		List<Minijuego> listaMinijuegos = gameService.findMinijuegos(id);
+		List<Integer> jug = new ArrayList<>();
+		listaMinijuegos.forEach(x -> {
+			jug.add(x.getGanador().getId());
+		});
+
+		Integer maximo = 0;
+		Integer posMaximo = 0;
+
+		for (int i = 0; i < jug.size(); i++) {
+			if (jug.get(i) > maximo) {
+				maximo = jug.get(i);
+				posMaximo = i;
+			}
+		}
+
+		Game nuevoJuego = gameService.findGameById(id);
+		nuevoJuego.setGanador(playerService.findPlayerById(jug.get(posMaximo)));
+		gameService.save(nuevoJuego);
+
+		return "redirect:/";
 	}
 
 }

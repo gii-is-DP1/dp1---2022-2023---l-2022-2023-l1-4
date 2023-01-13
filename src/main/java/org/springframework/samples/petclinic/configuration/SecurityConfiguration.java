@@ -37,28 +37,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/session/**").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
+				.antMatchers("/admin/**").hasAnyAuthority("admin")			
 				.antMatchers("/players/new").permitAll()
 				.antMatchers("/players/**").hasAnyAuthority("player","admin")		
 				.antMatchers("/session/**").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")			
+				.antMatchers("/admin/**").hasAnyAuthority("admin")		
 				.antMatchers("/games/**").authenticated()//.hasAnyAuthority("admin","player")
-				.antMatchers("/vets/**").authenticated()
 				.antMatchers("/logros/**").authenticated()
 				.antMatchers("/myProfile").hasAnyAuthority("player")
 				.antMatchers("/instructions").permitAll()
 				.antMatchers("/minijuegos/**").authenticated()
+				.antMatchers("/error/").permitAll()
+				
         
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
 				 	/*.loginPage("/login")*/
 				 	.failureUrl("/login-error")
+					 
 				.and()
 					.logout()
-						.logoutSuccessUrl("/"); 
+						.logoutSuccessUrl("/")
+						.and().exceptionHandling().accessDeniedPage("/error"); 
                 // Configuración para que funcione la consola de administración 
                 // de la BD H2 (deshabilitar las cabeceras de protección contra
                 // ataques de tipo csrf y habilitar los framesets si su contenido

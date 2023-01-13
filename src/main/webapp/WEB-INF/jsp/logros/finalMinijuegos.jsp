@@ -6,7 +6,7 @@
                     <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 
-                        <petclinic:layout pageName="espera">
+                        <petclinic:layout pageName="finalMinijuegos">
 
                             <body style="background-color: #bea3cd;">
                                 <div class="container" style="margin-top: 20%;">
@@ -15,14 +15,15 @@
                                             <h2>GANADOR</h2>
                                             <p>${ganador.firstName}</p>
                                             <c:if test="${creador == jugadorActual}">
-                                                <button class="btn btn-danger">Finalizar Partida</button>
+                                                <a href="/games/${gameId}/finalizar"><button class="btn btn-danger">Finalizar Partida</button></a>
                                             </c:if>
                                         </div>
                                         <div class="col-6">
                                             <h2>PERDEDOR</h2>
                                             <p>${perdedor.firstName}</p>
                                             <c:if test="${perdedor.id == jugadorActual}">
-                                                <button class="btn btn-success">Siguente Minijuego</button>
+                                                <a href="/games/${gameId}/minijuegos/seleccion"><button
+                                                        class="btn btn-success">Siguente Minijuego</button></a>
                                             </c:if>
                                         </div>
                                     </div>

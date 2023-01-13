@@ -15,7 +15,7 @@
                                             <c:out value="${now}" />
                                         </h2>
                                         <c:if test="${boton}">
-                                           <a href="/minijuegos/alvarito/2/repartir"><button class="btn btn-success">EMPEZAR PARTIDA</button></a>
+                                           <a href="/games/${gameId}/primera"><button class="btn btn-success">EMPEZAR PARTIDA</button></a>
                                         </c:if>
                                     </div>
                                 </div>
