@@ -170,7 +170,9 @@ public class MinijuegoService {
 		if (respuesta.equals("") && fotosCentro.isEmpty()) {
 			listJugadores.forEach((x) -> {
 				puntuacion.put(x.getFirstName() + " " + x.getLastName(), 0);
+				System.out.println(puntuacion);
 			});
+			
 			return puntuacion;
 		}
 		if (!puntuacion.containsKey(jugadorActual.getFirstName() + " " + jugadorActual.getLastName()))

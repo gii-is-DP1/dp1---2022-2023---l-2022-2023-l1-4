@@ -1,5 +1,4 @@
 package org.springframework.samples.petclinic.game;
-
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
@@ -34,9 +33,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = GameController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 class GameControllerTests {
 
-	private static final int TEST_GAME_ID = 1;
-
-    private static final Boolean TRUE = null;
+	private static final int TEST_GAME_ID = 1
+	;
 
 	@Autowired
 	private GameController gameController;
@@ -44,35 +42,79 @@ class GameControllerTests {
 	@MockBean
 	private GameService gameService;
 
-	@MockBean
-	private UserService userService;
-
-	@MockBean
-	private AuthoritiesService authoritiesService;
-
 	@Autowired
 	private MockMvc mockMvc;
 
-	private Game partidaPrueba;
+	private Game game;
 
+	/*@BeforeEach
+	void setUp(){
+		game = new Game();
+		game.setId(TEST_GAME_ID);
+		game.setName("Prueba");
+		game.setNumPlayers(2);
+
+	}*/
+/* 
 	@BeforeEach
 	void setup() {
 
-		partidaPrueba = new Game();
-		partidaPrueba.setId(TEST_GAME_ID);
-		partidaPrueba.setName("partidaPrueba");
-		partidaPrueba.setNumPlayers(2);
-		partidaPrueba.setStartGame(TRUE);
-		given(this.gameService.findGameById(TEST_GAME_ID)).willReturn(partidaPrueba);
+		
+		User user1 = new User();
+        user1.setUsername("user1");
+        Player player1 = new Player();
+        player1.setId(20);
+        player1.setFirstName("George");
+        player1.setLastName("Franklin");
+        player1.setTelephone("6085551023");
+        player1.setUser(user1);
+
+        User user2 = new User();
+        user2.setUsername("user2");
+        Player player2 = new Player();
+        player2.setId(30);
+        player2.setFirstName("Abraham");
+        player2.setLastName("Lincon");
+        player2.setTelephone("123456789");
+        player2.setUser(user2);
+
+        List<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        
+
+        Minijuego minijuego1 = new Minijuego();
+        Minijuego minijuego2 = new Minijuego();
+        minijuego1.setId(5);
+        minijuego1.setName("Torre Infernal");
+        minijuego2.setId(6);
+        minijuego2.setName("El Foso");
+
+		game = new Game();
+		game.setId(TEST_GAME_ID);
+		game.setName("Prueba");
+		game.setNumPlayers(3);
+		gameService.save(game);
 
 	}
-
+	*/
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/games/new")).andExpect(status().isOk()).andExpect(model().attributeExists("game"))
-				.andExpect(view().name("games/createOrUpdateGameForm"));
+		mockMvc.perform(get("/games/new"))
+            .andExpect(status().isOk()).andExpect(model().attributeExists("game"))
+            .andExpect(view().name("games/createOrUpdateGameForm"));
+		}
+	/*
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormSuccess() throws Exception {
+		mockMvc.perform(post("/games/new").param("name", "Prueba").param("numPlayers", "2"))
+		.andExpect(view().name("redirect:/games/rondas/new"));
 	}
+*/
+
+
 
 	// @WithMockUser(value = "spring")
 	// @Test
