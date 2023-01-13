@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.springframework.samples.petclinic.minijuego;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,6 +23,7 @@ import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.AuthenticationService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +80,44 @@ class MinijuegoServiceTests {
 
    
 
+   
+
+    @Test
+    @Transactional
+    public void shouldGetAllMinijuegos() {
+        Collection<Minijuego> minijuegos = this.minijuegoService.getAllMinijuegos();
+        assertThat(minijuegos.size()).isEqualTo(3);
+    }
+    @Test
+    @Transactional
+    public void shouldGetMinijuegoByName() {
+        assertThat(minijuegoService.getMinijuegoByName("LA_PATATA_CALIENTE"));
+    }
+    @Test
+    @Transactional
+    public void shouldGetMinijuegoById() {
+        assertThat(minijuegoService.findById(1));
+    }
+
+    @Test
+    @Transactional
+    public void shouldGetPlayersByGameId() {
+
+        Integer gameId=4;
+        assertThat(minijuegoService.getPlayersByGameId(gameId).size()>0);
+    }
+    @Test
+    @Transactional
+    public void shouldGetRandomCard() {
+        Collection<Carta> mazo = cartaService.getAll();
+        List<Carta> cardsList = new ArrayList<>();
+        mazo.forEach(x -> cardsList.add(x));
+        Carta carta1 = minijuegoService.getRandomCard(cardsList);
+        Carta carta2 = minijuegoService.getRandomCard(cardsList);
+        assertThat(!carta1.equals(carta2));
+    }
+
+
     @Test
     void shouldreparteCartasTest(){
     String nombreMinijuego1 = "LA_PATATA_CALIENTE";
@@ -115,30 +139,9 @@ class MinijuegoServiceTests {
     assertThat(map3.size()!=0);
     }
 
-    // @Test
-    // void shouldsumarPunto(){
-
-    //     Map<String, Integer> puntuacion = new HashMap<>();
-    //     Map<String, Integer> comprueba = new HashMap<>();
-    //     String respuesta = "caramelo";
-    //     List<String> fotosCentro = new ArrayList<>();
-    //     List<Player> listJugadores = new ArrayList<>();
-    //     Player player = playerService.findPlayerById(3);
-    //     System.out.println("buscameee" + player);
-
-    //     puntuacion.put("Fernando Barroso",0);
-    //     fotosCentro.add("caramelo" );
-    //     listJugadores.add(player);
-
-    //     comprueba = minijuegoService.sumarPunto(respuesta, fotosCentro,puntuacion,listJugadores);
-        
-    //     assertThat(comprueba.get("Fernando Barroso").equals(1));
-
-    // }
-
-
+    
     @Test
-    void shouldActualizarCarta(){
+    void shouldActualizarCartaTorreInfernalYFoso(){
         Map<Integer,List<Integer>> playerCard = new HashMap<>();
         Map<Integer,List<Integer>> comprueba = new HashMap<>();
         List<Integer> cartas = new ArrayList<>(); 
@@ -157,6 +160,7 @@ class MinijuegoServiceTests {
         comprueba = minijuegoService.actualizaCartas(playerCard, jugadorActual, nombreMinijuego, idCarta);
         assertThat(!(comprueba.equals(playerCard)));
     }
+
 
     @Test
     void shouldFinalizarPartida(){
