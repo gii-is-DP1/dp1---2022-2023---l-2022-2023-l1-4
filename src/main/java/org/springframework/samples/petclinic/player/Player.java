@@ -26,6 +26,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.envers.Audited;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.user.User;
 
@@ -40,6 +41,7 @@ import lombok.Setter;
  * @author Sam Brannen
  * @author Michael Isvy
  */
+@Audited
 @Entity
 @Getter
 @Setter
