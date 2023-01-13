@@ -25,7 +25,7 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = MinijuegoController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-public class MinijuegoControllerTest {
+public class MinijuegoControllerTest1 {
 
     @Autowired
     private MinijuegoController minijuegoController;
@@ -203,32 +203,7 @@ public class MinijuegoControllerTest {
         listaMinijuego.add(minijuego2);
 
         juego = game;
-        /*  given(this.minijuegoService.findById(3)).willReturn(minijuego1);
-        given(this.gameService.findGameById(10)).willReturn(game);
-        given(this.minijuegoService.rondasPartida(10)).willReturn(listaRonda);
-        given(this.minijuegoService.findById(3)).willReturn(round1);
-        given(this.minijuegoService.findById(4)).willReturn(round2);
-        given(this.minijuegoService.findFotoById(100)).willReturn(figura1);
-        given(this.playerService.findPlayerById(20)).willReturn(player1);
-    */
-
-    
-   
-
-       
 
 
-
-/* 
-	@WithMockUser
-	@Test
-	void reparteCartas() throws Exception {
-		mockMvc.perform(get("/minijuegos/alvarito/" + 3 + "/repartir"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/games/" + 10 +"/minijuegos/"+ 3 + "/jugar"));
-	}
-
-}
-*/
     }
 }
