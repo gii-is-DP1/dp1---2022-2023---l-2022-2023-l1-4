@@ -10,6 +10,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.player.Player;
@@ -25,6 +26,7 @@ public class Game  extends BaseEntity{
 	
 	@Column(unique = true,name = "name")
     @NotBlank
+	@Size(min = 4, max = 15, message="El nombre de la partida tiene que tener entre 4 y 15 caracteres")
 	private String name;
 
 	@NotNull
