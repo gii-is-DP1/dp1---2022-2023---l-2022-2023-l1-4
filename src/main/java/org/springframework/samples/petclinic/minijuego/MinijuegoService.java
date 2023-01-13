@@ -188,7 +188,7 @@ public class MinijuegoService {
 	}
 
 	public Map<Integer, List<Integer>> compruebaAcierto(String respuesta, List<String> fotosCentro,
-			Map<Integer, List<Integer>> playerCard, String nombreMinijuego, Integer carta) {
+			Map<Integer, List<Integer>> playerCard, String nombreMinijuego, Map<Integer,Integer> carta) {
 		Player jugadorActual = playerSesion();
 		if (fotosCentro.contains(respuesta))
 			return actualizaCartas(playerCard, jugadorActual, nombreMinijuego, carta);
@@ -197,7 +197,7 @@ public class MinijuegoService {
 	}
 
 	public Map<Integer, List<Integer>> actualizaCartas(Map<Integer, List<Integer>> playerCard, Player jugadorActual,
-			String nombreMinijuego, Integer idCarta) {
+			String nombreMinijuego, Map<Integer,Integer> idCarta) {
 
 		if (nombreMinijuego.equals("TORRE_INFERNAL")) {
 			Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size() - 1);
@@ -226,10 +226,10 @@ public class MinijuegoService {
 			List<Integer> jugadorRecibeCarta = new ArrayList<Integer>();
 			List<Integer> cartasJugadorQueRecibe = new ArrayList<Integer>();
 			playerCard.forEach((x, y) -> {
-				if (y.contains(idCarta))
+				if (y.contains(idCarta.get(jugadorActual.getId())))
 					jugadorRecibeCarta.add(x);
 			});
-			cartasJugadorQueRecibe.add(0, idCarta);
+			cartasJugadorQueRecibe.add(0, idCarta.get(jugadorActual.getId()));
 			cartasJugadorQueRecibe.add(1, idCartaJugador);
 			playerCard.put(jugadorActual.getId(), new ArrayList<Integer>());
 			playerCard.put(jugadorRecibeCarta.get(0), cartasJugadorQueRecibe);
