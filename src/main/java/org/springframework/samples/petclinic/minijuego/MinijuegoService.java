@@ -7,15 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-
-import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.carta.Carta;
 import org.springframework.samples.petclinic.carta.CartaService;
-import org.springframework.samples.petclinic.foto.Foto;
 import org.springframework.samples.petclinic.foto.FotoService;
 import org.springframework.samples.petclinic.mazo.MazoService;
 import org.springframework.samples.petclinic.player.Player;
@@ -78,8 +74,16 @@ public class MinijuegoService {
 	}
 
 	@Transactional
-	public void saveMinijuego(Minijuego minijuego) throws DataAccessException {
-		minijuegoRepository.save(minijuego);
+	public Minijuego save(Minijuego minijuego) {
+		return minijuegoRepository.save(minijuego);
+	}
+
+	@Transactional
+	public void actualizarGanadores(Minijuego minijuego, Player ganador, Player perdedor) {
+		minijuego.setGanador(ganador);
+		minijuego.setPerdedor(perdedor);
+
+		save(minijuego);
 	}
 
 	@Transactional
@@ -159,6 +163,9 @@ public class MinijuegoService {
 					cardsList.remove(randomCard);
 				}
 			});
+			List<Integer> listaCartas = new ArrayList<>();
+			cardsList.forEach(x -> listaCartas.add(x.getId()));
+			playerCard.put(0, listaCartas);
 			return playerCard;
 		}
 		return playerCard;
@@ -243,36 +250,36 @@ public class MinijuegoService {
 
 	public List<Integer> finalizarPartida(String nombreMinijuego, Map<Integer, List<Integer>> playerCards) {
 		List<Integer> res = new ArrayList<>();
-		if (nombreMinijuego.equals("TORRE_INFERNAL"))
+		if (nombreMinijuego.equals("TORRE_INFERNAL")) {
 			if ((playerCards.get(0).size() == 0)) {
-				List<Integer> listaSizes = new ArrayList<>();
-				List<Integer> listaPlayerId = new ArrayList<>();
+				List<Integer> puntos = new ArrayList<>();
+				List<Integer> jug = new ArrayList<>();
 				playerCards.forEach((x, y) -> {
-					listaSizes.add(y.size());
-					listaPlayerId.add(x);
-				});
-				Integer posicionMax = 0;
-				Integer tamanoMaximo = Integer.MIN_VALUE;
-				Integer posicionMin = 0;
-				Integer tamanoMinimo = Integer.MAX_VALUE;
-				for (int i = 0; i < listaSizes.size(); i++) {
-					if (listaSizes.get(i) > tamanoMaximo) {
-						tamanoMaximo = listaSizes.get(i);
-						posicionMax = i;
+					if (x != 0) {
+						puntos.add(y.size());
+						jug.add(x);
 					}
-					if (listaSizes.get(i) < tamanoMinimo) {
-						tamanoMinimo = listaSizes.get(i);
-						posicionMin = i;
+				});
+				Integer maximo = 0;
+				Integer posMax = 0;
+				Integer minimo = 60;
+				Integer posMin = 0;
+				for(int i = 0; i<puntos.size(); i++){
+					if(puntos.get(i)>maximo){
+						maximo = puntos.get(i);
+						posMax = i;
+					}
+					if(puntos.get(i)<minimo){
+						minimo = puntos.get(i);
+						posMin = i;
 					}
 				}
-
-				Integer idGanador = listaPlayerId.get(posicionMax);
-				Integer idPerdedor = listaPlayerId.get(posicionMin);
-				res.add(idGanador);
-				res.add(idPerdedor);
-
+				res.add(0, jug.get(posMax));
+				res.add(1, jug.get(posMin));
 			}
+		}
 		if (nombreMinijuego.equals("EL_FOSO")) {
+			listaGanadores = new ArrayList<>();
 			log.info("Clasificación");
 			playerCards.forEach((x, y) -> {
 				if (y.size() == 0)
@@ -289,9 +296,10 @@ public class MinijuegoService {
 		}
 		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
 			List<Integer> listKey = new ArrayList<>();
+			// playerCards.remove(0);
 			playerCards.forEach((x, y) -> {
 				listKey.add(x);
-				if (y.isEmpty()) {
+				if (y.size() == 0 && x != 0) {
 					listaGanadores.add(x);
 					listKey.remove(x);
 				}
@@ -303,13 +311,37 @@ public class MinijuegoService {
 				if (!listaGanadores.contains(listKey.get(i)) && !listaGanadores.isEmpty())
 					perdedor = listKey.get(i);*/
 
-			if (listKey.size() == 1) {
+			if (listKey.size() == 2) {
 				log.info("Clasificación");
 				res.add(0, listaGanadores.get(0));
-				res.add(1, listKey.get(0));
+				res.add(1, listKey.get(1));
 			}
 		}
 		return res;
+	}
+
+	public Map<Integer, List<Integer>> reparteCartaRondaPatataCaliente(Map<Integer, List<Integer>> playerCard) {
+		List<Integer> mazo = playerCard.get(0);
+		Collections.shuffle(mazo);
+		List<Carta> listCard = new ArrayList<>();
+		mazo.forEach(x -> listCard.add(cartaService.getCardById(x)));
+
+		playerCard.forEach((x, y) -> {
+			if (x != 0) {
+				Carta randomCard = getRandomCard(listCard);
+				List<Integer> listaProv = new ArrayList<>();
+				listaProv.add(randomCard.getId());
+				listCard.remove(randomCard);
+				playerCard.put(x, listaProv);
+			}
+
+		});
+
+		List<Integer> listaMazo = new ArrayList<>();
+		listCard.forEach(x -> listaMazo.add(x.getId()));
+		playerCard.put(0, listaMazo);
+
+		return playerCard;
 	}
 
 }

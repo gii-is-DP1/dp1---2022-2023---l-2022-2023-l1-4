@@ -10,9 +10,13 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.minijuego.Minijuego;
+import org.springframework.samples.petclinic.minijuego.MinijuegoService;
+import org.springframework.samples.petclinic.minijuego.TipoMinijuego;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.util.AuthenticationService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,11 +76,13 @@ public class GameController {
 
 	@GetMapping(value = "/games/join/{gameId}")
 	public String joinGame(@PathVariable("gameId") int gameId) {
-		System.out.println(gameId);
 		List<Player> listaProv = new ArrayList<Player>();
 		gameService.findPlayersGame(gameId).forEach(x -> listaProv.add(x));
 		Player player = authenticationService.getPlayer();
-		listaProv.add(player);
+		if (!listaProv.contains(player))
+			listaProv.add(player);
+		else
+			return "redirect:/games/" + gameId + "/waiting";
 		Game game = gameService.findGameById(gameId);
 		game.setPlayersList(listaProv);
 		gameService.save(game);
@@ -127,21 +133,25 @@ public class GameController {
 	public String refreshPage(@PathVariable("gameId") int gameId, Map<String, Object> model,
 			HttpServletResponse response) {
 
-		// response.addHeader("Refresh", "1");
+		response.addHeader("Refresh", "1");
 		Game game = this.gameService.findGameById(gameId);
 		model.put("now", game.getPlayersList().size() + "/" + game.getNumPlayers());
+		model.put("gameId", gameId);
 
 		Player creador = gameService.findGameById(gameId).getPlayersList().get(0);
-		System.out.println("creador.getFirstName()");
-		if (creador.getId() == gameService.playerSesion().getId())
+		if (creador.getId() == gameService.playerSesion().getId() && game.getPlayersList().size() >= 2)
 			model.put("boton", true);
 		else
 			model.put("boton", false);
 
-		// response.reset();
-		log.info("Refrescando la pagina");
-		return "games/waitingPage";
+		while (gameService.findMinijuegos(gameId).isEmpty())
+			return "games/waitingPage";
 
+		// response.reset();
+		
+
+		return "redirect:/games/" + gameId + "/minijuegos/" + gameService.findMinijuegos(gameId).get(0).getId()
+				+ "/jugar";
 	}
 
 }

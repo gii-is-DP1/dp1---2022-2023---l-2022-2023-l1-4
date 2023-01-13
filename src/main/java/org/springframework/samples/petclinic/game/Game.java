@@ -21,10 +21,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "games")
-public class Game  extends BaseEntity{
-	
-	@Column(unique = true,name = "name")
-    @NotBlank
+public class Game extends BaseEntity {
+
+	@Column(unique = true, name = "name")
+	@NotBlank
 	private String name;
 
 	@NotNull
