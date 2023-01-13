@@ -106,7 +106,13 @@ public class MinijuegoController {
     @GetMapping(value = "games/{game_id}/minijuegos/{minijuegoId}/jugar")
     public String jugarMinijuego(@PathVariable("minijuegoId") int id, ModelMap model, HttpServletResponse response) {
 
-        response.addHeader("Refresh", "1");
+        List<Minijuego> listMinijuegos = gameService.findMinijuegos(gameId);
+        Integer idUltimoMinijuego = listMinijuegos.get(listMinijuegos.size() - 1).getId();
+        if (idUltimoMinijuego > id) {
+            return "redirect:/games/" + gameId + "/minijuegos/" + idUltimoMinijuego + "/jugar";
+        }
+
+        //response.addHeader("Refresh", "1");
 
         Minijuego minijuego = minijuegoService.findById(id);
 
@@ -227,7 +233,7 @@ public class MinijuegoController {
             model.put("jugadorActual", minijuegoService.playerSesion().getId());
             return FINAL_MINIJUEGOS;
         }
-
+        
         return CARTA;
     }
 

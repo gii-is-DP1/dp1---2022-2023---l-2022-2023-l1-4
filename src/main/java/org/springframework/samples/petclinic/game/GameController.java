@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.minijuego.Minijuego;
-import org.springframework.samples.petclinic.minijuego.MinijuegoService;
-import org.springframework.samples.petclinic.minijuego.TipoMinijuego;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.util.AuthenticationService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +29,14 @@ public class GameController {
 	private static final String VIEWS_GAME_CREATE_OR_UPDATE_FORM = "games/createOrUpdateGameForm";
 
 	private GameService gameService;
+	private PlayerService playerService;
 	private AuthenticationService authenticationService;
 
 	@Autowired
-	public GameController(GameService gameService, AuthenticationService authtAuthenticationService) {
+	public GameController(GameService gameService, PlayerService playerService,
+			AuthenticationService authtAuthenticationService) {
 		this.gameService = gameService;
+		this.playerService = playerService;
 		this.authenticationService = authtAuthenticationService;
 	}
 
@@ -140,6 +142,31 @@ public class GameController {
 
 		return "redirect:/games/" + gameId + "/minijuegos/" + gameService.findMinijuegos(gameId).get(0).getId()
 				+ "/jugar";
+	}
+
+	@GetMapping("/games/{gameId}/finalizar")
+	public String finalizarPartida(@PathVariable("gameId") int id) {
+		List<Minijuego> listaMinijuegos = gameService.findMinijuegos(id);
+		List<Integer> jug = new ArrayList<>();
+		listaMinijuegos.forEach(x -> {
+			jug.add(x.getGanador().getId());
+		});
+
+		Integer maximo = 0;
+		Integer posMaximo = 0;
+
+		for (int i = 0; i < jug.size(); i++) {
+			if (jug.get(i) > maximo) {
+				maximo = jug.get(i);
+				posMaximo = i;
+			}
+		}
+
+		Game nuevoJuego = gameService.findGameById(id);
+		nuevoJuego.setGanador(playerService.findPlayerById(jug.get(posMaximo)));
+		gameService.save(nuevoJuego);
+
+		return "redirect:/";
 	}
 
 }

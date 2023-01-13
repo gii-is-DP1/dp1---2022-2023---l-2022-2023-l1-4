@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.carta.Carta;
 import org.springframework.samples.petclinic.carta.CartaService;
 import org.springframework.samples.petclinic.foto.FotoService;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.mazo.MazoService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
@@ -254,12 +255,12 @@ public class MinijuegoService {
 				Integer posMax = 0;
 				Integer minimo = 60;
 				Integer posMin = 0;
-				for(int i = 0; i<puntos.size(); i++){
-					if(puntos.get(i)>maximo){
+				for (int i = 0; i < puntos.size(); i++) {
+					if (puntos.get(i) > maximo) {
 						maximo = puntos.get(i);
 						posMax = i;
 					}
-					if(puntos.get(i)<minimo){
+					if (puntos.get(i) < minimo) {
 						minimo = puntos.get(i);
 						posMin = i;
 					}
@@ -269,35 +270,40 @@ public class MinijuegoService {
 			}
 		}
 		if (nombreMinijuego.equals("EL_FOSO")) {
-			listaGanadores = new ArrayList<>();
 			playerCards.forEach((x, y) -> {
-				if (y.size() == 0)
-					listaGanadores.add(x);
+				if (!(listaGanadores.size() == playerCards.size() - 1)) {
+					if (x != 0 && y.size() == 0) {
+						if (!listaGanadores.contains(x))
+							listaGanadores.add(x);
+					}
+				}
 			});
 
-			if (playerCards.get(0).size() == 55) {
-				Integer idGanador = listaGanadores.get(0);
-				Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
-				res.add(0, idGanador);
-				res.add(1, idPerdedor);
+			if (listaGanadores.size() == playerCards.size() - 1) {
+				res.add(0, listaGanadores.get(0));
+				res.add(1, listaGanadores.get(listaGanadores.size() - 1));
 			}
 		}
 		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
 			List<Integer> listKey = new ArrayList<>();
 			// playerCards.remove(0);
-			playerCards.forEach((x, y) -> {
-				listKey.add(x);
-				if (y.size() == 0 && x != 0) {
-					listaGanadores.add(x);
-					listKey.remove(x);
-				}
-			});
-
+			if (!(listKey.size() == 2)) {
+				playerCards.forEach((x, y) -> {
+					listKey.add(x);
+					if (y.size() == 0 && x != 0) {
+						listaGanadores.add(x);
+						listKey.remove(x);
+					}
+				});
+			}
 			if (listKey.size() == 2) {
 				res.add(0, listaGanadores.get(0));
 				res.add(1, listKey.get(1));
+
 			}
 		}
+		if(!(res.size() == 0))
+			this.listaGanadores = new ArrayList<>();
 		return res;
 	}
 
@@ -315,7 +321,6 @@ public class MinijuegoService {
 				listCard.remove(randomCard);
 				playerCard.put(x, listaProv);
 			}
-
 		});
 
 		List<Integer> listaMazo = new ArrayList<>();
