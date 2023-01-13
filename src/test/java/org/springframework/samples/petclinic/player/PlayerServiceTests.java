@@ -54,6 +54,7 @@ class PlayerServiceTests {
 		assertThat(playersPage.getContent().size()).isEqualTo(found + 1);
 	}
 
+
 	@Test
 	@Transactional
 	void shouldUpdatePlayer() {
