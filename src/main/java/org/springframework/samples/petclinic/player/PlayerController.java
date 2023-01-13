@@ -30,6 +30,7 @@ public class PlayerController {
 	private static final Logger log = LoggerFactory.getLogger(PlayerController.class);
 
 	private static final String VIEWS_PLAYER_CREATE_OR_UPDATE_FORM = "players/createOrUpdatePlayerForm";
+	private static final String ERROR = "error";
 
 	private final PlayerService playerService;
 
@@ -147,6 +148,11 @@ public class PlayerController {
 		log.info("Eliminando jugador");
 		playerService.deletePlayer(playerId);
 		return "redirect:/players";
+	}
+
+	@GetMapping("/error")
+	public String error(){
+		return ERROR;
 	}
 
 }

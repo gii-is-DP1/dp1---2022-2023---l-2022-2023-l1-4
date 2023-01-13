@@ -15,7 +15,7 @@
                                             <h2>GANADOR</h2>
                                             <p>${ganador.firstName}</p>
                                             <c:if test="${creador == jugadorActual}">
-                                                <button class="btn btn-danger">Finalizar Partida</button>
+                                                <a href="/games/${gameId}/finalizar"><button class="btn btn-danger">Finalizar Partida</button></a>
                                             </c:if>
                                         </div>
                                         <div class="col-6">

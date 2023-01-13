@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.carta.Carta;
 import org.springframework.samples.petclinic.carta.CartaService;
 import org.springframework.samples.petclinic.foto.FotoService;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.mazo.MazoService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
@@ -22,8 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 @Service
 public class MinijuegoService {
 	MinijuegoRepository minijuegoRepository;
@@ -34,7 +34,6 @@ public class MinijuegoService {
 	MazoService mazoService;
 	AuthenticationService authenticationService;
 	List<Integer> listaGanadores;
-	private static final Logger log = LoggerFactory.getLogger(MinijuegoController.class);
 
 	@Autowired
 	public MinijuegoService(MinijuegoRepository minijuegoRepository, CartaService cartaService,
@@ -113,7 +112,6 @@ public class MinijuegoService {
 		Map<Integer, List<Integer>> playerCard = new HashMap<>();
 		Integer numPlayers = players.size();
 		if (minijuego.getName().equals(TipoMinijuego.TORRE_INFERNAL.toString())) {
-			log.info("Reparto cartas Torre Infernal");
 			players.forEach(x -> {
 				List<Integer> card = new ArrayList<>();
 				if (!playerCard.containsKey(x.getId())) {
@@ -129,7 +127,6 @@ public class MinijuegoService {
 			return playerCard;
 		}
 		if (minijuego.getName().equals(TipoMinijuego.EL_FOSO.toString())) {
-			log.info("Reparto cartas El Foso");
 			List<Integer> cartaCentro = new ArrayList<>();
 			cartaCentro.add(getRandomCard(cardsList).getId());
 			playerCard.put(0, cartaCentro);
@@ -153,7 +150,6 @@ public class MinijuegoService {
 			return playerCard;
 		}
 		if (minijuego.getName().equals(TipoMinijuego.LA_PATATA_CALIENTE.toString())) {
-			log.info("Reparto cartas Patata Caliente");
 			players.forEach(x -> {
 				List<Integer> card = new ArrayList<>();
 				if (!playerCard.containsKey(x.getId())) {
@@ -177,9 +173,7 @@ public class MinijuegoService {
 		if (respuesta.equals("") && fotosCentro.isEmpty()) {
 			listJugadores.forEach((x) -> {
 				puntuacion.put(x.getFirstName() + " " + x.getLastName(), 0);
-				System.out.println(puntuacion);
 			});
-			
 			return puntuacion;
 		}
 		if (!puntuacion.containsKey(jugadorActual.getFirstName() + " " + jugadorActual.getLastName()))
@@ -206,7 +200,6 @@ public class MinijuegoService {
 			String nombreMinijuego, Integer idCarta) {
 
 		if (nombreMinijuego.equals("TORRE_INFERNAL")) {
-			log.info("Actualizando cartas Torre Infernal");
 			Integer idCartaMedio = playerCard.get(0).get(playerCard.get(0).size() - 1);
 			List<Integer> lista = playerCard.get(jugadorActual.getId());
 			lista.add(idCartaMedio);
@@ -217,7 +210,6 @@ public class MinijuegoService {
 		}
 
 		if (nombreMinijuego.equals("EL_FOSO")) {
-			log.info("Actualizando cartas El Foso");
 			Integer idCartaJugador = playerCard.get(jugadorActual.getId())
 					.get(playerCard.get(jugadorActual.getId()).size() - 1);
 			List<Integer> lista = playerCard.get(0);
@@ -229,7 +221,6 @@ public class MinijuegoService {
 		}
 
 		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
-			log.info("Actualizando cartas Patata Caliente");
 			Integer idCartaJugador = playerCard.get(jugadorActual.getId())
 					.get(0);
 			List<Integer> jugadorRecibeCarta = new ArrayList<Integer>();
@@ -264,12 +255,12 @@ public class MinijuegoService {
 				Integer posMax = 0;
 				Integer minimo = 60;
 				Integer posMin = 0;
-				for(int i = 0; i<puntos.size(); i++){
-					if(puntos.get(i)>maximo){
+				for (int i = 0; i < puntos.size(); i++) {
+					if (puntos.get(i) > maximo) {
 						maximo = puntos.get(i);
 						posMax = i;
 					}
-					if(puntos.get(i)<minimo){
+					if (puntos.get(i) < minimo) {
 						minimo = puntos.get(i);
 						posMin = i;
 					}
@@ -279,44 +270,40 @@ public class MinijuegoService {
 			}
 		}
 		if (nombreMinijuego.equals("EL_FOSO")) {
-			listaGanadores = new ArrayList<>();
-			log.info("Clasificación");
 			playerCards.forEach((x, y) -> {
-				if (y.size() == 0)
-					listaGanadores.add(x);
+				if (!(listaGanadores.size() == playerCards.size() - 1)) {
+					if (x != 0 && y.size() == 0) {
+						if (!listaGanadores.contains(x))
+							listaGanadores.add(x);
+					}
+				}
 			});
 
-			if (playerCards.get(0).size() == 55) {
-				log.info("Clasificación");
-				Integer idGanador = listaGanadores.get(0);
-				Integer idPerdedor = listaGanadores.get(listaGanadores.size() - 1);
-				res.add(0, idGanador);
-				res.add(1, idPerdedor);
+			if (listaGanadores.size() == playerCards.size() - 1) {
+				res.add(0, listaGanadores.get(0));
+				res.add(1, listaGanadores.get(listaGanadores.size() - 1));
 			}
 		}
 		if (nombreMinijuego.equals("LA_PATATA_CALIENTE")) {
 			List<Integer> listKey = new ArrayList<>();
 			// playerCards.remove(0);
-			playerCards.forEach((x, y) -> {
-				listKey.add(x);
-				if (y.size() == 0 && x != 0) {
-					listaGanadores.add(x);
-					listKey.remove(x);
-				}
-			});
-
-			//Integer perdedor = 0;
-
-			/*for (int i = 0; i < listKey.size(); i++)
-				if (!listaGanadores.contains(listKey.get(i)) && !listaGanadores.isEmpty())
-					perdedor = listKey.get(i);*/
-
+			if (!(listKey.size() == 2)) {
+				playerCards.forEach((x, y) -> {
+					listKey.add(x);
+					if (y.size() == 0 && x != 0) {
+						listaGanadores.add(x);
+						listKey.remove(x);
+					}
+				});
+			}
 			if (listKey.size() == 2) {
-				log.info("Clasificación");
 				res.add(0, listaGanadores.get(0));
 				res.add(1, listKey.get(1));
+
 			}
 		}
+		if(!(res.size() == 0))
+			this.listaGanadores = new ArrayList<>();
 		return res;
 	}
 
@@ -334,7 +321,6 @@ public class MinijuegoService {
 				listCard.remove(randomCard);
 				playerCard.put(x, listaProv);
 			}
-
 		});
 
 		List<Integer> listaMazo = new ArrayList<>();
