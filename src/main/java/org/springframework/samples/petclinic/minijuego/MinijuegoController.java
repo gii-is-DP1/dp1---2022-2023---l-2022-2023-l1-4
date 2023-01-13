@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MinijuegoController {
 
-    private static final String VIEWS_MOSTRAR_MINIJUEGOS = "logros/seleccionMinijuego";
-    private static final String LA_PATATA_CALIENTE = "logros/papasarruga";
-    private static final String CARTA = "logros/cartas";
-    private static final String FINAL_MINIJUEGOS = "logros/finalMinijuegos";
+    private static final String VIEWS_MOSTRAR_MINIJUEGOS = "minijuegos/seleccionMinijuego";
+    private static final String LA_PATATA_CALIENTE = "minijuegos/patataCaliente";
+    private static final String CARTA = "cartas/cartas";
+    private static final String FINAL_MINIJUEGOS = "minijuegos/finalMinijuegos";
 
     private final MinijuegoService minijuegoService;
     private final GameService gameService;

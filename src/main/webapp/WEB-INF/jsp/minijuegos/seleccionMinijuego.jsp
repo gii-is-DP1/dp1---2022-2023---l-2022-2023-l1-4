@@ -57,8 +57,8 @@
                                                             action="/games/${gameId}/minijuegos/LA_PATATA_CALIENTE/nuevaRonda"
                                                             method="get">
                                                             <input type="number" id="rondas" class="form-control"
-                                                                max="5" min="3" name="rondas" value="rondas" />
-                                                            <label class="form-label" for="typeNumber">Rondas</label>
+                                                                max="5" min="3" name="rondas" value="rondas" required/>
+                                                            <label class="form-label" for="typeNumber" >Rondas</label>
                                                         
                                                     </div>
                                                 </div>
