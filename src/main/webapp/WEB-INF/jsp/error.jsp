@@ -7,7 +7,7 @@
     <img src="${petsImage}" style="display: block; margin: 0 auto;"/>
 
     <h2 style="text-align: center;">Ups, hay un error</h2>
-    <h3 style="text-align: center;">EL BICHO ACABA DE FICHAR POR EL BETIS</h3>
+    <h3 style="text-align: center;">EL BICHO ACABA DE FICHAR POR EL BETIS O EN SU DEFECTO LA PAGINA NO HA SIDO ENCONTRADA</h3>
 
     <p>${exception.message}</p>
 </petclinic:layout>
