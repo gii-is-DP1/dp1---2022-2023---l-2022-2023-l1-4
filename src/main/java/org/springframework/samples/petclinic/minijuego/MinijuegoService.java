@@ -144,7 +144,6 @@ public class MinijuegoService {
 					listaCartas.add(cartaRandom.getId());
 					cardsList.remove(cartaRandom);
 					playerCard.put(players.get(i).getId(), listaCartas);
-					System.out.println(playerCard);
 				}
 			}
 			return playerCard;

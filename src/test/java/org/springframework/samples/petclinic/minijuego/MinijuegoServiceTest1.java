@@ -134,7 +134,6 @@ class MinijuegoServiceTest {
     map2= minijuegoService.reparteCartas(minijuego2);
     map3 = minijuegoService.reparteCartas(minijuego3);
 
-    System.out.println("buscameee" + map1);
     assertThat(map1.size()!=0);
     assertThat(map2.size()!=0);
     assertThat(map3.size()!=0);
@@ -153,7 +152,8 @@ class MinijuegoServiceTest {
         cartas2.add(46);
         Player jugadorActual = playerService.findPlayerById(3);
         String nombreMinijuego = "TORRE_INFERNAL";
-        Integer idCarta = 3;
+        Map<Integer,Integer> idCarta = new HashMap<>();
+        idCarta.put(jugadorActual.getId(),3);
         playerCard.put(3, cartas);
         playerCard.put(0, cartas2);
 
