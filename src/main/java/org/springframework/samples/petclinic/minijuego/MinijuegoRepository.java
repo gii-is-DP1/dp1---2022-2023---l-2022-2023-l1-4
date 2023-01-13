@@ -26,5 +26,4 @@ public interface MinijuegoRepository extends CrudRepository<Minijuego,Integer> {
 	@Query("SELECT mg FROM Minijuego mg where mg.id = :id")
 	public Collection<Minijuego> findMinijuegosPartida(@Param("id") int id);
     
-    
-}
+} 

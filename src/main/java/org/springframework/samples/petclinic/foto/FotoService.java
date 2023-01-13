@@ -18,4 +18,13 @@ public class FotoService {
     public Foto getNameFotoById(int id) throws DataAccessException{
         return fotoRepository.findNameById(id);
     }
+    @Transactional(readOnly = true)
+    public Foto getFotoById(int id) throws DataAccessException{
+        return fotoRepository.findFotoById(id);
+    }
+
+    @Transactional
+	public void saveFoto(Foto foto) throws DataAccessException {
+		fotoRepository.save(foto);
+	}
 }

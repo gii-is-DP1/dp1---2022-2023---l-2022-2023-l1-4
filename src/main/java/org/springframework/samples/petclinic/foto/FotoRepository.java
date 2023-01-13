@@ -10,5 +10,8 @@ public interface FotoRepository extends CrudRepository<Foto,Integer>{
 
     @Query("SELECT f.name FROM Foto f WHERE f.id =:id")
 	public Foto findNameById(@Param("id") int id);
+
+    @Query("SELECT f FROM Foto f WHERE f.id =:id")
+	public Foto findFotoById(@Param("id") int id);
    
 }
